@@ -73,7 +73,7 @@ The last menu item is always "Summary" («Итог» on Russian pages): the list
 
 ### 4. Assembly
 
-1. Write a content file, not the whole page: `<title>`, then the sections `<!--APP-->` (the sidebar `aside.side` and `div.content` with `<main data-lang="ru">` or `"en"`, the language of the engine's own strings), `<!--TERMS-->` (terms JSON), `<!--PAGE-->` (`window.PAGE`) and, if needed, `<!--STYLE-->`. `scripts/build.py` merges it with the current template, so styles and the engine are not copied. Sample: `examples/pages/release-cadence.content.html`. A full copy of `assets/template.html` is needed only if you change the styles or the engine.
+1. Write a content file, not the whole page: `<title>`, then the sections `<!--APP-->` (the sidebar `aside.side` and `div.content` with `<main data-lang="ru">` or `"en"`, the language of the engine's own strings), `<!--TERMS-->` (terms JSON), `<!--PAGE-->` (`window.PAGE`) and, if needed, `<!--STYLE-->`. `scripts/build.py` merges it with the current template, so styles and the engine are not copied. Sample: `examples/pages/team-pricing.content.html`. A full copy of `assets/template.html` is needed only if you change the styles or the engine.
 2. Take markup from the template. The widget catalog is in [references/components.md](references/components.md): signal path with "now / after" modes, situation switcher, step-through, "try it yourself", bars, comparison, scene, static list.
 3. If interface behavior is easier to show than to describe, build an animated scene with the `stageshow` skill and the `scripts/build-scene.mjs` script (recipe in [references/visuals.md](references/visuals.md), example in `examples/scenes/dead-button`).
 4. Define the terms in the `#terms` block and write the `PAGE.composeReply` function, which assembles the reply from the choices.
@@ -130,5 +130,5 @@ The page looks and works well thanks to several skills. The template already car
 - `scripts/build.py`: markup checks, scene insertion, building `page.html` and `preview.html`.
 - `scripts/build-scene.mjs`: builds a stageshow scene into a single script for embedding.
 - `examples/scenes/dead-button`: an example scene: the "Checkout" button stops working while the error counter grows.
-- `examples/pages/release-cadence.content.html` and `release-cadence.en.content.html`: the same example content file in Russian and English, on made-up data: release cadence and hotfixes.
+- `examples/pages/team-pricing.content.html` and `team-pricing.en.content.html`: the same example content file in Russian and English, on made-up data: whether to raise the price of a B2B app's Team plan, who gets the new price and when, and how to tell customers.
 - `references/`: modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies.

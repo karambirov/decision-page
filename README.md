@@ -9,9 +9,11 @@ Claude reads your choices back and continues. At the end it assembles the result
 
 It works for any topic: a trip, a dinner for six, what laptop to buy, how a concept works, a design review, an incident, a product funnel with millions of users. It is what talking to an agent in the Claude desktop app could feel like, built today as a skill.
 
-![A decision page at 1280 px: questions with short verdicts in the sidebar; the open question shows the answer, three facts, a chart and a decision](docs/page-wide.png)
+<!-- DEMO VIDEO -->
 
-*The bundled example: a team deciding how often to ship. All data on it is made up.*
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/page-wide-dark.png"><img src="docs/page-wide-light.png" alt="The example page at 1280 px. The sidebar lists three questions with short verdicts and a summary item. The open question, whether customers will leave if the price goes up, shows the answer, three facts, and the price switcher set to $15 with bars for first-month revenue, monthly churn and revenue in 12 months" width="838"></picture>
+
+*The bundled example: a co-founder asks in a Slack thread whether to raise the Team plan of a B2B invoicing app from $12 to $15 per seat. The product, the thread and all data on the page are made up.*
 
 ## Install
 
@@ -87,22 +89,22 @@ Claude looks things up first, then builds the page and opens it next to the chat
 
 The page is built for the Claude desktop side panel, about 590 px wide. Each screen holds one question. First comes the question as it was asked, then the answer, then up to three key facts and one interactive visual. Details sit one tap deeper. Light and dark themes both work.
 
-<p>
-  <img src="docs/page-narrow.png" width="49%" alt="The first question of the example in a 590 px panel, light theme: the question, the answer, three facts and the start of a chart">
-  <img src="docs/page-narrow-dark.png" width="49%" alt="The second question of the example in a 590 px panel, dark theme: the answer, three facts and the start of a step-by-step path">
-</p>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/page-narrow-dark.png"><img src="docs/page-narrow-light.png" alt="The first question of the example in a 590 px panel: the top bar with the question name, the counter and arrows; the question as a chat message; the answer; three facts; and the price switcher set to $18, where the churn bar is red" width="590"></picture>
+
+<img src="docs/themes.png" width="838" alt="The same screen in the light theme on the left and the dark theme on the right: the question about who gets the new price and when, with the answer, three facts and a step-by-step timeline stopped at its risky step, February 1, highlighted in red">
+
 
 In a narrow panel, the question menu opens from the top bar, and arrows move between questions. Each item shows the verdict and how many of its decisions are made. Wider than 1000 px, the menu stays on the left, as in the first screenshot.
 
-<img src="docs/question-switcher.png" width="590" alt="The question menu open from the top bar: page title, two questions with verdicts and progress, and the summary item">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/question-switcher-dark.png"><img src="docs/question-switcher-light.png" alt="The question menu open from the top bar: the page title and a short description, three questions with their verdicts and decision progress, and the summary item with 0 of 4 chosen" width="590"></picture>
 
 A decision has mutually exclusive options, each with a one-line consequence. One option is marked as recommended. There is always an "Other" option for your own answer and a comment field, and the choice saves by itself.
 
-<img src="docs/decision.png" width="574" alt="A decision block: the recommended option selected, a comment typed below, the saved time under it">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/decision-dark.png"><img src="docs/decision-light.png" alt="A decision block on the Team plan price: $15 per seat selected and marked recommended, two other options and Other, each with a one-line consequence, a typed comment and the saved time under it" width="574"></picture>
 
 The last item is the summary. It lists what you chose and gives a reply draft built from those choices, with a copy button. It also lists what Claude did not check and the sources.
 
-<img src="docs/reply-draft.png" width="590" alt="The summary: three chosen options with change links and a reply draft built from them">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/reply-draft-dark.png"><img src="docs/reply-draft-light.png" alt="The summary: four chosen options with change links, and a reply to the co-founder in the Slack thread built from them, with a copy button" width="590"></picture>
 
 When UI behavior is easier to show than to describe, a question can carry an animated scene. In the bundled example, a survey is closed, the checkout button stops working, and every tap adds an event to the error tracker.
 
@@ -157,7 +159,7 @@ Claude writes a content file, not a whole page. The content file holds:
 To build the example yourself, run this from the skill folder and open `preview.html` in a browser:
 
 ```sh
-python3 scripts/build.py examples/pages/release-cadence.en.content.html --out /tmp/decision-page-example
+python3 scripts/build.py examples/pages/team-pricing.en.content.html --out /tmp/decision-page-example
 ```
 
 ## Repository layout
@@ -169,7 +171,7 @@ assets/template.html      page template: Claude desktop look, navigation, widget
 scripts/build.py          checks a page and assembles it from a content file and the template
 scripts/build-scene.mjs   bundles a stageshow scene into one script for embedding
 references/               modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies
-examples/pages/           example content file in English and Russian, made-up data: release cadence and hotfixes
+examples/pages/           example content file in English and Russian, made-up data: raising a Team plan price
 examples/scenes/          example scene: a checkout button that stops working
 docs/                     screenshots for this README
 ```

@@ -96,7 +96,7 @@ fi
 # The real check: build the bundled example page
 build_ok=no
 if [ "$python_ok" = yes ] && [ -f "$DEST/decision-page/scripts/build.py" ]; then
-  if "$py" -I "$DEST/decision-page/scripts/build.py" "$DEST/decision-page/examples/pages/release-cadence.en.content.html" --out "$TMP/check" >/dev/null 2>&1 \
+  if "$py" -I "$DEST/decision-page/scripts/build.py" "$DEST/decision-page/examples/pages/team-pricing.en.content.html" --out "$TMP/check" >/dev/null 2>&1 \
     && [ -f "$TMP/check/page.html" ]; then
     build_ok=yes
   fi
@@ -127,7 +127,7 @@ if [ "$build_ok" = yes ]; then
   echo "Check: the example page builds. Python 3: ready."
 elif [ "$python_ok" = yes ]; then
   echo "Check FAILED: the example page did not build. Run this to see the error:"
-  echo "  python3 $DEST/decision-page/scripts/build.py $DEST/decision-page/examples/pages/release-cadence.en.content.html --out /tmp/decision-page-check"
+  echo "  python3 $DEST/decision-page/scripts/build.py $DEST/decision-page/examples/pages/team-pricing.en.content.html --out /tmp/decision-page-check"
 else
   echo "Python 3: MISSING. Pages cannot be built without it."
   if [ "$(uname -s)" = "Darwin" ]; then

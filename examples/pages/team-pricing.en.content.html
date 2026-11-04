@@ -1,0 +1,352 @@
+<title>Team plan price</title>
+<!--APP-->
+  <aside class="side" id="side" aria-label="Questions on this page">
+    <div class="side-head">
+      <div class="eyebrow">Pricing question · example page · November 4, 2026</div>
+      <h1>Raising the Team plan price</h1>
+      <p class="lede">A co-founder asked in a Slack thread whether to raise the Team plan of our invoicing app from $12 to $15 per seat. The product, the thread and every number are made up.</p>
+      <div class="meta"><span>Data: May to October 2026, made up</span></div>
+    </div>
+    <nav class="qnav" aria-label="Questions">
+      <div class="qnav-label">Questions</div>
+      <a class="q-link" href="#price" data-panel="price"><span class="n">Price</span><span class="t">Will customers leave if we raise the price?</span><span class="row"><span class="pill warn">Some will; revenue grows</span></span></a>
+      <a class="q-link" href="#rollout" data-panel="rollout"><span class="n">Rollout</span><span class="t">Who gets the new price, and when?</span><span class="row"><span class="pill ok">New sign-ups first</span></span></a>
+      <a class="q-link" href="#message" data-panel="message"><span class="n">Message</span><span class="t">How do we tell customers?</span><span class="row"><span class="pill ok">Email, 60 days ahead</span></span></a>
+      <a class="q-link q-summary" href="#summary" data-panel="summary"><span class="n">Summary</span><span class="t">Decisions and the reply to the thread</span><span class="row"><span class="pill info" id="dec-count">0 chosen</span></span></a>
+    </nav>
+  </aside>
+
+  <div class="content">
+<main data-collection="decisions" data-lang="en">
+  <!-- ===================== Price ===================== -->
+  <section class="panel" id="price">
+    <div class="answer">
+      <h2>Some will leave, but revenue still grows, even a year later.</h2>
+      <p>The 2024 increase is the best guide we have: <button type="button" class="term" data-term="churn">churn</button> went up for half a year, then settled. If $15 follows the same pattern, the higher price more than covers the <button type="button" class="term" data-term="seat">seats</button> that cancel: a year from now, today's customers still pay about $24K a month more than at $12. At $18 we have no data on churn, and in the cautious case it eats most of the gain.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>2,140</b><span>Team accounts with 14,900 seats, October 2026</span></div>
+      <div class="fact"><b>1.6%</b><span>of seats cancel each month, May to October average</span></div>
+      <div class="fact"><b>1.5% → 2.0%</b><span>monthly churn for six months after the 2024 increase from $10 to $12, then it settled</span></div>
+    </div>
+    <p class="note">Made-up example: the product, the thread and every number on this page.</p>
+
+    <div class="block" data-toggle>
+      <div class="block-head">
+        <h3>Today's customers at four prices</h3>
+        <div class="seg" role="tablist" aria-label="Price per seat">
+          <button type="button" role="tab" data-show="p12" aria-selected="true">$12 now</button>
+          <button type="button" role="tab" data-show="p14" aria-selected="false" tabindex="-1">$14</button>
+          <button type="button" role="tab" data-show="p15" aria-selected="false" tabindex="-1">$15</button>
+          <button type="button" role="tab" data-show="p18" aria-selected="false" tabindex="-1">$18</button>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p12">
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue, first month</span><b>$178.8K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 66.7%"></div></div>
+            <small>14,900 seats × $12</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Seats that cancel each month</span><b>1.6%</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 40%"></div></div>
+            <small>About 238 seats in the first month</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue in 12 months</span><b>$147.3K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 54.9%"></div></div>
+            <small>12,278 seats left; new customers not counted</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p14" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue, first month</span><b>$208.6K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 77.8%"></div></div>
+            <small>14,900 seats × $14</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Seats that cancel each month</span><b>2.0%</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 50%"></div></div>
+            <small>About 298 seats in the first month</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue in 12 months</span><b>$163.7K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 61%"></div></div>
+            <small>11,692 seats left; new customers not counted</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p15" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue, first month</span><b>$223.5K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 83.3%"></div></div>
+            <small>14,900 seats × $15</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Seats that cancel each month</span><b>2.2%</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 55%"></div></div>
+            <small>About 328 seats in the first month</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue in 12 months</span><b>$171.1K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 63.8%"></div></div>
+            <small>11,409 seats left; the most of the four prices</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p18" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue, first month</span><b>$268.2K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>14,900 seats × $18</small>
+          </div>
+          <div class="hbar bad" role="listitem">
+            <div class="hbar-head"><span>Seats that cancel each month</span><b>4.0%</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>About 596 seats in the first month; a guess, see below</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Monthly revenue in 12 months</span><b>$164.3K</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 61.3%"></div></div>
+            <small>9,129 seats left; behind $15</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="team-price" data-title="Team plan price">
+      <fieldset>
+        <legend>What the Team plan should cost per seat</legend>
+        <label class="opt"><input type="radio" name="team-price" value="usd15"><span class="ot">$15 per seat<span class="rec">recommended</span><span class="od">The most revenue a year from now in this model, with churn close to what we saw in 2024.</span></span></label>
+        <label class="opt"><input type="radio" name="team-price" value="usd14"><span class="ot">$14 per seat<span class="od">Fewer seats cancel, but a year from now it brings about $7K a month less than $15.</span></span></label>
+        <label class="opt"><input type="radio" name="team-price" value="keep"><span class="ot">Keep $12 for now<span class="od">No extra churn, but the costs that went up stay uncovered.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>How I counted</summary>
+      <p>Seats and revenue: 14,900 seats on 2,140 Team accounts on October 31, 2026. Revenue is seats × price, as if every account paid the new price at once. In reality current customers and annual plans move later: see <a href="#rollout" data-goto="rollout">Who gets the new price</a>.</p>
+      <p>Churn is applied every month to the seats that are left: after 12 months, 14,900 × (1 − churn)¹² seats remain. New customers are left out of every case, which is why revenue falls even at $12.</p>
+      <p>Churn at each price: in 2024 a 20% increase added 0.5 points for six months, so I added 0.25 points for every 10% of increase: 2.0% at $14, 2.2% at $15. I assumed the higher churn lasts the whole year, which is the cautious case. At $18 that rule gives 2.9%, but a 50% jump is far beyond what we have seen, so I took 4.0%.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Rollout ===================== -->
+  <section class="panel" id="rollout" hidden>
+    <div class="answer">
+      <h2>New sign-ups at once, monthly plans after a notice, annual plans at renewal.</h2>
+      <p>New customers have no old price to compare with, so they can start at the new one right away. Current customers need time to plan, and the first higher invoice is the moment most of them decide whether to stay. Annual customers have already paid for their year: changing it midway would cost more trust than it brings in.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>1,500</b><span>accounts pay monthly, with 9,500 seats: $28.5K a month more at $15</span></div>
+      <div class="fact"><b>640</b><span>accounts pay yearly, with 5,400 seats; about 53 renew in a typical month</span></div>
+      <div class="fact"><b>70%</b><span>of cancellations after the 2024 increase came in the two weeks after the first higher invoice</span></div>
+    </div>
+    <p class="note">Made-up data.</p>
+
+    <div class="block stepper">
+      <h3>The recommended plan: $15, 60 days' notice</h3>
+      <ol class="steps">
+        <li><b>December 1.</b> We tell current customers about the new price (how: the <a href="#message" data-goto="message">next question</a>) and update the pricing page.</li>
+        <li><b>December 1.</b> New sign-ups see $15 and pay it from their first invoice.</li>
+        <li><b>December and January.</b> Current customers keep paying $12 during the 60-day notice. Support answers questions about the new totals.</li>
+        <li class="bad"><b>February 1.</b> The first $15 invoice reaches 1,500 monthly accounts. This is when most cancellations happen.</li>
+        <li><b>From February.</b> Annual plans renew at $15, each after a reminder 30 days before the renewal.</li>
+        <li><b>November 2027.</b> The last annual plans renew, and every Team account pays $15.</li>
+      </ol>
+      <div class="stepper-nav">
+        <button type="button" class="btn" data-step="prev">Back</button>
+        <button type="button" class="btn primary" data-step="next">Next</button>
+        <span class="count"></span>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="current-move" data-title="When current customers move">
+      <fieldset>
+        <legend>When current monthly customers start paying the new price</legend>
+        <label class="opt"><input type="radio" name="current-move" value="after-notice"><span class="ot">From their first invoice after the notice<span class="rec">recommended</span><span class="od">At $15, the extra $28.5K a month starts right after the notice; its length is chosen in the next question.</span></span></label>
+        <label class="opt"><input type="radio" name="current-move" value="six-months"><span class="ot">Six months after the announcement<span class="od">Fewer cancellations at first, but the extra money from monthly plans starts only in June.</span></span></label>
+        <label class="opt"><input type="radio" name="current-move" value="new-only"><span class="ot">Never: only new customers pay the new price<span class="od">Nobody leaves over the price, but most seats stay at $12 for years and the higher costs stay uncovered.</span></span></label>
+      </fieldset>
+    </div>
+
+    <div class="block decision" data-id="annual-plans" data-title="Annual plans">
+      <fieldset>
+        <legend>What happens to annual plans</legend>
+        <label class="opt"><input type="radio" name="annual-plans" value="at-renewal"><span class="ot">The new price from their next renewal<span class="rec">recommended</span><span class="od">Nobody's paid-for year changes; the last annual plans move in November 2027.</span></span></label>
+        <label class="opt"><input type="radio" name="annual-plans" value="early-renewal"><span class="ot">Offer to renew early at $12 before the change<span class="od">Money comes in now and fewer annual customers leave, but some keep $12 until early 2028.</span></span></label>
+        <label class="opt"><input type="radio" name="annual-plans" value="prorate"><span class="ot">Charge the difference from the change date<span class="od">Money sooner, but it changes a price people have already paid; expect refund requests.</span></span></label>
+      </fieldset>
+    </div>
+  </section>
+
+  <!-- ===================== Message ===================== -->
+  <section class="panel" id="message" hidden>
+    <div class="answer">
+      <h2>With a separate email to every admin, 60 days ahead, that shows their new bill.</h2>
+      <p>In 2024 people complained more about the short notice than about the price itself. A notice in the app misses admins who rarely log in, and the product newsletter is opened too seldom to carry news like this. A plain email with the new price, the date, the reason and the customer's own new total answers most questions before they reach support.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>2 of 5</b><span>complaints after the 2024 increase were about the 30-day notice, not the price</span></div>
+      <div class="fact"><b>38%</b><span>of Team admins didn't open the app in October</span></div>
+      <div class="fact"><b>71%</b><span>of billing emails get opened, against 24% for the product newsletter, 2026</span></div>
+    </div>
+    <p class="note">Made-up data.</p>
+
+    <div class="block">
+      <h3>The email to admins</h3>
+      <div class="compare">
+        <div class="cmp yes"><h4>What it says</h4><div class="chips">
+          <span class="chip">The new price and the date</span>
+          <span class="chip">Your new monthly total in dollars</span>
+          <span class="chip">Why: our costs went up</span>
+          <span class="chip">What we've added since 2024</span>
+          <span class="chip">Annual plans keep their price until renewal</span>
+          <span class="chip">A person to write to</span>
+        </div></div>
+        <div class="cmp no"><h4>What it avoids</h4><div class="chips">
+          <span class="chip">“A small adjustment” and other softeners</span>
+          <span class="chip">A percentage with no dollar amount</span>
+          <span class="chip">Long apologies</span>
+          <span class="chip">Pressure to decide today</span>
+          <span class="chip">A vague subject like “Changes to your plan”</span>
+          <span class="chip">The news inside the newsletter</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="notice" data-title="How we tell customers">
+      <fieldset>
+        <legend>How and how far ahead we tell current customers</legend>
+        <label class="opt"><input type="radio" name="notice" value="email-60"><span class="ot">A separate email to every admin 60 days ahead, a reminder a week before<span class="rec">recommended</span><span class="od">Time to plan a budget, and the email reaches admins who rarely log in.</span></span></label>
+        <label class="opt"><input type="radio" name="notice" value="email-30"><span class="ot">The same email 30 days ahead, the minimum in our terms<span class="od">Higher invoices start a month sooner, but the notice is as short as in 2024.</span></span></label>
+        <label class="opt"><input type="radio" name="notice" value="in-app-30"><span class="ot">A notice in the app and on the pricing page, 30 days ahead<span class="od">Nothing to send, but more than a third of admins will learn about it from the invoice.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>A first draft of the email</summary>
+      <p><b>Subject:</b> The Team plan will cost $15 per seat from February 1</p>
+      <p>Hi {first name}, from February 1, 2027, the Team plan will cost $15 per seat a month instead of $12. For your {7} seats, that's ${105} a month instead of ${84}.</p>
+      <p>Why: running the service costs us more than it did at our last change in 2024. Since then we've also added {recurring invoices, card payments and payment reminders}.</p>
+      <p>If you pay yearly, your price stays the same until your next renewal. Questions? Reply to this email, and a person will answer.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Summary ===================== -->
+  <section class="panel" id="summary" hidden>
+    <div class="answer">
+      <h2>Decisions and the reply to the thread</h2>
+      <p class="db-banner" id="db-banner">Checking where to save your choices…</p>
+    </div>
+    <div class="block">
+      <h3>What you chose</h3>
+      <ul class="sum-list" id="sum-list"></ul>
+      <div><button type="button" class="btn" id="export-decisions" hidden>Copy choices as text for Claude</button></div>
+    </div>
+    <div class="block">
+      <div class="block-head"><h3>Reply to the co-founder in the Slack thread</h3><button type="button" class="btn" data-copy-from="#reply">Copy</button></div>
+      <p class="reply" id="reply"></p>
+      <p class="note">The draft is assembled from the chosen options and is never sent anywhere on its own. Its numbers are made up.</p>
+    </div>
+    <div class="block">
+      <h3>What I didn't check</h3>
+      <ul>
+        <li>Every number on the page is made up: this is an example. I looked at no real billing data.</li>
+        <li>Churn at $18: 4.0% is a guess. If it follows the 2024 pattern instead, about 2.9%, $18 would bring more than $15 a year from now.</li>
+        <li>I assumed the higher churn lasts all year. In 2024 it lasted six months; if that repeats, every higher price looks better than shown.</li>
+        <li>New sign-ups: a higher price may also turn fewer trials into paying customers. I didn't look at that.</li>
+        <li>What similar invoicing apps charge for a team plan.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Sources</h3>
+      <ul>
+        <li>The co-founder's question in the Slack thread (made up)</li>
+        <li>Billing data: Team accounts, seats and churn, May to October 2026 (made up)</li>
+        <li>The 2024 increase: churn and support tickets (made up)</li>
+        <li>Email opens and app activity for 2026 (made up)</li>
+      </ul>
+    </div>
+  </section>
+</main>
+  </div>
+<!--TERMS-->
+{
+  "churn": "Churn: the share of paid seats that cancel in a month. At 1.6%, about one seat in 60 is gone a month later.",
+  "seat": "Seat: one person on a customer's account. The Team plan is billed per seat, so a team of seven pays for seven seats."
+}
+<!--PAGE-->
+window.PAGE = {
+  composeReply: function (d) {
+    var L = [];
+    var price = d.choice('team-price');
+    var move = d.choice('current-move');
+    var annual = d.choice('annual-plans');
+    var notice = d.choice('notice');
+    function sent(s) { s = s.trim(); return /[.!?…]$/.test(s) ? s : s + '.'; }
+    function own(id) {
+      var n = d.note(id).trim();
+      if (!n) return 'I have my own take on this, let\'s talk.';
+      if (/^[A-Z][a-z]/.test(n)) n = n.charAt(0).toLowerCase() + n.slice(1);
+      return sent(n);
+    }
+    function list(a) { return a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1] : a[0]; }
+    var hi = 'Hi! I ran the numbers on the Team plan. ';
+    if (!price && !move && !annual && !notice) return hi + 'I\'m still going through the options and will come back with a proposal.';
+    var P = price === 'usd15' ? '$15' : price === 'usd14' ? '$14' : 'the new price';
+    var when = null;
+    if (move === 'after-notice' && notice === 'email-60') when = 'February 1';
+    else if (move === 'after-notice' && (notice === 'email-30' || notice === 'in-app-30')) when = 'January 1';
+    else if (move === 'six-months') when = 'June 1';
+    var open = [];
+
+    if (price === 'usd15') L.push(hi + 'Short answer: yes, let\'s go to $15.');
+    else if (price === 'usd14') L.push(hi + 'Short answer: yes, but I\'d go to $14 rather than $15.');
+    else if (price === 'keep') L.push(hi + 'I\'d keep $12 for now.');
+    else if (price === 'other') L.push(hi + 'On the price: ' + own('team-price'));
+    else { L.push(hi + 'Here is where I am so far.'); open.push('the price'); }
+
+    if (price === 'usd15') L.push('Some customers will leave: going by 2024, monthly churn goes from 1.6% to about 2.2% for a while. The price more than covers it. A year from now, today\'s customers would pay about $171K a month, against $147K if we stay at $12. $18 brings more in the first months, but we have no idea what churn looks like after a 50% jump.');
+    else if (price === 'usd14') L.push('Churn should rise less: going by 2024, from 1.6% to about 2.0% a month. A year from now, today\'s customers would pay about $164K a month, against $147K at $12. $15 would add about $7K a month more, but $14 is the gentler step.');
+    else if (price === 'keep') L.push('The math does favor a raise: even with more churn, $15 would bring about $24K a month more a year from now. Holding is a choice to protect growth for a while.');
+
+    if (price !== 'keep') {
+      var r = 'Who moves and when: new sign-ups pay ' + P + ' from the day we announce it.';
+      if (move === 'after-notice') r += ' Current monthly customers move with their first invoice after the notice' + (when ? ', so from ' + when : '') + '.';
+      else if (move === 'six-months') r += ' Current monthly customers keep $12 for six months, until June 1, so fewer of them leave right away.';
+      else if (move === 'new-only') r += ' Current customers, monthly and annual, stay on $12.';
+      else if (move === 'other') r += ' For current customers: ' + own('current-move');
+      else open.push('when current customers move');
+      if (move !== 'new-only') {
+        if (annual === 'at-renewal') r += ' Annual plans keep their price until their next renewal, so nobody\'s paid-for year changes.';
+        else if (annual === 'early-renewal') r += ' Annual customers can renew early at $12 before ' + (when || 'the change') + '; after that, renewals are at ' + P + '.';
+        else if (annual === 'prorate') r += ' Annual plans pay the difference from ' + (when || 'the change date') + ', prorated. Expect some refund requests.';
+        else if (annual === 'other') r += ' For annual plans: ' + own('annual-plans');
+        else open.push('annual plans');
+      }
+      L.push(r);
+
+      if (move === 'new-only') L.push('How we tell them: current customers don\'t change, so a line on the pricing page is enough.');
+      else if (notice === 'email-60') L.push('How we tell them: a separate email to every admin 60 days ahead, with the new price, the date, the reason and their own new monthly total. A reminder and a notice in the app go out a week before.');
+      else if (notice === 'email-30') L.push('How we tell them: a separate email to every admin 30 days ahead, the minimum in our terms, with the new price, the date, the reason and their own new monthly total.');
+      else if (notice === 'in-app-30') L.push('How we tell them: a notice in the app and on the pricing page 30 days ahead. More than a third of admins didn\'t open the app in October, so some will learn about it from the invoice.');
+      else if (notice === 'other') L.push('How we tell them: ' + own('notice'));
+      else open.push('how we tell customers');
+    }
+
+    if (open.length) L.push('Still open: ' + list(open) + '.');
+    if (price === 'keep') L.push('Let\'s look at it again in March; I\'ll bring fresh numbers.');
+    else if (price && move === 'new-only') L.push('If that works for you, I\'ll prepare the pricing page change this week for you to review.');
+    else if (price) L.push('If that works for you, I\'ll draft the email and the pricing page change this week for you to review.');
+    return L.join('\n\n');
+  }
+};

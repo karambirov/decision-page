@@ -1,0 +1,353 @@
+<title>Цена тарифа для команд</title>
+<!--APP-->
+  <aside class="side" id="side" aria-label="Вопросы страницы">
+    <div class="side-head">
+      <div class="eyebrow">Вопрос о цене · пример · 4 ноября 2026</div>
+      <h1>Повышение цены тарифа для команд</h1>
+      <p class="lede">Сооснователь спросил в ветке Slack, поднимать ли тариф для команд в нашем сервисе счетов с $12 до $15 за место. Продукт, ветка и все цифры выдуманы.</p>
+      <div class="meta"><span>Данные: с мая по октябрь 2026, выдуманы</span></div>
+    </div>
+    <nav class="qnav" aria-label="Вопросы">
+      <div class="qnav-label">Вопросы</div>
+      <a class="q-link" href="#price" data-panel="price"><span class="n">Цена</span><span class="t">Уйдут ли клиенты, если поднять цену?</span><span class="row"><span class="pill warn">Часть уйдёт, выручка вырастет</span></span></a>
+      <a class="q-link" href="#rollout" data-panel="rollout"><span class="n">Переход</span><span class="t">Кому и когда менять цену?</span><span class="row"><span class="pill ok">Сначала новым клиентам</span></span></a>
+      <a class="q-link" href="#message" data-panel="message"><span class="n">Письмо</span><span class="t">Как сказать клиентам?</span><span class="row"><span class="pill ok">Письмом за 60 дней</span></span></a>
+      <a class="q-link q-summary" href="#summary" data-panel="summary"><span class="n">Итог</span><span class="t">Решения и ответ в ветку</span><span class="row"><span class="pill info" id="dec-count">0 выбрано</span></span></a>
+    </nav>
+  </aside>
+
+  <div class="content">
+<main data-collection="decisions" data-lang="ru">
+  <!-- ===================== Price ===================== -->
+  <section class="panel" id="price">
+    <div class="answer">
+      <h2>Часть уйдёт, но выручка всё равно вырастет, даже через год.</h2>
+      <p>Лучше всего ориентироваться на повышение 2024 года: тогда <button type="button" class="term" data-term="churn">отток</button> вырос на полгода, а потом вернулся к прежнему. Если при $15 будет так же, более высокая цена с лихвой покроет потерю <button type="button" class="term" data-term="seat">мест</button>: через год нынешние клиенты будут платить примерно на $24 тыс. в месяц больше, чем при $12. Про отток при $18 данных нет, и в осторожном расчёте он съедает почти всю прибавку.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>2140</b><span>клиентов на тарифе для команд, у них 14 900 мест, октябрь 2026</span></div>
+      <div class="fact"><b>1,6 %</b><span>мест отменяют каждый месяц, в среднем с мая по октябрь</span></div>
+      <div class="fact"><b>1,5 % → 2,0 %</b><span>месячный отток в первые полгода после повышения 2024 года с $10 до $12, потом он вернулся к прежнему</span></div>
+    </div>
+    <p class="note">Пример: продукт, ветка в Slack и все цифры на странице выдуманы.</p>
+
+    <div class="block" data-toggle>
+      <div class="block-head">
+        <h3>Нынешние клиенты при четырёх ценах</h3>
+        <div class="seg" role="tablist" aria-label="Цена за место">
+          <button type="button" role="tab" data-show="p12" aria-selected="true">$12 сейчас</button>
+          <button type="button" role="tab" data-show="p14" aria-selected="false" tabindex="-1">$14</button>
+          <button type="button" role="tab" data-show="p15" aria-selected="false" tabindex="-1">$15</button>
+          <button type="button" role="tab" data-show="p18" aria-selected="false" tabindex="-1">$18</button>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p12">
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Выручка за первый месяц</span><b>$178,8 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 66.7%"></div></div>
+            <small>14 900 мест × $12</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Отток мест в месяц</span><b>1,6 %</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 40%"></div></div>
+            <small>Около 238 мест в первый месяц</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Выручка в месяц через год</span><b>$147,3 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 54.9%"></div></div>
+            <small>Останется 12 278 мест, новые клиенты не учтены</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p14" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Выручка за первый месяц</span><b>$208,6 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 77.8%"></div></div>
+            <small>14 900 мест × $14</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Отток мест в месяц</span><b>2,0 %</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 50%"></div></div>
+            <small>Около 298 мест в первый месяц</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Выручка в месяц через год</span><b>$163,7 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 61%"></div></div>
+            <small>Останется 11 692 места, новые клиенты не учтены</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p15" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Выручка за первый месяц</span><b>$223,5 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 83.3%"></div></div>
+            <small>14 900 мест × $15</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Отток мест в месяц</span><b>2,2 %</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 55%"></div></div>
+            <small>Около 328 мест в первый месяц</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Выручка в месяц через год</span><b>$171,1 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 63.8%"></div></div>
+            <small>Останется 11 409 мест, больше всего из четырёх цен</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="p18" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Выручка за первый месяц</span><b>$268,2 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>14 900 мест × $18</small>
+          </div>
+          <div class="hbar bad" role="listitem">
+            <div class="hbar-head"><span>Отток мест в месяц</span><b>4,0 %</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>Около 596 мест в первый месяц; это догадка, см. ниже</small>
+          </div>
+          <div class="hbar hl" role="listitem">
+            <div class="hbar-head"><span>Выручка в месяц через год</span><b>$164,3 тыс.</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 61.3%"></div></div>
+            <small>Останется 9129 мест, меньше, чем при $15</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="team-price" data-title="Цена тарифа для команд">
+      <fieldset>
+        <legend>Сколько должен стоить тариф для команд за место</legend>
+        <label class="opt"><input type="radio" name="team-price" value="usd15"><span class="ot">$15 за место<span class="rec">советую</span><span class="od">Больше всего выручки через год в этом расчёте, а отток близок к тому, что был в 2024 году.</span></span></label>
+        <label class="opt"><input type="radio" name="team-price" value="usd14"><span class="ot">$14 за место<span class="od">Уйдёт меньше мест, но через год это примерно на $7 тыс. в месяц меньше, чем при $15.</span></span></label>
+        <label class="opt"><input type="radio" name="team-price" value="keep"><span class="ot">Пока оставить $12<span class="od">Лишнего оттока не будет, но выросшие расходы останутся непокрытыми.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>Как я считал</summary>
+      <p>Места и выручка: 14 900 мест у 2140 клиентов на 31 октября 2026 года. Выручка равна числу мест, умноженному на цену, как будто все клиенты сразу платят новую цену. На деле нынешние клиенты и годовые подписки перейдут позже: см. вопрос <a href="#rollout" data-goto="rollout">«Кому и когда менять цену?»</a>.</p>
+      <p>Отток применяется каждый месяц к оставшимся местам: через 12 месяцев остаётся 14 900 × (1 − отток)¹² мест. Новые клиенты не учтены ни в одном варианте, поэтому выручка падает даже при $12.</p>
+      <p>Отток при каждой цене: в 2024 году повышение на 20 % добавило 0,5 пункта на полгода, поэтому на каждые 10 % повышения я добавил 0,25 пункта: 2,0 % при $14 и 2,2 % при $15. Я считал, что повышенный отток держится весь год: это осторожный вариант. При $18 это правило даёт 2,9 %, но скачок на 50 % намного больше всего, что мы видели, поэтому я взял 4,0 %.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Rollout ===================== -->
+  <section class="panel" id="rollout" hidden>
+    <div class="answer">
+      <h2>Новым клиентам сразу, помесячным после предупреждения, годовым при продлении.</h2>
+      <p>Новым клиентам не с чем сравнивать, поэтому они могут сразу начать с новой цены. Нынешним нужно время, чтобы заложить расходы, и именно первый счёт по новой цене решает, останутся ли они. Годовые клиенты уже заплатили за свой год: если менять цену посреди него, мы потеряем больше доверия, чем получим денег.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>1500</b><span>клиентов платят помесячно, у них 9500 мест: при $15 это на $28,5 тыс. в месяц больше</span></div>
+      <div class="fact"><b>640</b><span>клиентов платят за год, у них 5400 мест; в обычный месяц продлевается около 53 подписок</span></div>
+      <div class="fact"><b>70 %</b><span>отказов после повышения 2024 года пришлись на две недели после первого счёта по новой цене</span></div>
+    </div>
+    <p class="note">Цифры выдуманы.</p>
+
+    <div class="block stepper">
+      <h3>Советую так: $15, предупреждение за 60 дней</h3>
+      <ol class="steps">
+        <li><b>1 декабря.</b> Сообщаем нынешним клиентам о новой цене (как именно, в <a href="#message" data-goto="message">следующем вопросе</a>) и меняем страницу с ценами.</li>
+        <li><b>1 декабря.</b> Новые клиенты видят $15 и платят эту цену с первого счёта.</li>
+        <li><b>Декабрь и январь.</b> Нынешние клиенты 60 дней платят по-старому, $12. Поддержка отвечает на вопросы о новых суммах.</li>
+        <li class="bad"><b>1 февраля.</b> Первый счёт по $15 приходит 1500 помесячным клиентам. Больше всего отказов будет именно сейчас.</li>
+        <li><b>С февраля.</b> Годовые подписки продлеваются по $15, и за 30 дней до продления каждой приходит напоминание.</li>
+        <li><b>Ноябрь 2027.</b> Продлеваются последние годовые подписки, и все клиенты тарифа платят $15.</li>
+      </ol>
+      <div class="stepper-nav">
+        <button type="button" class="btn" data-step="prev">Назад</button>
+        <button type="button" class="btn primary" data-step="next">Дальше</button>
+        <span class="count"></span>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="current-move" data-title="Когда переходят нынешние клиенты">
+      <fieldset>
+        <legend>Когда нынешние помесячные клиенты начинают платить новую цену</legend>
+        <label class="opt"><input type="radio" name="current-move" value="after-notice"><span class="ot">С первого счёта после предупреждения<span class="rec">советую</span><span class="od">При $15 лишние $28,5 тыс. в месяц начнутся сразу после предупреждения; его срок выбирается в следующем вопросе.</span></span></label>
+        <label class="opt"><input type="radio" name="current-move" value="six-months"><span class="ot">Через полгода после объявления<span class="od">Сначала уйдёт меньше клиентов, но прибавка от помесячных подписок начнётся только в июне.</span></span></label>
+        <label class="opt"><input type="radio" name="current-move" value="new-only"><span class="ot">Никогда: новую цену платят только новые клиенты<span class="od">Из-за цены никто не уйдёт, но большинство мест годами останется по $12, а выросшие расходы не покроются.</span></span></label>
+      </fieldset>
+    </div>
+
+    <div class="block decision" data-id="annual-plans" data-title="Годовые подписки">
+      <fieldset>
+        <legend>Что делать с годовыми подписками</legend>
+        <label class="opt"><input type="radio" name="annual-plans" value="at-renewal"><span class="ot">Новая цена со следующего продления<span class="rec">советую</span><span class="od">Оплаченный год ни у кого не меняется; последние годовые подписки перейдут в ноябре 2027 года.</span></span></label>
+        <label class="opt"><input type="radio" name="annual-plans" value="early-renewal"><span class="ot">Предложить продлить досрочно по $12 до перехода<span class="od">Деньги придут сейчас, и годовых клиентов уйдёт меньше, но часть сохранит $12 до начала 2028 года.</span></span></label>
+        <label class="opt"><input type="radio" name="annual-plans" value="prorate"><span class="ot">Доплата за остаток года с даты перехода<span class="od">Деньги раньше, но это меняет цену, за которую уже заплатили; будут просьбы вернуть деньги.</span></span></label>
+      </fieldset>
+    </div>
+  </section>
+
+  <!-- ===================== Message ===================== -->
+  <section class="panel" id="message" hidden>
+    <div class="answer">
+      <h2>Отдельным письмом каждому администратору за 60 дней, с его новой суммой.</h2>
+      <p>В 2024 году жаловались больше на короткий срок предупреждения, чем на саму цену. Объявление в приложении не увидят администраторы, которые редко заходят, а рассылку о продукте открывают слишком редко для такой новости. Простое письмо с новой ценой, датой, причиной и новой суммой для этого клиента ответит на большинство вопросов раньше, чем они дойдут до поддержки.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>2 из 5</b><span>жалоб после повышения 2024 года были о сроке предупреждения в 30 дней, а не о цене</span></div>
+      <div class="fact"><b>38 %</b><span>администраторов на тарифе не заходили в приложение в октябре</span></div>
+      <div class="fact"><b>71 %</b><span>писем о платежах открывают, а рассылку о продукте 24 %, 2026 год</span></div>
+    </div>
+    <p class="note">Цифры выдуманы.</p>
+
+    <div class="block">
+      <h3>Письмо администраторам</h3>
+      <div class="compare">
+        <div class="cmp yes"><h4>Что в нём есть</h4><div class="chips">
+          <span class="chip">Новая цена и дата</span>
+          <span class="chip">Новая сумма клиента в месяц, в долларах</span>
+          <span class="chip">Причина: выросли наши расходы</span>
+          <span class="chip">Что мы добавили с 2024 года</span>
+          <span class="chip">Годовые подписки сохраняют цену до продления</span>
+          <span class="chip">Кому написать с вопросом</span>
+        </div></div>
+        <div class="cmp no"><h4>Чего в нём нет</h4><div class="chips">
+          <span class="chip">«Небольшая корректировка» и другие смягчения</span>
+          <span class="chip">Проценты без суммы в долларах</span>
+          <span class="chip">Долгие извинения</span>
+          <span class="chip">Давление решить сегодня</span>
+          <span class="chip">Размытая тема вроде «Изменения в вашем тарифе»</span>
+          <span class="chip">Новость внутри рассылки</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="notice" data-title="Как сообщаем клиентам">
+      <fieldset>
+        <legend>Как и за сколько сообщаем нынешним клиентам</legend>
+        <label class="opt"><input type="radio" name="notice" value="email-60"><span class="ot">Отдельное письмо каждому администратору за 60 дней и напоминание за неделю<span class="rec">советую</span><span class="od">Есть время заложить расходы, и письмо дойдёт до тех, кто редко заходит в приложение.</span></span></label>
+        <label class="opt"><input type="radio" name="notice" value="email-30"><span class="ot">То же письмо за 30 дней, минимум по нашим условиям<span class="od">Новые счета начнутся на месяц раньше, но срок такой же короткий, как в 2024 году.</span></span></label>
+        <label class="opt"><input type="radio" name="notice" value="in-app-30"><span class="ot">Объявление в приложении и на странице с ценами за 30 дней<span class="od">Ничего не нужно рассылать, но больше трети администраторов узнают о цене из счёта.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>Первый черновик письма</summary>
+      <p><b>Тема:</b> Тариф для команд будет стоить $15 за место с 1 февраля</p>
+      <p>Здравствуйте, {имя}! С 1 февраля 2027 года тариф для команд будет стоить $15 за место в месяц вместо $12. Для ваших {7} мест это ${105} в месяц вместо ${84}.</p>
+      <p>Почему: работа сервиса обходится нам дороже, чем при прошлом изменении в 2024 году. За это время мы ещё добавили {регулярные счета, оплату картой и напоминания о просроченных счетах}.</p>
+      <p>Если вы платите за год, цена не изменится до следующего продления. Если есть вопросы, ответьте на это письмо: вам ответит человек.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Summary ===================== -->
+  <section class="panel" id="summary" hidden>
+    <div class="answer">
+      <h2>Решения и ответ в ветку</h2>
+      <p class="db-banner" id="db-banner">Проверяю, где сохранять выбор…</p>
+    </div>
+    <div class="block">
+      <h3>Что выбрано</h3>
+      <ul class="sum-list" id="sum-list"></ul>
+      <div><button type="button" class="btn" id="export-decisions" hidden>Скопировать выбор текстом для Claude</button></div>
+    </div>
+    <div class="block">
+      <div class="block-head"><h3>Ответ сооснователю в ветке Slack</h3><button type="button" class="btn" data-copy-from="#reply">Скопировать</button></div>
+      <p class="reply" id="reply"></p>
+      <p class="note">Черновик собирается из выбранных вариантов и никуда сам не отправляется. Цифры в нём выдуманы.</p>
+    </div>
+    <div class="block">
+      <h3>Что я не проверил</h3>
+      <ul>
+        <li>Все цифры на странице выдуманы: это пример. Настоящие данные о платежах я не смотрел.</li>
+        <li>Отток при $18: 4,0 % взяты наугад. Если он пойдёт по образцу 2024 года, около 2,9 %, то через год $18 принесёт больше, чем $15.</li>
+        <li>Я считал, что повышенный отток держится весь год. В 2024 году он держался полгода; если так будет снова, любая повышенная цена окажется выгоднее, чем на странице.</li>
+        <li>Новые клиенты: при более высокой цене после пробного периода платить может начинать меньше людей. Это я не смотрел.</li>
+        <li>Сколько похожие сервисы для счетов берут за тариф для команд.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Источники</h3>
+      <ul>
+        <li>Вопрос сооснователя в ветке Slack (выдуман)</li>
+        <li>Данные о платежах: клиенты тарифа для команд, места и отток с мая по октябрь 2026 года (выдуманы)</li>
+        <li>Повышение 2024 года: отток и обращения в поддержку (выдуманы)</li>
+        <li>Открытия писем и заходы в приложение за 2026 год (выдуманы)</li>
+      </ul>
+    </div>
+  </section>
+</main>
+  </div>
+<!--TERMS-->
+{
+  "churn": "Отток: доля оплаченных мест, от которых отказываются за месяц. При 1,6 % через месяц пропадает примерно одно место из 60.",
+  "seat": "Место: один человек из команды клиента. Тариф для команд считается за место, поэтому команда из семи человек платит за семь мест."
+}
+<!--PAGE-->
+window.PAGE = {
+  composeReply: function (d) {
+    var L = [];
+    var price = d.choice('team-price');
+    var move = d.choice('current-move');
+    var annual = d.choice('annual-plans');
+    var notice = d.choice('notice');
+    function sent(s) { s = s.trim(); return /[.!?…]$/.test(s) ? s : s + '.'; }
+    function own(id) {
+      var n = d.note(id).trim();
+      if (!n) return 'у меня свой вариант, давай обсудим.';
+      if (/^[А-ЯЁA-Z][а-яёa-z]/.test(n)) n = n.charAt(0).toLowerCase() + n.slice(1);
+      return sent(n);
+    }
+    function list(a) { return a.length > 1 ? a.slice(0, -1).join(', ') + ' и ' + a[a.length - 1] : a[0]; }
+    var hi = 'Привет! Посчитал повышение тарифа для команд. ';
+    if (!price && !move && !annual && !notice) return hi + 'Ещё разбираю варианты, вернусь с предложением.';
+    var P = price === 'usd15' ? '$15' : price === 'usd14' ? '$14' : 'новую цену';
+    var Pdat = price === 'usd15' ? '$15' : price === 'usd14' ? '$14' : 'новой цене';
+    var when = null;
+    if (move === 'after-notice' && notice === 'email-60') when = '1 февраля';
+    else if (move === 'after-notice' && (notice === 'email-30' || notice === 'in-app-30')) when = '1 января';
+    else if (move === 'six-months') when = '1 июня';
+    var open = [];
+
+    if (price === 'usd15') L.push(hi + 'Коротко: да, давай поднимать до $15.');
+    else if (price === 'usd14') L.push(hi + 'Коротко: да, но я бы поднял до $14, а не до $15.');
+    else if (price === 'keep') L.push(hi + 'Я бы пока оставил $12.');
+    else if (price === 'other') L.push(hi + 'По цене: ' + own('team-price'));
+    else { L.push(hi + 'Вот что думаю на сейчас.'); open.push('цена'); }
+
+    if (price === 'usd15') L.push('Часть клиентов уйдёт: если судить по 2024 году, месячный отток на время вырастет с 1,6 % примерно до 2,2 %. Цена это с лихвой покроет: через год нынешние клиенты будут платить около $171 тыс. в месяц, а при $12 платили бы $147 тыс. При $18 денег в первые месяцы больше, но каким будет отток после скачка на 50 %, мы не знаем.');
+    else if (price === 'usd14') L.push('Отток вырастет меньше: если судить по 2024 году, с 1,6 % примерно до 2,0 % в месяц. Через год нынешние клиенты будут платить около $164 тыс. в месяц, а при $12 платили бы $147 тыс. При $15 было бы ещё примерно на $7 тыс. в месяц больше, но $14 мягче для клиентов.');
+    else if (price === 'keep') L.push('Расчёт как раз за повышение: даже с учётом оттока при $15 через год было бы примерно на $24 тыс. в месяц больше. Если держим цену, то сознательно, ради роста.');
+
+    if (price !== 'keep') {
+      var r = 'Кто и когда переходит: новые клиенты платят ' + P + ' со дня объявления.';
+      if (move === 'after-notice') r += ' Нынешние помесячные клиенты переходят с первого счёта после предупреждения' + (when ? ', то есть с ' + when : '') + '.';
+      else if (move === 'six-months') r += ' Нынешние помесячные клиенты ещё полгода, до 1 июня, платят $12, чтобы меньше из них ушло сразу.';
+      else if (move === 'new-only') r += ' Нынешние клиенты, и помесячные, и годовые, остаются на $12.';
+      else if (move === 'other') r += ' Для нынешних клиентов: ' + own('current-move');
+      else open.push('когда переходят нынешние клиенты');
+      if (move !== 'new-only') {
+        if (annual === 'at-renewal') r += ' Годовые подписки сохраняют цену до следующего продления, так что оплаченный год ни у кого не меняется.';
+        else if (annual === 'early-renewal') r += ' Годовым клиентам предложим продлить досрочно по $12 до ' + (when || 'перехода') + ', а дальше продление по ' + Pdat + '.';
+        else if (annual === 'prorate') r += ' Годовые подписки доплачивают разницу за остаток года с ' + (when || 'даты перехода') + '. Будут просьбы вернуть деньги, к этому надо быть готовыми.';
+        else if (annual === 'other') r += ' Для годовых подписок: ' + own('annual-plans');
+        else open.push('годовые подписки');
+      }
+      L.push(r);
+
+      if (move === 'new-only') L.push('Как сообщаем: нынешних клиентов это не касается, так что хватит строки на странице с ценами.');
+      else if (notice === 'email-60') L.push('Как сообщаем: отдельное письмо каждому администратору за 60 дней, с новой ценой, датой, причиной и его новой суммой в месяц. За неделю до перехода напоминание и объявление в приложении.');
+      else if (notice === 'email-30') L.push('Как сообщаем: отдельное письмо каждому администратору за 30 дней, это минимум по нашим условиям. В письме новая цена, дата, причина и его новая сумма в месяц.');
+      else if (notice === 'in-app-30') L.push('Как сообщаем: объявление в приложении и на странице с ценами за 30 дней. В октябре больше трети администраторов не заходили в приложение, так что часть узнает о цене из счёта.');
+      else if (notice === 'other') L.push('Как сообщаем: ' + own('notice'));
+      else open.push('как сообщаем клиентам');
+    }
+
+    if (open.length) L.push((open.length > 1 ? 'Ещё открыты вопросы: ' : 'Ещё открыт вопрос: ') + list(open) + '.');
+    if (price === 'keep') L.push('Давай вернёмся к этому в марте, я принесу свежие цифры.');
+    else if (price && move === 'new-only') L.push('Если ты не против, на этой неделе подготовлю изменения страницы с ценами, посмотришь.');
+    else if (price) L.push('Если ты не против, на этой неделе подготовлю письмо и изменения страницы с ценами, посмотришь.');
+    return L.join('\n\n');
+  }
+};

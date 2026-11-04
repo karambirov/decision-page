@@ -350,6 +350,8 @@ pre.code .c { color: var(--faint); }
 .sum-list li .k { color: var(--muted); font-size: 12px; display: block; }
 .sum-list li a { font-size: 13px; white-space: nowrap; color: var(--muted); }
 .reply { white-space: pre-wrap; font: 14px/1.6 var(--sans); background: var(--raise); border-radius: 10px; padding: 12px 14px; margin: 0; max-width: none; }
+/* The reply is the text the reader will send: full text color, not the muted note color of other block paragraphs */
+.block > .reply { color: var(--fg); font-size: 14px; }
 .db-banner { font-size: 13px; color: var(--faint); }
 .db-banner.live { color: var(--faint); }
 .answer p.db-banner { font-size: 13px; color: var(--faint); }
