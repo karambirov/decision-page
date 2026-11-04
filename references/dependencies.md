@@ -19,7 +19,7 @@ The scripts need Python 3 (standard library only), and Node 20 to build scenes.
 
 Nothing in the skill ties it to one company or one person. Personal rules (writing style, message approval, task tracker, language) live in each person's CLAUDE.md and memory; the skill only respects them. The examples in `examples/` use made-up data.
 
-- **npx.** `npx skills add karambirov/decision-page -g -a claude-code -y`, then `sh ~/.claude/skills/decision-page/scripts/install-deps.sh` for the dependencies. Update: `npx skills update decision-page`. If the repository is private, installing needs read access and git that can clone it.
+- **npx.** `npx skills add karambirov/decision-page -g -a claude-code -y`, then `sh ~/.claude/skills/decision-page/scripts/install-deps.sh` for the dependencies. Update: `npx skills update decision-page`.
 - **Git.** The `decision-page` folder is the repository: `SKILL.md` at the root, `README.md` next to it. It also works as a plain clone into `~/.claude/skills/decision-page`.
 - **Different Claude accounts.** The page is published in the account of whoever works with the skill and by default is visible only to them. Each page has its own choice storage.
 

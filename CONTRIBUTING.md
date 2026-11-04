@@ -4,7 +4,7 @@ A guide for an agent or a person who changes the `decision-page` skill. People w
 
 ## Status
 
-The repository is personal and private, and the skill is not distributed yet. Do not grant access to anyone, do not make the repository public and do not offer it to others. Everything that has to happen before distribution is collected in the issue [Prepare the skill for distribution](https://github.com/karambirov/decision-page/issues/1). Work on it only when the owner explicitly asks.
+The repository is public under the MIT license, and the skill is in early use. What is still open (the final name, a Claude Desktop screenshot for the README, version tags) is collected in the issue [Prepare the skill for distribution](https://github.com/karambirov/decision-page/issues/1). Work on it only when the owner explicitly asks.
 
 ## Where things live
 
@@ -43,7 +43,7 @@ Do not create separate documents: an agent reads `SKILL.md` and its links, nothi
 
 ## Commits
 
-Small and meaningful; the message briefly says what changed and why. A commit made by an agent ends with a `Co-Authored-By` line naming its model. Pushing to `main` of this private repository is allowed.
+Small and meaningful; the message briefly says what changed and why. A commit made by an agent ends with a `Co-Authored-By` line naming its model. The owner and the owner's agents push to `main`; everyone else opens a pull request.
 
 ## Published pages
 

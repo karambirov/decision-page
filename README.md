@@ -51,8 +51,6 @@ Claude writes the page in the language of the person reading it. The page's buil
 
 ## Install and update
 
-The repository is private for now and used only by its owner. Installing needs read access to it and a git setup that can clone it, for example after `gh auth login`.
-
 ```bash
 npx skills add karambirov/decision-page -g -a claude-code -y
 ```
@@ -69,7 +67,7 @@ Restart Claude Code afterwards. To update:
 npx skills update decision-page
 ```
 
-The CLI sends no install telemetry for private repositories. If you want telemetry off for every command anyway, prefix it with `DISABLE_TELEMETRY=1`.
+For public repositories the skills CLI reports installs to skills.sh. To turn that off, prefix each command with `DISABLE_TELEMETRY=1`.
 
 ## Requirements
 
