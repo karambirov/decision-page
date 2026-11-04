@@ -1,49 +1,50 @@
-# Как развивать скилл
+# Contributing
 
-Это руководство для агента или человека, который правит скилл `decision-page`. Пользователю скилла оно не нужно: ему хватит README.
+A guide for an agent or a person who changes the `decision-page` skill. People who only use the skill need the README instead.
 
-## Статус
+## Status
 
-Репозиторий личный и приватный, скилл пока не распространяется. Доступы никому не выдавай, репозиторий не делай публичным и никому его не предлагай. Всё, что нужно сделать перед распространением, собрано в issue [«Подготовить скилл к распространению»](https://github.com/karambirov/decision-page/issues/1). Заниматься им можно только по прямой просьбе владельца.
+The repository is personal and private, and the skill is not distributed yet. Do not grant access to anyone, do not make the repository public and do not offer it to others. Everything that has to happen before distribution is collected in the issue [Prepare the skill for distribution](https://github.com/karambirov/decision-page/issues/1). Work on it only when the owner explicitly asks.
 
-## Где что лежит
+## Where things live
 
-- Рабочая копия и есть установленный скилл: `~/.agents/skills/decision-page`, на неё ссылается `~/.claude/skills/decision-page`. Правка в этой папке сразу действует во всех чатах владельца.
-- `SKILL.md` — инструкция для Claude. `references/` — подробности, которые `SKILL.md` подгружает по ссылкам. `assets/template.html` — вид и движок страницы. `scripts/` — сборка страницы и сцен. `examples/` — примеры на выдуманных данных. `docs/` — картинки для README.
+- The working copy is the installed skill: `~/.agents/skills/decision-page`, linked from `~/.claude/skills/decision-page`. A change in this folder takes effect in all of the owner's chats at once.
+- `SKILL.md` holds the instructions for Claude. `references/` holds the details `SKILL.md` loads by link. `assets/template.html` is the look and the engine of the page. `scripts/` builds pages and scenes. `examples/` holds examples on made-up data. `docs/` holds images for the README.
 
-## Принципы, которые нельзя сломать
+## Principles not to break
 
-- **Скилл дополняет чат.** Короткие вопросы остаются в чате, страница нужна, когда в чате неудобно. Раздел «Чат или страница» в `SKILL.md`.
-- **Вид задан шаблоном.** Страница выглядит как часть Claude Desktop. Новые элементы собирай из токенов шаблона, свои цвета и шрифты не добавляй. Подробности в разделе «Вид» в `references/components.md`.
-- **Никаких рабочих данных.** В скилле, примерах, скриншотах и коммитах не должно быть названий компаний, данных из трекеров ошибок, Slack, Jira, внутренних ссылок и страниц владельца. Примеры только на выдуманных данных.
-- **Правила владельца живут не здесь.** Стиль текста, язык, порядок согласования сообщений хранятся в CLAUDE.md и памяти каждого пользователя. Скилл их уважает, но не копирует.
-- **Ответы людей не теряются.** Любая правка движка сохранения проверяется на сценариях из раздела «Хранилище» в `references/pitfalls.md`.
+- **The skill complements the chat.** Short questions stay in the chat; a page is for when the chat gets inconvenient. See "Chat or page" in `SKILL.md`.
+- **The look is fixed by the template.** A page looks like part of Claude Desktop. Build new elements from the template's tokens; do not add colours or fonts of your own. Details in "Look" in `references/components.md`.
+- **No work data.** The skill, examples, screenshots and commits never contain company names, error-tracker data, Slack or Jira content, internal links or the owner's pages. Examples use made-up data only.
+- **The owner's rules live elsewhere.** Writing style, language and the approval order for messages live in each user's CLAUDE.md and memory. The skill respects them and does not copy them.
+- **People's answers are never lost.** Any change to saving is checked against the scenarios in "Storage" in `references/pitfalls.md`.
+- **Public text is in English.** README, CONTRIBUTING, issues, commit messages and the repository description are in English. Page content follows the reader's language.
 
-## Как проверить правку
+## How to check a change
 
-1. Шаблон собирается: `python3 scripts/build.py assets/template.html --out <папка> --allow-placeholders`.
-2. Пример собирается без ошибок и предупреждений: `python3 scripts/build.py examples/pages/release-cadence.content.html --out <папка>`.
-3. Открой `preview.html` через локальный http-сервер, а не как файл, и проверь:
-   - ширину 590 px: так страница выглядит в боковой панели Claude Desktop;
-   - ширину 1280 px с боковым меню и 375 px;
-   - светлую и тёмную тему;
-   - переключение вопросов, стрелки, память прокрутки, «Другое», рост поля комментария, сохранение выбора;
-   - консоль без ошибок.
-4. Если менялась сцена: `node scripts/build-scene.mjs --scene examples/scenes/dead-button --name DeadButtonDemo --out <папка>`.
-5. После заметных изменений `SKILL.md` или справочников проверь скилл свежим агентом без контекста. Дай ему только название скилла и выдуманную тему, запрети публиковать и отправлять что-либо, потом посмотри его страницу в ширине 590 px и попроси список того, что в скилле было непонятно.
+1. The template builds: `python3 scripts/build.py assets/template.html --out <dir> --allow-placeholders`.
+2. The example builds with no errors or warnings: `python3 scripts/build.py examples/pages/release-cadence.content.html --out <dir>`.
+3. Open `preview.html` through a local http server, not as a file, and check:
+   - 590 px wide: this is how the page looks in the Claude Desktop side pane;
+   - 1280 px with the sidebar, and 375 px;
+   - light and dark themes;
+   - switching questions, the arrows, scroll memory, the «Другое» option, the growing comment field, saving choices;
+   - no errors in the console.
+4. If a scene changed: `node scripts/build-scene.mjs --scene examples/scenes/dead-button --name DeadButtonDemo --out <dir>`.
+5. After a notable change to `SKILL.md` or the references, test the skill with a fresh agent that has no context. Give it only the skill name and a made-up topic, forbid publishing and sending anything, then look at its page at 590 px and ask it what in the skill was unclear.
 
-## Куда записывать уроки
+## Where lessons go
 
-- Ловушки, на которые уже наступали: `references/pitfalls.md`.
-- Новые виджеты и правила разметки: `references/components.md`.
-- Язык и подача: `references/language.md`.
+- Traps already stepped on: `references/pitfalls.md`.
+- New widgets and markup rules: `references/components.md`.
+- Language and presentation: `references/language.md`.
 
-Отдельные документы не заводи: агент читает `SKILL.md` и ссылки из него, остальное он не увидит.
+Do not create separate documents: an agent reads `SKILL.md` and its links, nothing else.
 
-## Коммиты
+## Commits
 
-Маленькие и по смыслу, сообщение коротко объясняет, что и зачем поменялось. Если коммит делает агент, в конце строка `Co-Authored-By` с его моделью. Пуш в `main` приватного репозитория разрешён.
+Small and meaningful; the message briefly says what changed and why. A commit made by an agent ends with a `Co-Authored-By` line naming its model. Pushing to `main` of this private repository is allowed.
 
-## Опубликованные страницы
+## Published pages
 
-Страницы, которые пользователь уже открывал, собраны из шаблона в момент публикации и сами не обновляются. Чтобы страница получила правку шаблона, её пересобирают из файла содержания и публикуют тем же путём. Пересобирай только с согласия пользователя: в открытой странице могут быть несохранённые ответы.
+Pages a user has already opened were built from the template at publish time and do not update themselves. To give a page a template change, rebuild it from its content file and publish it to the same path. Rebuild only with the user's consent: an open page may hold answers that are not saved yet.

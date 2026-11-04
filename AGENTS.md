@@ -1,3 +1,3 @@
 # AGENTS.md
 
-Руководство для агентов, которые развивают этот скилл: [CONTRIBUTING.md](CONTRIBUTING.md).
+Guide for agents developing this skill: [CONTRIBUTING.md](CONTRIBUTING.md).
