@@ -1,0 +1,240 @@
+<title>Выпуски и срочные исправления</title>
+<!--APP-->
+  <aside class="side" id="side" aria-label="Вопросы страницы">
+    <div class="side-head">
+      <div class="eyebrow">Разбор треда · тестовая страница · 4 ноября 2026</div>
+      <h1>Выпуски и срочные исправления iOS</h1>
+      <p class="lede">Мобильная команда спросила в треде про частоту выпусков и про проверку срочных исправлений. Все цифры выдуманы, страница тестовая.</p>
+      <div class="meta"><span>Данные: III квартал 2026, тестовые</span><span>Тред выдуман</span></div>
+    </div>
+    <nav class="qnav" aria-label="Вопросы">
+      <div class="qnav-label">Вопросы</div>
+      <a class="q-link" href="#cadence" data-panel="cadence"><span class="n">Частота выпусков</span><span class="t">Перевести выпуски iOS с раза в неделю на раз в две недели?</span><span class="row"><span class="pill warn">Есть путь дешевле</span></span></a>
+      <a class="q-link" href="#hotfix" data-panel="hotfix"><span class="n">Срочные исправления</span><span class="t">Можно ли срочным исправлениям пропускать регресс?</span><span class="row"><span class="pill warn">Да, с короткой проверкой</span></span></a>
+      <a class="q-link q-summary" href="#summary" data-panel="summary"><span class="n">Итог</span><span class="t">Решения и ответ в тред</span><span class="row"><span class="pill info" id="dec-count">0 выбрано</span></span></a>
+    </nav>
+  </aside>
+
+  <div class="content">
+<main data-collection="decisions">
+  <!-- ===================== Release cadence ===================== -->
+  <section class="panel" id="cadence">
+    <div class="answer">
+      <h2>Не обязательно: почти ту же экономию даёт пропуск пустых недель.</h2>
+      <p>При выпуске раз в две недели <button type="button" class="term" data-term="regress">регресс</button> занимает меньше времени, но готовая правка дольше ждёт выпуска, а сам выпуск вдвое крупнее. Почти столько же времени тестировщики сэкономят, если выпускать раз в неделю и пропускать недели, когда в ветке только <button type="button" class="term" data-term="tech">технические изменения</button>. Ждать дольше тогда не придётся.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>5 из 13</b><span>выпусков за III квартал были только с техническими изменениями</span></div>
+      <div class="fact"><b>11</b><span>изменений в обычном выпуске, медиана за III квартал</span></div>
+      <div class="fact"><b>в 3 раза</b><span>чаще срочное исправление требовалось выпускам больше 15 изменений</span></div>
+    </div>
+    <p class="note">Тестовые данные: все цифры в этом вопросе выдуманы.</p>
+
+    <div class="block" data-toggle>
+      <div class="block-head">
+        <h3>Месяц выпусков в трёх вариантах</h3>
+        <div class="seg" role="tablist" aria-label="Вариант выпуска">
+          <button type="button" role="tab" data-show="weekly" aria-selected="true">Раз в неделю</button>
+          <button type="button" role="tab" data-show="biweekly" aria-selected="false" tabindex="-1">Раз в две недели</button>
+          <button type="button" role="tab" data-show="skip" aria-selected="false" tabindex="-1">Неделя без пустых</button>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="weekly">
+        <div class="hbars" role="list">
+          <div class="hbar bad" role="listitem">
+            <div class="hbar-head"><span>Регресс, дней в месяц</span><b>6,5</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>Больше четырёх прогонов, каждый занимает обоих тестировщиков</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Ждёт готовая правка, дней</span><b>3,5</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 50%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="biweekly" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Регресс, дней в месяц</span><b>4,3</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 66%"></div></div>
+            <small>Два прогона, но каждый дольше: изменений вдвое больше</small>
+          </div>
+          <div class="hbar bad" role="listitem">
+            <div class="hbar-head"><span>Ждёт готовая правка, дней</span><b>7</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>Выпуск вырастает примерно до 22 изменений</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="skip" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Регресс, дней в месяц</span><b>4</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 62%"></div></div>
+            <small>Пустые недели без прогона</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Ждёт готовая правка, дней</span><b>3,5</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 50%"></div></div>
+            <small>Технические изменения уходят со следующим обычным выпуском</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="release-cadence" data-title="Частота выпусков iOS">
+      <fieldset>
+        <legend>Как выпускать версии iOS</legend>
+        <label class="opt"><input type="radio" name="release-cadence" value="weekly-skip"><span class="ot">Раз в неделю, пропуская недели только с техническими изменениями<span class="rec">советую</span><span class="od">Тестирование экономит почти столько же, сколько при двух неделях, а правки для людей не ждут дольше.</span></span></label>
+        <label class="opt"><input type="radio" name="release-cadence" value="biweekly-trial"><span class="ot">Раз в две недели, на пробу на месяц<span class="od">Регресса чуть меньше, но правки ждут вдвое дольше, а крупные выпуски чаще требуют срочных исправлений.</span></span></label>
+        <label class="opt"><input type="radio" name="release-cadence" value="keep-weekly"><span class="ot">Оставить как есть<span class="od">Правки выходят быстрее всего, но регресс по-прежнему идёт каждую неделю.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>Как я считал</summary>
+      <p>Квартал: 13 недель. Обычный регресс идёт полтора дня. Для выпуска раз в две недели я принял 2 дня: изменений вдвое больше, но многие сценарии проверяются один раз. Это допущение, его нужно сверить с тестированием.</p>
+      <p>Ожидание: правка готова в случайный день и в среднем ждёт половину цикла выпуска.</p>
+      <p>Пустая неделя: в ветке нет ни одного изменения, которое увидит человек, и ни одного исправления ошибки. Решает ведущий выпуска в день отделения ветки. Если технические изменения копятся две недели, выпуск идёт без пропуска, чтобы обновления библиотек не отставали.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Hotfix regression ===================== -->
+  <section class="panel" id="hotfix" hidden>
+    <div class="answer">
+      <h2>Да, но вместо регресса нужна короткая проверка.</h2>
+      <p>Срочное исправление меняет мало кода, и проверять ради него всё приложение незачем. Но такие правки уже ломали соседние сценарии. Короткая ручная проверка ключевых путей ловит подобные поломки и почти не задерживает выпуск.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>4</b><span>срочных исправления за III квартал, в каждом меньше 30 строк кода</span></div>
+      <div class="fact"><b>1 из 4</b><span>исправлений сломало соседний сценарий: правка оплаты на два дня отключила промокоды</span></div>
+      <div class="fact"><b>Нет</b><span>автоматических проверок интерфейса на пути покупки: сборка такую поломку не заметит</span></div>
+    </div>
+    <p class="note">Тестовые данные: все цифры в этом вопросе выдуманы.</p>
+
+    <div class="block" data-path data-modes>
+      <div class="block-head">
+        <h3>Путь срочного исправления до людей</h3>
+        <div class="seg" role="group" aria-label="Как проверяем">
+          <button type="button" data-mode="full" aria-pressed="true">Полный регресс</button>
+          <button type="button" data-mode="skip" aria-pressed="false">Без проверки</button>
+          <button type="button" data-mode="smoke" aria-pressed="false">Короткая проверка</button>
+        </div>
+      </div>
+      <ol class="path-steps">
+        <li class="path-step" data-kind="sent"><span class="dot">1</span><span class="what">Правка готова<small>Код проверил коллега</small></span><span class="res"><span class="pill info">Старт</span></span></li>
+        <li class="path-step" data-kind="sent"><span class="dot">2</span><span class="what">Сборка и автотесты<small>Модульные тесты и сравнение снимков экрана</small></span><span class="res"><span class="pill info">30 мин</span></span></li>
+        <li class="path-step" data-kinds="full:leak skip:leak smoke:quiet"><span class="dot">3</span>
+          <span class="what" data-in-mode="full">Полный регресс<small>Оба тестировщика проходят все сценарии</small></span>
+          <span class="what" data-in-mode="skip" hidden>Ручной проверки нет<small>Сборка сразу уходит в App Store</small></span>
+          <span class="what" data-in-mode="smoke" hidden>Короткая проверка<small>12 ключевых сценариев по списку, промокод среди них</small></span>
+          <span class="res"><span class="pill bad" data-in-mode="full">1,5 дня</span><span class="pill bad" data-in-mode="skip" hidden>Пропущено</span><span class="pill ok" data-in-mode="smoke" hidden>40 мин</span></span></li>
+        <li class="path-step" data-kind="sent"><span class="dot">4</span><span class="what">Проверка App Store<small>Для срочной версии можно попросить ускоренную</small></span><span class="res"><span class="pill info">около суток</span></span></li>
+        <li class="path-step" data-kinds="full:quiet skip:leak smoke:quiet"><span class="dot">5</span>
+          <span class="what"><button type="button" class="term" data-term="phased">Поэтапный выпуск</button><small data-in-mode="full">Все сценарии проверены</small><small data-in-mode="skip" hidden>Соседние сценарии никто не смотрел</small><small data-in-mode="smoke" hidden>Ключевые сценарии проверены</small></span>
+          <span class="res"><span class="pill ok" data-in-mode="full">Проверено</span><span class="pill bad" data-in-mode="skip" hidden>Риск</span><span class="pill ok" data-in-mode="smoke" hidden>Проверено</span></span></li>
+      </ol>
+      <p class="path-sum" data-in-mode="full">Исправление доходит до людей примерно через 2,5 суток после готовности, больше половины этого времени уходит на регресс.</p>
+      <p class="path-sum" data-in-mode="skip" hidden>Через сутки, но поломку соседнего сценария, как с промокодами, первыми найдут люди.</p>
+      <p class="path-sum" data-in-mode="smoke" hidden>Чуть больше суток, и ключевые пути проверены. Поломку промокодов эта проверка поймала бы.</p>
+      <div><button type="button" class="btn primary" data-path-play>Пустить исправление</button></div>
+    </div>
+
+    <div class="block decision" data-id="hotfix-check" data-title="Проверка срочного исправления">
+      <fieldset>
+        <legend>Как проверять срочное исправление перед выпуском</legend>
+        <label class="opt"><input type="radio" name="hotfix-check" value="smoke"><span class="ot">Короткая проверка ключевых путей вместо регресса<span class="rec">советую</span><span class="od">Исправление уходит в App Store в тот же день, а поломку вроде истории с промокодами тестировщики поймают раньше людей.</span></span></label>
+        <label class="opt"><input type="radio" name="hotfix-check" value="skip"><span class="ot">Без ручной проверки<span class="od">Чуть быстрее, но поломку соседнего сценария первыми увидят люди.</span></span></label>
+        <label class="opt"><input type="radio" name="hotfix-check" value="full"><span class="ot">Оставить полный регресс<span class="od">Надёжнее всего, но срочное исправление ждёт регресса так же, как обычный выпуск.</span></span></label>
+      </fieldset>
+    </div>
+
+    <div class="block decision" data-id="hotfix-scope" data-title="Что идёт быстрым путём">
+      <fieldset>
+        <legend>Какие правки пускать быстрым путём, если полный регресс не нужен</legend>
+        <label class="opt"><input type="radio" name="hotfix-scope" value="crash-buy"><span class="ot">Только падения и поломки поиска, покупки и входа<span class="rec">советую</span><span class="od">Быстрый путь не станет обходом регресса для обычных задач. Правка больше 30 строк идёт обычным выпуском.</span></span></label>
+        <label class="opt"><input type="radio" name="hotfix-scope" value="lead-call"><span class="ot">Любую правку по решению ведущего разработчика<span class="od">Гибче, но граница со временем размоется.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>Что входит в проверку и как заметить промах</summary>
+      <p>Список короткой проверки (тестовый): поиск, выдача, карточка билета, покупка картой, покупка с промокодом, вход, выход, восстановление доступа, подписка на цены, уведомление о цене, профиль, смена языка.</p>
+      <p>Если проверка что-то пропустила: срочную версию выпускаем поэтапно и первые сутки смотрим долю падений и успешных покупок. При росте ставим выпуск на паузу и готовим следующее исправление. Откатить версию в App Store нельзя.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Summary ===================== -->
+  <section class="panel" id="summary" hidden>
+    <div class="answer">
+      <h2>Решения и ответ в тред</h2>
+      <p class="db-banner" id="db-banner">Проверяю, где сохранять выбор…</p>
+    </div>
+    <div class="block">
+      <h3>Что выбрано</h3>
+      <ul class="sum-list" id="sum-list"></ul>
+      <div><button type="button" class="btn" id="export-decisions" hidden>Скопировать выбор текстом для Claude</button></div>
+    </div>
+    <div class="block">
+      <div class="block-head"><h3>Черновик ответа мобильной команде в тред</h3><button type="button" class="btn" data-copy-from="#reply">Скопировать</button></div>
+      <p class="reply" id="reply"></p>
+      <p class="note">Черновик собирается из выбранных вариантов и никуда сам не отправляется. Цифры в нём тестовые.</p>
+    </div>
+    <div class="block">
+      <h3>Что я не проверил</h3>
+      <ul>
+        <li>Все цифры на странице выдуманы: это тестовая страница. Настоящую статистику выпусков я не смотрел.</li>
+        <li>Регресс выпуска за две недели я принял за 2 дня. Если он займёт 3, экономии от двух недель не будет совсем.</li>
+        <li>Срок проверки App Store для срочной версии: «около суток» взято по опыту, без замера.</li>
+        <li>Как выпускается Android. Если там своя частота, общий календарь выпусков может разъехаться.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Источники</h3>
+      <ul>
+        <li>Тред мобильной команды с двумя вопросами (выдуман для теста)</li>
+        <li>Статистика выпусков и срочных исправлений iOS за III квартал 2026 (тестовые данные)</li>
+      </ul>
+    </div>
+  </section>
+</main>
+  </div>
+<!--TERMS-->
+{
+  "regress": "Регресс: полный ручной прогон всех сценариев приложения перед выпуском. Нужен, чтобы новая версия не сломала то, что работало.",
+  "tech": "Технические изменения: правки, которых человек в приложении не заметит. Например, обновление библиотеки или переработка кода без изменения поведения. Исправления ошибок сюда не входят.",
+  "phased": "Поэтапный выпуск в App Store: за 7 дней новая версия доходит до всех с автообновлением, начиная с 1 %. Его можно поставить на паузу. Откатить версию нельзя, только выпустить новую."
+}
+<!--PAGE-->
+window.PAGE = {
+  composeReply: function (d) {
+    var L = [];
+    var c = d.choice('release-cadence');
+    var h = d.choice('hotfix-check');
+    var s = d.choice('hotfix-scope');
+    L.push('Коллеги, посмотрел статистику выпусков за III квартал и отвечаю на оба вопроса.');
+
+    var p1 = '1. Выпуски раз в две недели. ';
+    if (c === 'weekly-skip') p1 += 'Предлагаю оставить выпуск раз в неделю и пропускать недели, когда в ветке только технические изменения. За квартал таких выпусков было 5 из 13, так что тестирование сэкономит почти столько же, сколько при двух неделях, а правки для пользователей не будут ждать дольше.';
+    else if (c === 'biweekly-trial') p1 += 'Давайте попробуем месяц, это два выпуска. Регресса станет меньше, но готовые правки будут дольше ждать выпуска, а крупные выпуски у нас втрое чаще требуют срочных исправлений. Через месяц сравним число срочных исправлений и решим, оставлять ли.';
+    else if (c === 'keep-weekly') p1 += 'Предлагаю пока оставить выпуск раз в неделю: правки быстрее доходят до пользователей, а крупные выпуски у нас втрое чаще требуют срочных исправлений.';
+    else p1 += 'Ещё думаю, вернусь с ответом.';
+    L.push(p1);
+
+    var p2 = '2. Регресс для срочных исправлений. ';
+    if (h === 'smoke') p2 += 'Полный регресс для них не нужен, но совсем без проверки нельзя: одно из четырёх срочных исправлений за квартал сломало промокоды. Вместо регресса предлагаю короткую проверку 12 ключевых сценариев, это около 40 минут.';
+    else if (h === 'skip') p2 += 'Согласен выпускать их без ручной проверки: правки маленькие. Чтобы не пропустить поломку, выпускаем поэтапно и первые сутки смотрим на падения и покупки.';
+    else if (h === 'full') p2 += 'Пока оставляем полный регресс: одно из четырёх срочных исправлений за квартал сломало соседний сценарий, промокоды.';
+    else p2 += 'Ещё думаю, вернусь с ответом.';
+    if (h === 'smoke' || h === 'skip') {
+      if (s === 'crash-buy') p2 += ' Быстрым путём идут только падения и поломки поиска, покупки и входа, остальное ждёт обычного выпуска.';
+      else if (s === 'lead-call') p2 += ' Пускать ли правку быстрым путём, решает ведущий разработчик.';
+    }
+    L.push(p2);
+
+    if (c || h) L.push('Если возражений нет, начнём со следующего выпуска, а через месяц вернусь с цифрами.');
+    return L.join('\n\n');
+  }
+};

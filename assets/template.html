@@ -1,0 +1,1145 @@
+<title>{{Название страницы в 2–4 слова}}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* decision-page template, made to sit next to the chat in Claude Desktop: the same white ground, grey surfaces,
+   hairlines, near-black primary buttons and the system font, so the page reads as part of the app.
+   Colour is kept for meaning only (verdicts, good and bad). Wide screens get a sidebar of questions;
+   a narrow pane gets a question switcher in the bar, like the app's own dropdown headers. */
+:root {
+  --bg: #ffffff; --side: #f7f7f7; --paper: #ffffff; --raise: #f2f2f2;
+  --fg: #141414; --fg-2: #2b2b2b; --muted: #666666; --faint: #999999;
+  --line: #e7e7e7; --line-strong: #d6d6d6;
+  --hover: rgba(0, 0, 0, 0.04); --active: rgba(0, 0, 0, 0.07);
+  --primary: #181818; --on-primary: #ffffff;
+  --accent: #1f6fd6; --focus: #1f6fd6;
+  --neutral: #7a7a7a; --neutral-soft: #f2f2f2;
+  --bad: #c0392b; --bad-soft: #fcefed;
+  --ok: #2e7d4f; --ok-soft: #ecf6ef;
+  --warn: #9a6512; --warn-soft: #fbf3e3;
+  --code-bg: #f5f5f5;
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font: var(--sans); --serif: var(--sans);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1c1c1c; --side: #171717; --paper: #1c1c1c; --raise: #2a2a2a;
+    --fg: #ececec; --fg-2: #d6d6d6; --muted: #a0a0a0; --faint: #707070;
+    --line: #2e2e2e; --line-strong: #3d3d3d;
+    --hover: rgba(255, 255, 255, 0.05); --active: rgba(255, 255, 255, 0.09);
+    --primary: #ececec; --on-primary: #141414;
+    --accent: #5b9bf0; --focus: #5b9bf0;
+    --neutral: #a0a0a0; --neutral-soft: #2a2a2a;
+    --bad: #ef7a6c; --bad-soft: #3a2422; --ok: #6cc28f; --ok-soft: #1f3327; --warn: #e0ad5a; --warn-soft: #3a3020;
+    --code-bg: #242424; --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1c1c1c; --side: #171717; --paper: #1c1c1c; --raise: #2a2a2a;
+  --fg: #ececec; --fg-2: #d6d6d6; --muted: #a0a0a0; --faint: #707070;
+  --line: #2e2e2e; --line-strong: #3d3d3d;
+  --hover: rgba(255, 255, 255, 0.05); --active: rgba(255, 255, 255, 0.09);
+  --primary: #ececec; --on-primary: #141414;
+  --accent: #5b9bf0; --focus: #5b9bf0;
+  --neutral: #a0a0a0; --neutral-soft: #2a2a2a;
+  --bad: #ef7a6c; --bad-soft: #3a2422; --ok: #6cc28f; --ok-soft: #1f3327; --warn: #e0ad5a; --warn-soft: #3a3020;
+  --code-bg: #242424; --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font: 14.5px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+html.drawer-open { overflow: hidden; }
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; text-decoration-thickness: 1px; transition: text-decoration-color 120ms ease; }
+@media (hover: hover) and (pointer: fine) { a:hover { text-decoration-color: currentColor; } }
+p { margin: 0 0 12px; max-width: 70ch; }
+ul, ol { margin: 0 0 12px; padding-left: 20px; }
+li { margin-bottom: 6px; max-width: 70ch; }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--code-bg); padding: 1px 5px; border-radius: 5px; overflow-wrap: anywhere; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+button { font: inherit; color: inherit; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* App shell */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+.content { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); min-width: 0; }
+main { max-width: 700px; margin: 0 auto; padding-block: 20px 72px; }
+.panel:focus { outline: none; }
+
+/* Question list: plain rows like the app's sidebar, the current one filled grey */
+.side { background: var(--side); display: flex; flex-direction: column; gap: 16px; padding: 16px 8px 24px max(8px, env(safe-area-inset-left, 0px)); }
+.side-head { display: grid; gap: 4px; padding: 0 10px; }
+.eyebrow { font-size: 12px; color: var(--faint); }
+.side-head h1 { font: 600 14.5px/1.35 var(--sans); }
+.lede { font-size: 12.5px; line-height: 1.5; margin: 0; color: var(--muted); }
+.meta { display: flex; flex-wrap: wrap; gap: 0 10px; font-size: 12px; color: var(--faint); }
+.meta a { color: var(--muted); }
+.qnav { display: grid; gap: 1px; }
+.qnav-label { font-size: 12px; font-weight: 500; color: var(--faint); padding: 0 10px 4px; }
+.q-link { display: grid; gap: 1px; padding: 7px 10px; border-radius: 8px; color: var(--fg); text-decoration: none; transition: background-color 100ms ease; }
+@media (hover: hover) and (pointer: fine) { .q-link:hover { background: var(--hover); } }
+.q-link[aria-current] { background: var(--active); }
+.q-link .n { display: none; }
+.q-link .t { font-size: 13.5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.q-link .row { display: flex; flex-wrap: wrap; align-items: center; gap: 0 6px; font-size: 12px; color: var(--muted); }
+.qnav .q-link .pill { background: none; padding: 0; color: var(--muted); font-weight: 400; font-size: 12px; gap: 6px; }
+.q-link .pill::before { display: block; width: 6px; height: 6px; }
+.q-link .pill.neutral::before { background: var(--neutral); }
+.q-link .pill.bad::before { background: var(--bad); }
+.q-link .pill.ok::before { background: var(--ok); }
+.q-link .pill.warn::before { background: var(--warn); }
+.q-link .pill.info::before { background: var(--faint); }
+.prog { font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.prog::before { content: "·"; margin-right: 6px; }
+.prog.done { color: var(--ok); }
+.q-link.q-summary { margin-top: 8px; position: relative; }
+.q-link.q-summary::before { content: ""; position: absolute; left: 10px; right: 10px; top: -5px; border-top: 1px solid var(--line); }
+
+/* Bar for a narrow pane: the current question as a dropdown, previous and next beside it */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; align-items: center; gap: 2px; min-height: 44px; padding: 4px max(10px, env(safe-area-inset-right, 0px)) 4px max(10px, env(safe-area-inset-left, 0px)); background: var(--bg); border-bottom: 1px solid var(--line); }
+.q-switch { flex: 0 1 auto; min-width: 0; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 8px; border: 0; border-radius: 8px; background: transparent; color: var(--fg); cursor: pointer; font-size: 13.5px; font-weight: 500; transition: background-color 100ms ease; }
+@media (hover: hover) and (pointer: fine) { .q-switch:hover { background: var(--hover); } }
+.q-switch[aria-expanded="true"] { background: var(--active); }
+.q-switch .q { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.q-switch svg { flex: none; color: var(--muted); }
+.topbar .count { margin-left: auto; font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; padding: 0 4px; white-space: nowrap; }
+.nav-btn { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 8px; background: transparent; color: var(--muted); cursor: pointer; transition: background-color 100ms ease, transform 120ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .nav-btn:hover { background: var(--hover); color: var(--fg); } }
+.nav-btn:active { transform: scale(0.94); }
+.nav-btn[disabled] { opacity: 0.35; cursor: default; }
+.scrim { display: none; }
+
+@media (min-width: 1000px) {
+  .app { display: grid; grid-template-columns: 264px minmax(0, 1fr); }
+  .topbar { display: none; }
+  .side { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow-y: auto; overscroll-behavior: contain; border-right: 1px solid var(--line); }
+  .content { padding-left: 32px; padding-right: 32px; }
+  main { padding-block: 36px 88px; }
+}
+@media (max-width: 999.98px) {
+  /* The list opens as a menu under the switcher, growing from where it was pressed */
+  .side { position: fixed; z-index: 40; top: calc(env(safe-area-inset-top, 0px) + 48px); left: max(8px, env(safe-area-inset-left, 0px));
+    width: min(360px, calc(100vw - 16px)); max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); overflow-y: auto; overscroll-behavior: contain;
+    padding: 12px 6px; gap: 10px; background: var(--paper); border-radius: 12px; box-shadow: var(--shadow-lg);
+    opacity: 0; transform: translateY(-4px) scale(0.98); transform-origin: top left; visibility: hidden;
+    transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out), visibility 0s linear 150ms; }
+  .side[data-open] { opacity: 1; transform: none; visibility: visible; transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out); }
+  .side-head { padding: 0 10px 10px; border-bottom: 1px solid var(--line); }
+  .scrim { display: block; position: fixed; inset: 0; z-index: 35; background: transparent; pointer-events: none; }
+  .scrim[data-open] { pointer-events: auto; }
+}
+
+/* A question view reads like a chat turn: the question as a message on the right, the answer below */
+.panel { display: grid; gap: 20px; transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out); }
+.panel.is-entering { opacity: 0; transform: translateY(3px); }
+.panel-q { justify-self: end; max-width: min(85%, 540px); display: grid; justify-items: end; gap: 4px; margin: 0; }
+.panel-q .n { font-size: 12px; color: var(--faint); }
+.panel-q .bubble { margin: 0; background: var(--raise); color: var(--fg); border-radius: 16px; padding: 9px 14px; font-size: 14.5px; line-height: 1.45; }
+.answer { display: grid; gap: 10px; }
+.answer h2 { font: 600 20px/1.3 var(--sans); letter-spacing: -0.01em; color: var(--fg); }
+.answer p { font-size: 15px; line-height: 1.6; color: var(--fg); margin: 0; }
+.next-q { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 2px 2px; border-top: 1px solid var(--line); color: var(--fg); text-decoration: none; }
+.next-q > span { display: grid; gap: 1px; min-width: 0; }
+.next-q .k { font-size: 12px; color: var(--faint); }
+.next-q .v { font-size: 14px; font-weight: 500; line-height: 1.4; }
+.next-q svg { flex: none; color: var(--muted); transition: transform 150ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .next-q:hover svg { transform: translateX(2px); color: var(--fg); } }
+
+/* Verdict and state labels */
+.pill { display: inline-flex; align-items: center; gap: 6px; justify-self: start; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 6px; line-height: 1.45; white-space: nowrap; }
+.pill::before { content: ""; display: none; width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.pill.neutral { color: var(--muted); background: var(--neutral-soft); }
+.pill.bad { color: var(--bad); background: var(--bad-soft); }
+.pill.ok { color: var(--ok); background: var(--ok-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+.pill.info { color: var(--muted); background: var(--raise); }
+
+/* Three facts as a row of figures between hairlines */
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line); }
+.fact { display: grid; gap: 3px; align-content: start; padding: 14px 14px 14px 0; }
+.fact + .fact { padding-left: 14px; border-left: 1px solid var(--line); }
+.fact b { font: 600 21px/1.2 var(--sans); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.fact span { font-size: 13px; color: var(--muted); line-height: 1.45; }
+@media (max-width: 600px) {
+  .facts { grid-template-columns: 1fr; }
+  .fact, .fact + .fact { padding: 11px 0; border-left: 0; }
+  .fact + .fact { border-top: 1px solid var(--line); }
+}
+
+/* Cards: one per visual or decision, hairline edge, no shadow */
+.block { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 12px; min-width: 0; }
+.block > h3, .block-head h3 { font: 600 14.5px/1.4 var(--sans); }
+.block > p, .block .note { font-size: 13.5px; color: var(--muted); margin: 0; }
+.block-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+
+/* Buttons like the app's: near-black primary, grey secondary */
+.btn { display: inline-flex; align-items: center; gap: 6px; height: 30px; border: 0; border-radius: 8px; padding: 0 12px; font-size: 13.5px; font-weight: 500; cursor: pointer; background: var(--raise); color: var(--fg); transition: transform 120ms var(--ease-out), background-color 100ms ease, filter 100ms ease; }
+@media (hover: hover) and (pointer: fine) { .btn:hover { filter: brightness(0.96); } }
+.btn:active { transform: scale(0.97); }
+.btn.primary { background: var(--primary); color: var(--on-primary); }
+.btn[disabled] { opacity: 0.4; cursor: default; }
+.seg { display: inline-grid; grid-auto-flow: column; gap: 2px; padding: 2px; border-radius: 9px; background: var(--raise); }
+.seg button { border: 0; background: transparent; border-radius: 7px; padding: 4px 10px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: background-color 120ms ease, color 120ms ease, transform 120ms var(--ease-out); }
+.seg button:active { transform: scale(0.97); }
+.seg button[aria-pressed="true"], .seg button[aria-selected="true"] { background: var(--paper); color: var(--fg); box-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(0, 0, 0, 0.06); }
+@media (max-width: 520px) { .seg { grid-auto-flow: row; width: 100%; } }
+
+/* Widget: signal path */
+.path-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.path-step { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 9px 0; position: relative; max-width: none; margin: 0; }
+.path-step:not(:last-child)::after { content: ""; position: absolute; left: 11px; top: 35px; bottom: -7px; width: 1.5px; background: var(--line-strong); }
+.path-step .dot { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; background: var(--paper); border: 1.5px solid var(--line-strong); color: var(--faint); transition: border-color 200ms ease, color 200ms ease; position: relative; z-index: 1; }
+.path-step .what { font-size: 14.5px; line-height: 1.45; }
+.path-step .what small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.path-step .res { opacity: 0.3; transition: opacity 200ms ease; }
+.path-step[data-lit] .res { opacity: 1; }
+.path-step[data-lit][data-kind="sent"] .dot { border-color: var(--fg); color: var(--fg); }
+.path-step[data-lit][data-kind="quiet"] .dot { border-color: var(--ok); color: var(--ok); }
+.path-step[data-lit][data-kind="leak"] .dot { border-color: var(--bad); color: var(--bad); }
+.path-sum { font-size: 14px; padding: 9px 12px; border-radius: 8px; background: var(--raise); color: var(--fg-2); margin: 0; }
+.path-sum strong { color: var(--fg); }
+
+/* Widget: chart */
+svg { display: block; max-width: 100%; height: auto; }
+.t-fg { fill: var(--fg); font-family: var(--sans); }
+.t-muted { fill: var(--muted); font-family: var(--sans); }
+.t-faint { fill: var(--faint); font-family: var(--sans); }
+.bar-a { fill: var(--neutral); }
+.bar-b { fill: var(--fg); }
+.grid-l { stroke: var(--line); stroke-dasharray: 2 4; }
+.axis-l { stroke: var(--line-strong); }
+
+/* Callout */
+.callout { border-radius: 10px; padding: 12px 14px; background: var(--raise); font-size: 14.5px; line-height: 1.55; }
+.callout p:last-child { margin: 0; }
+.callout.info { background: var(--raise); }
+
+/* Widget: toggle group */
+.toggle-body { display: grid; gap: 8px; }
+.toggle-body p { margin: 0; font-size: 14.5px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
+.legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+
+/* Widget: stepper */
+.stepper { display: grid; gap: 10px; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; counter-reset: s; }
+/* Plain text flow with the number on the side: a grid here would turn every <code> or <b> inside a step into its own cell */
+.steps li { counter-increment: s; max-width: none; margin: 0; position: relative; display: block; padding: 8px 10px 8px 42px; border-radius: 8px; opacity: 0.45; transition: opacity 180ms ease, background-color 180ms ease; font-size: 14.5px; line-height: 1.5; overflow-wrap: anywhere; }
+.steps li::before { content: counter(s); position: absolute; left: 10px; top: 8px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; background: var(--raise); color: var(--muted); }
+.steps li[data-done] { opacity: 0.75; }
+.steps li[data-current] { opacity: 1; background: var(--raise); }
+.steps li[data-current]::before { background: var(--primary); color: var(--on-primary); }
+.steps li.bad[data-current] { background: var(--bad-soft); }
+.steps li.bad[data-current]::before { background: var(--bad); color: var(--bg); }
+.stepper-nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.stepper-nav .count { font-size: 12px; color: var(--faint); margin-left: auto; }
+/* Static numbered list (plans, task lists) */
+.steps.static { gap: 0; }
+.steps.static li { opacity: 1; background: none; border-radius: 0; padding: 11px 0 11px 32px; border-top: 1px solid var(--line); }
+.steps.static li::before { left: 0; top: 11px; }
+.steps.static li:first-child { border-top: 0; padding-top: 2px; }
+.steps.static li:first-child::before { top: 2px; }
+.steps.static li .note { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+/* Widget: horizontal bars in HTML */
+.hbars { display: grid; gap: 14px; }
+.hbar { display: grid; gap: 5px; }
+.hbar-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 14.5px; }
+.hbar-head b { font: 600 15px/1.2 var(--sans); font-variant-numeric: tabular-nums; }
+.hbar-track { height: 6px; border-radius: 999px; background: var(--raise); overflow: hidden; }
+.hbar-fill { height: 100%; width: var(--w, 0%); border-radius: inherit; background: var(--neutral); }
+.hbar.hl .hbar-fill { background: var(--fg); }
+.hbar.bad .hbar-fill { background: var(--bad); }
+.hbar small { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+
+/* Widget: compare */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 600px) { .compare { grid-template-columns: 1fr; } }
+.cmp { border-radius: 10px; padding: 12px; display: grid; gap: 8px; align-content: start; background: var(--raise); }
+.cmp h4 { font: 600 13px/1.3 var(--sans); display: flex; align-items: center; gap: 6px; }
+.cmp h4::before { content: ""; width: 6px; height: 6px; border-radius: 50%; }
+.cmp.yes h4::before { background: var(--ok); }
+.cmp.no h4::before { background: var(--bad); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 12.5px; padding: 3px 8px; border-radius: 6px; background: var(--paper); border: 1px solid var(--line); line-height: 1.4; }
+.chip code { background: none; padding: 0; }
+
+/* Widget: presets */
+.presets { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 12px; }
+@media (max-width: 680px) { .presets { grid-template-columns: 1fr; } }
+.p-list { display: grid; gap: 2px; align-content: start; }
+.p-btn { text-align: left; border: 0; background: transparent; border-radius: 8px; padding: 8px 10px; font-size: 14px; line-height: 1.4; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; transition: background-color 100ms ease, transform 120ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .p-btn:hover { background: var(--hover); } }
+.p-btn:active { transform: scale(0.99); }
+.p-btn[aria-pressed="true"] { background: var(--active); }
+.p-btn .mark { font-size: 12px; font-weight: 500; }
+.p-btn .mark.y { color: var(--ok); }
+.p-btn .mark.n { color: var(--bad); }
+.p-result { border-radius: 10px; padding: 12px 14px; background: var(--raise); display: grid; gap: 8px; align-content: start; min-width: 0; }
+.p-result .big { font: 600 18px/1.3 var(--sans); }
+.p-result .big.bad { color: var(--bad); }
+.p-result p { margin: 0; font-size: 14px; }
+.p-query { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.p-query code { font-size: 12px; padding: 4px 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+
+/* Decisions: options as rows in one hairline group, like the app's choice prompts */
+.decision { display: grid; gap: 10px; }
+.decision fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 0; }
+.decision legend { padding: 0; font: 600 14.5px/1.4 var(--sans); margin-bottom: 10px; }
+.opt { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--line); cursor: pointer; transition: background-color 100ms ease; }
+.opt + .opt { border-top: 0; }
+.opt:first-of-type { border-radius: 10px 10px 0 0; }
+.opt:last-of-type { border-radius: 0 0 10px 10px; }
+.opt:only-of-type { border-radius: 10px; }
+@media (hover: hover) and (pointer: fine) { .opt:hover { background: var(--hover); } }
+.opt:has(input:checked) { background: var(--raise); }
+.opt-other .ot { color: var(--muted); }
+.opt-other:has(input:checked) .ot { color: var(--fg); }
+.opt input { margin: 2px 0 0; accent-color: var(--primary); width: 15px; height: 15px; }
+.opt .ot { font-size: 14px; font-weight: 500; line-height: 1.4; }
+.opt .od { display: block; font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 2px; line-height: 1.5; }
+.rec { font-size: 11.5px; font-weight: 500; color: var(--muted); background: var(--raise); border-radius: 5px; padding: 1px 6px; margin-left: 8px; white-space: nowrap; vertical-align: 1px; }
+.opt:has(input:checked) .rec { background: var(--paper); }
+.dec-note { display: grid; gap: 4px; }
+.dec-note label { font-size: 12px; color: var(--muted); }
+/* The comment grows with its text like the chat composer; very long notes scroll inside */
+.dec-note textarea { field-sizing: content; width: 100%; min-height: 40px; max-height: 50vh; overflow-y: auto; resize: none; font: 14px/1.5 var(--sans); color: var(--fg); background: var(--paper); border: 1px solid var(--line-strong); border-radius: 10px; padding: 8px 10px; transition: border-color 100ms ease; }
+.dec-note textarea:focus { outline: none; border-color: var(--fg); }
+.save-state { font-size: 12px; color: var(--faint); min-height: 16px; }
+.save-state.ok { color: var(--faint); }
+.save-state.err { color: var(--bad); }
+
+/* Disclosure */
+details.more { border-top: 1px solid var(--line); padding-top: 10px; }
+details.more summary { cursor: pointer; font-weight: 500; color: var(--muted); font-size: 13.5px; list-style: none; display: flex; align-items: center; gap: 8px; }
+@media (hover: hover) and (pointer: fine) { details.more summary:hover { color: var(--fg); } }
+details.more summary::-webkit-details-marker { display: none; }
+details.more summary::before { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); transition: transform 180ms var(--ease-out); }
+details.more[open] summary::before { transform: rotate(45deg); }
+details.more[open] summary { margin-bottom: 10px; }
+details.more p, details.more li { font-size: 14.5px; }
+pre.code { margin: 0 0 10px; font-family: var(--mono); font-size: 12px; line-height: 1.6; background: var(--code-bg); border-radius: 8px; padding: 10px 0; overflow-x: auto; }
+pre.code .l { display: block; padding: 0 12px; white-space: pre; min-width: max-content; }
+pre.code .l.m { background: var(--warn-soft); }
+pre.code .c { color: var(--faint); }
+.code-cap { font-size: 12px; color: var(--muted); margin: 0 0 6px; font-family: var(--mono); }
+
+/* Glossary terms */
+.term-wrap { white-space: nowrap; }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.term { border: 0; background: none; padding: 0; color: inherit; font: inherit; cursor: help; border-bottom: 1px dashed var(--faint); line-height: inherit; }
+.term[aria-expanded="true"] { border-bottom-color: var(--fg); }
+#gloss { position: absolute; z-index: 50; max-width: min(300px, calc(100vw - 32px)); background: var(--paper); color: var(--fg); font: 13px/1.5 var(--sans); padding: 10px 12px; border-radius: 10px; box-shadow: var(--shadow-lg); opacity: 0; transform: scale(0.97); transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out); pointer-events: none; }
+#gloss[data-open] { opacity: 1; transform: none; pointer-events: auto; }
+
+/* Scene host (stageshow) */
+.demo-host { width: 100%; display: grid; justify-items: center; min-height: 200px; }
+.scene-host { width: 100%; max-width: 700px; display: grid; gap: 10px; justify-items: center; }
+.scene-replay { font: 500 13.5px/1 var(--sans); color: var(--fg); background: var(--raise); border: 0; border-radius: 8px; height: 30px; padding: 0 12px; cursor: pointer; transition: transform 120ms var(--ease-out); }
+.scene-replay:active { transform: scale(0.97); }
+
+/* Summary */
+.sum-list { list-style: none; padding: 0; margin: 0; display: grid; }
+.sum-list li { max-width: none; margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.sum-list li:first-child { border-top: 0; padding-top: 0; }
+.sum-list li .k { color: var(--muted); font-size: 12px; display: block; }
+.sum-list li a { font-size: 13px; white-space: nowrap; color: var(--muted); }
+.reply { white-space: pre-wrap; font: 14px/1.6 var(--sans); background: var(--raise); border-radius: 10px; padding: 12px 14px; margin: 0; max-width: none; }
+.db-banner { font-size: 13px; color: var(--faint); }
+.db-banner.live { color: var(--faint); }
+.answer p.db-banner { font-size: 13px; color: var(--faint); }
+
+@media (prefers-reduced-motion: reduce) {
+  .panel, .q-link, .next-q svg, .q-switch, .nav-btn, .side, .btn, .opt, .p-btn, .steps li, .path-step .dot, .path-step .res, #gloss, details.more summary::before { transition: none !important; }
+  .panel.is-entering { opacity: 1; transform: none; }
+}
+
+/*__SCENE_CSS__*/
+</style>
+
+<div class="app">
+  <!-- Generic: shown only where the sidebar is hidden. The engine fills the page name and the current question. -->
+  <div class="topbar">
+    <button type="button" class="q-switch" aria-controls="side" aria-expanded="false" aria-haspopup="true" aria-label="Выбрать вопрос">
+      <span class="q" id="top-q"></span>
+      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <span class="count" id="top-count"></span>
+    <button type="button" class="nav-btn" data-step-q="-1" aria-label="Предыдущий вопрос"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="nav-btn" data-step-q="1" aria-label="Следующий вопрос"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+<!--APP-->
+  <aside class="side" id="side" aria-label="Вопросы страницы">
+    <div class="side-head">
+      <div class="eyebrow">{{Что это: разбор треда, инцидента, обращения}} · {{дата}}</div>
+      <h1>{{Заголовок: суть в 3–6 словах}}</h1>
+      <p class="lede">{{Кто и о чём спросил, одной-двумя фразами.}}</p>
+      <div class="meta"><span>Данные: {{период}}</span><a href="{{ссылка на SHA}}">{{Код на SHA}}</a><a href="{{ссылка на источник}}">{{Источник}}</a></div>
+    </div>
+    <!-- One link per question, the summary last. data-panel is the id of the section it opens. -->
+    <nav class="qnav" aria-label="Вопросы">
+      <div class="qnav-label">Вопросы</div>
+      <a class="q-link" href="#q1" data-panel="q1"><span class="n">Вопрос 1</span><span class="t">{{Вопрос словами спросившего}}</span><span class="row"><span class="pill neutral">{{Вердикт}}</span></span></a>
+      <a class="q-link" href="#q2" data-panel="q2"><span class="n">Вопрос 2</span><span class="t">{{Вопрос}}</span><span class="row"><span class="pill bad">{{Вердикт}}</span></span></a>
+      <a class="q-link" href="#q3" data-panel="q3"><span class="n">Вопрос 3</span><span class="t">{{Вопрос}}</span><span class="row"><span class="pill warn">{{Вердикт}}</span></span></a>
+      <a class="q-link q-summary" href="#summary" data-panel="summary"><span class="n">Итог</span><span class="t">Решения и ответ</span><span class="row"><span class="pill info" id="dec-count">0 выбрано</span></span></a>
+    </nav>
+  </aside>
+
+  <div class="content">
+<main data-collection="decisions">
+  <!-- ===================== Question 1: path with now/after modes ===================== -->
+  <section class="panel" id="q1">
+    <div class="answer">
+      <h2>{{Ответ одной фразой}}</h2>
+      <p>{{Одна-две фразы: почему так. Термин, который нужно пояснить, оформи кнопкой:}} <button type="button" class="term" data-term="example">{{термин}}</button>.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>{{Цифра}}</b><span>{{что она значит, период}}</span></div>
+      <div class="fact"><b>{{Цифра}}</b><span>{{подпись}}</span></div>
+      <div class="fact"><b>{{Цифра}}</b><span>{{подпись}}</span></div>
+    </div>
+
+    <div class="block" data-path data-modes>
+      <div class="block-head">
+        <h3>{{Путь одного сигнала}}</h3>
+        <div class="seg" role="group" aria-label="Режим">
+          <button type="button" data-mode="now" aria-pressed="true">Сейчас</button>
+          <button type="button" data-mode="after" aria-pressed="false">После исправления</button>
+        </div>
+      </div>
+      <ol class="path-steps">
+        <li class="path-step" data-kind="sent"><span class="dot">1</span><span class="what">{{Шаг}}<small>{{пояснение}}</small></span><span class="res"><span class="pill info">{{Итог шага}}</span></span></li>
+        <li class="path-step" data-kinds="now:leak after:quiet"><span class="dot">2</span>
+          <span class="what" data-in-mode="now">{{Что происходит сейчас}}</span>
+          <span class="what" data-in-mode="after" hidden>{{Что будет после}}</span>
+          <span class="res"><span class="pill bad" data-in-mode="now">{{Плохо}}</span><span class="pill ok" data-in-mode="after" hidden>{{Хорошо}}</span></span></li>
+      </ol>
+      <p class="path-sum" data-in-mode="now">{{Итог сейчас}}</p>
+      <p class="path-sum" data-in-mode="after" hidden>{{Итог после}}</p>
+      <div><button type="button" class="btn primary" data-path-play>{{Пустить сигнал}}</button></div>
+    </div>
+
+    <div class="block decision" data-id="q1-main" data-title="{{Короткое имя решения}}">
+      <fieldset>
+        <legend>{{Вопрос решения: что сделать с …}}</legend>
+        <label class="opt"><input type="radio" name="q1-main" value="opt-a"><span class="ot">{{Вариант}}<span class="rec">советую</span><span class="od">{{Последствие в одну строку}}</span></span></label>
+        <label class="opt"><input type="radio" name="q1-main" value="opt-b"><span class="ot">{{Вариант}}<span class="od">{{Последствие}}</span></span></label>
+        <label class="opt"><input type="radio" name="q1-main" value="keep"><span class="ot">Оставить как есть</span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>Показать код и доказательства</summary>
+      <p class="code-cap">{{путь/к/файлу.swift:строки}}</p>
+      <pre class="code"><span class="l">{{строка кода}}</span><span class="l m">{{отмеченная строка}}</span></pre>
+      <p>{{Оговорки и ссылки}}</p>
+    </details>
+  </section>
+
+  <!-- ===================== Question 2: scene, situations, stepper ===================== -->
+  <section class="panel" id="q2" hidden>
+    <div class="answer">
+      <h2>{{Ответ}}</h2>
+      <p>{{Почему}}</p>
+    </div>
+
+    <!-- Animated scene from stageshow; mounts when the tab opens. Remove the block if there is no scene. -->
+    <div class="block">
+      <div class="demo-host" data-mount="{{SceneGlobalName}}"></div>
+      <p class="note">{{Подпись: что видно в сцене}}</p>
+    </div>
+
+    <div class="block" data-toggle>
+      <div class="block-head">
+        <h3>{{Три ситуации}}</h3>
+        <div class="seg" role="tablist" aria-label="Ситуации">
+          <button type="button" role="tab" data-show="a" aria-selected="true">{{А}}</button>
+          <button type="button" role="tab" data-show="b" aria-selected="false" tabindex="-1">{{Б}}</button>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="a"><p>{{Описание ситуации А}}</p></div>
+      <div class="toggle-body" data-when="b" hidden><p>{{Описание ситуации Б}}</p></div>
+    </div>
+
+    <div class="block stepper">
+      <h3>{{Как это происходит по шагам}}</h3>
+      <ol class="steps">
+        <li>{{Шаг}}</li>
+        <li class="bad">{{Шаг, где ломается}}</li>
+      </ol>
+      <div class="stepper-nav">
+        <button type="button" class="btn" data-step="prev">Назад</button>
+        <button type="button" class="btn primary" data-step="next">Дальше</button>
+        <span class="count"></span>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="q2-main" data-title="{{Имя решения}}">
+      <fieldset>
+        <legend>{{Вопрос решения}}</legend>
+        <label class="opt"><input type="radio" name="q2-main" value="fix"><span class="ot">{{Вариант}}<span class="rec">советую</span><span class="od">{{Последствие}}</span></span></label>
+        <label class="opt"><input type="radio" name="q2-main" value="later"><span class="ot">Не сейчас</span></label>
+      </fieldset>
+    </div>
+  </section>
+
+  <!-- ===================== Question 3: presets, compare, chart ===================== -->
+  <section class="panel" id="q3" hidden>
+    <div class="answer">
+      <h2>{{Ответ}}</h2>
+      <p>{{Почему}}</p>
+    </div>
+
+    <div class="block compare-block">
+      <h3>{{Что работает, а что нет}}</h3>
+      <div class="compare">
+        <div class="cmp yes"><h4>{{Работает}}</h4><div class="chips"><span class="chip"><code>{{поле}}</code></span></div></div>
+        <div class="cmp no"><h4>{{Не работает}}</h4><div class="chips"><span class="chip"><code>{{поле}}</code></span></div></div>
+      </div>
+    </div>
+
+    <div class="block" data-presets>
+      <h3>{{Попробуй сам: проверенные запросы}}</h3>
+      <div class="presets">
+        <div class="p-list">
+          <button type="button" class="p-btn" data-p="1" aria-pressed="true"><span>{{Запрос словами}}</span><span class="mark y">находит</span></button>
+          <button type="button" class="p-btn" data-p="2" aria-pressed="false"><span>{{Запрос словами}}</span><span class="mark n">не находит</span></button>
+        </div>
+        <div class="p-result" aria-live="polite"></div>
+      </div>
+      <template data-p-body="1"><div class="big">{{Результат}}</div><p>{{Что это значит}}</p><div class="p-query"><code>{{запрос}}</code><button type="button" class="btn" data-copy="{{запрос}}">Скопировать запрос</button></div></template>
+      <template data-p-body="2"><div class="big bad">{{0 результатов}}</div><p>{{Почему}}</p><div class="p-query"><code>{{запрос}}</code><button type="button" class="btn" data-copy="{{запрос}}">Скопировать запрос</button></div></template>
+    </div>
+
+    <div class="block">
+      <h3>{{Подпись графика: что сравниваем}}</h3>
+      <!-- Inline SVG chart: follow the dataviz skill (direct labels, no legend when two series, tabular numbers). -->
+      <svg viewBox="0 0 600 160" role="img" aria-label="{{Описание графика с цифрами}}">
+        <line class="axis-l" x1="0" y1="130" x2="600" y2="130"/>
+        <rect class="bar-a" x="40" y="50" width="60" height="80" rx="4"/>
+        <text class="t-fg" x="70" y="42" text-anchor="middle" font-size="13">{{80}}</text>
+        <text class="t-muted" x="70" y="150" text-anchor="middle" font-size="12">{{метка}}</text>
+      </svg>
+    </div>
+
+    <div class="block decision" data-id="q3-main" data-title="{{Имя решения}}">
+      <fieldset>
+        <legend>{{Вопрос решения}}</legend>
+        <label class="opt"><input type="radio" name="q3-main" value="do"><span class="ot">{{Вариант}}<span class="rec">советую</span></span></label>
+        <label class="opt"><input type="radio" name="q3-main" value="not-needed"><span class="ot">Не нужно</span></label>
+      </fieldset>
+    </div>
+  </section>
+
+  <!-- ===================== Summary ===================== -->
+  <section class="panel" id="summary" hidden>
+    <div class="answer">
+      <h2>Решения и ответ</h2>
+      <p class="db-banner" id="db-banner">Проверяю, где сохранять выбор…</p>
+    </div>
+    <div class="block">
+      <h3>Что выбрано</h3>
+      <ul class="sum-list" id="sum-list"></ul>
+      <div><button type="button" class="btn" id="export-decisions" hidden>Скопировать выбор текстом для Claude</button></div>
+    </div>
+    <div class="block">
+      <div class="block-head"><h3>{{Черновик ответа: кому и куда}}</h3><button type="button" class="btn" data-copy-from="#reply">Скопировать</button></div>
+      <p class="reply" id="reply"></p>
+      <p class="note">Черновик собирается из выбранных вариантов. Никуда сам не отправляется.</p>
+    </div>
+    <div class="block">
+      <h3>Что я не проверил</h3>
+      <ul><li>{{Непроверенное утверждение и как его проверить}}</li></ul>
+    </div>
+    <div class="block">
+      <h3>Источники</h3>
+      <ul><li><a href="{{ссылка}}">{{Источник}}</a></li></ul>
+    </div>
+  </section>
+</main>
+  </div>
+<!--/APP-->
+</div>
+<div class="scrim"></div>
+<div id="gloss" role="tooltip"></div>
+
+<!-- Glossary: keys match data-term on .term buttons. Plain language, one or two sentences. -->
+<script type="application/json" id="terms">
+{
+  "example": "{{Пояснение термина простыми словами}}"
+}
+</script>
+
+<script>/*__SCENE_JS__*/</script>
+
+<!-- Page-specific hooks. composeReply gets {choice(id), note(id), label(id)} and returns the reply text. -->
+<script>
+window.PAGE = {
+  composeReply: function (d) {
+    var L = [];
+    L.push('{{Обращение и первая фраза}}');
+    var c = d.choice('q1-main');
+    if (c === 'opt-a') L.push('{{Фраза для варианта А}}');
+    else if (c === 'opt-b') L.push('{{Фраза для варианта Б}}');
+    return L.join('\n\n');
+  }
+};
+</script>
+
+<script>
+/* decision-page engine. Generic: tabs, glossary, widgets, decisions, storage, reply. Edit content, not this block. */
+(function () {
+  'use strict';
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var PAGE = window.PAGE || {};
+  var main = document.querySelector('main');
+  var COLLECTION = (main && main.dataset.collection) || 'decisions';
+  function all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  /* ---------- Copy ---------- */
+  function copyText(text, btn, done) {
+    var orig = btn.textContent;
+    function ok() { btn.textContent = done || 'Скопировано'; setTimeout(function () { btn.textContent = orig; }, 1600); }
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { btn.textContent = 'Выдели текст и скопируй'; }
+      document.body.removeChild(ta);
+    }
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (e) { fallback(); }
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-copy], [data-copy-from]');
+    if (!b) return;
+    var src = b.dataset.copyFrom ? document.querySelector(b.dataset.copyFrom) : null;
+    copyText(src ? src.textContent : b.dataset.copy, b);
+  });
+
+  /* ---------- Glossary ---------- */
+  var TERMS = {};
+  try { TERMS = JSON.parse((document.getElementById('terms') || {}).textContent || '{}'); } catch (e) { console.error('terms JSON', e); }
+  var gloss = document.getElementById('gloss');
+  var openTerm = null;
+  function closeGloss() {
+    if (!openTerm) return;
+    openTerm.setAttribute('aria-expanded', 'false');
+    openTerm.removeAttribute('aria-describedby');
+    gloss.removeAttribute('data-open');
+    openTerm = null;
+  }
+  function showGloss(btn) {
+    if (openTerm === btn) { closeGloss(); return; }
+    closeGloss();
+    gloss.textContent = TERMS[btn.dataset.term] || '';
+    gloss.style.left = '0px'; gloss.style.top = '0px';
+    var r = btn.getBoundingClientRect();
+    var gw = gloss.offsetWidth, gh = gloss.offsetHeight;
+    var left = Math.min(Math.max(16, r.left + window.scrollX), window.scrollX + document.documentElement.clientWidth - gw - 16);
+    var below = r.bottom + 8 + gh < window.innerHeight;
+    gloss.style.left = left + 'px';
+    gloss.style.top = (below ? r.bottom + window.scrollY + 8 : r.top + window.scrollY - gh - 8) + 'px';
+    gloss.style.transformOrigin = (r.left + window.scrollX - left + r.width / 2) + 'px ' + (below ? 'top' : 'bottom');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-describedby', 'gloss');
+    gloss.setAttribute('data-open', '');
+    openTerm = btn;
+  }
+  // A term is a button; punctuation right after it would otherwise wrap to the next line on its own
+  all('.term').forEach(function (b) {
+    var next = b.nextSibling;
+    if (next && next.nodeType === 3 && /^[.,:;!?)»]/.test(next.textContent)) {
+      var wrap = document.createElement('span'); wrap.className = 'term-wrap';
+      b.parentNode.insertBefore(wrap, b); wrap.appendChild(b);
+      wrap.appendChild(document.createTextNode(next.textContent.charAt(0)));
+      next.textContent = next.textContent.slice(1);
+    }
+  });
+  all('.term').forEach(function (b) {
+    b.setAttribute('aria-expanded', 'false');
+    b.addEventListener('click', function (e) { e.stopPropagation(); showGloss(b); });
+  });
+  document.addEventListener('click', function (e) { if (gloss && !gloss.contains(e.target)) closeGloss(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeGloss(); });
+  window.addEventListener('resize', closeGloss);
+
+  /* ---------- Lazy scene mounts ---------- */
+  function mountIn(root) {
+    all('[data-mount]:not([data-mounted])', root).forEach(function (el) {
+      var g = window[el.dataset.mount];
+      if (!g || typeof g.mount !== 'function') return;
+      el.setAttribute('data-mounted', '');
+      try { g.mount(el); } catch (e) { console.error(e); }
+    });
+  }
+
+  /* ---------- Navigation: sidebar list, drawer on narrow screens, one question at a time ---------- */
+  var links = all('.side .q-link[data-panel]');
+  var panelIds = links.map(function (l) { return l.dataset.panel; });
+  var side = document.getElementById('side');
+  var scrim = document.querySelector('.scrim');
+  var menuBtn = document.querySelector('.q-switch');
+  var topbar = document.querySelector('.topbar');
+  var content = document.querySelector('.content');
+  var wide = window.matchMedia ? window.matchMedia('(min-width: 1000px)') : { matches: true };
+  function linkFor(id) { return links.filter(function (l) { return l.dataset.panel === id; })[0]; }
+  function linkText(l, sel) { var el = l && l.querySelector(sel); return el ? el.textContent.trim() : ''; }
+
+  // Each panel announces its question above the answer and ends with the way to the next one
+  panelIds.forEach(function (id, i) {
+    var p = document.getElementById(id), l = linkFor(id);
+    if (!p || !l) return;
+    p.tabIndex = -1;
+    if (!p.getAttribute('aria-label')) p.setAttribute('aria-label', (linkText(l, '.n') + ' ' + linkText(l, '.t')).trim());
+    if (id !== 'summary' && !p.querySelector('.panel-q') && linkText(l, '.t')) {
+      // The question reads like the message it came from: a bubble on the right, its topic above
+      var q = document.createElement('div'); q.className = 'panel-q';
+      var n = document.createElement('span'); n.className = 'n'; n.textContent = linkText(l, '.n');
+      var b = document.createElement('p'); b.className = 'bubble'; b.textContent = linkText(l, '.t');
+      q.appendChild(n); q.appendChild(b);
+      p.insertBefore(q, p.firstChild);
+    }
+    var nextId = panelIds[i + 1];
+    if (nextId && !p.querySelector('.next-q')) {
+      var nl = linkFor(nextId);
+      var a = document.createElement('a'); a.className = 'next-q'; a.href = '#' + nextId; a.dataset.goto = nextId;
+      var k = document.createElement('span'); k.className = 'k'; k.textContent = 'Дальше';
+      var v = document.createElement('span'); v.className = 'v'; v.textContent = (linkText(nl, '.n') + ': ' + linkText(nl, '.t'));
+      a.appendChild(k); a.appendChild(v);
+      a.insertAdjacentHTML('beforeend', '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4.5 13 10l-5.5 5.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+      p.appendChild(a);
+    }
+  });
+
+  var drawerOpen = false;
+  function setDrawer(open) {
+    if (wide.matches) open = false;
+    if (!side || open === drawerOpen) return;
+    drawerOpen = open;
+    if (open) side.setAttribute('data-open', ''); else side.removeAttribute('data-open');
+    if (scrim) { if (open) scrim.setAttribute('data-open', ''); else scrim.removeAttribute('data-open'); }
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    // Everything behind the drawer is out of reach while it is open
+    if (content) content.inert = open;
+    if (topbar) topbar.inert = open;
+    document.documentElement.classList.toggle('drawer-open', open);
+    if (open) { var cur = side.querySelector('.q-link[aria-current]') || links[0]; if (cur) cur.focus({ preventScroll: true }); }
+    else if (menuBtn && !wide.matches) menuBtn.focus({ preventScroll: true });
+  }
+  if (menuBtn) menuBtn.addEventListener('click', function () { setDrawer(!drawerOpen); });
+  if (scrim) scrim.addEventListener('click', function () { setDrawer(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawerOpen) setDrawer(false); });
+  if (wide.addEventListener) wide.addEventListener('change', function () { setDrawer(false); });
+
+  // Scroll position is remembered per question: switching back returns to where you were, a new question opens at its top
+  var SCROLL_KEY = 'decision-page:scroll:' + location.pathname;
+  var scrollPos = {};
+  try { scrollPos = JSON.parse(sessionStorage.getItem(SCROLL_KEY) || '{}') || {}; } catch (e) { scrollPos = {}; }
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  var current = null;
+  function rememberScroll() {
+    if (!current) return;
+    scrollPos[current] = Math.round(window.scrollY);
+    try { sessionStorage.setItem(SCROLL_KEY, JSON.stringify(scrollPos)); } catch (e) {}
+  }
+  window.addEventListener('pagehide', rememberScroll);
+
+  var topQ = document.getElementById('top-q'), topCount = document.getElementById('top-count');
+  var stepBtns = all('[data-step-q]');
+  stepBtns.forEach(function (b) { b.addEventListener('click', function () { var i = panelIds.indexOf(current) + Number(b.dataset.stepQ); if (i >= 0 && i < panelIds.length) select(panelIds[i], { focusPanel: true }); }); });
+
+  function select(id, opts) {
+    opts = opts || {};
+    if (panelIds.indexOf(id) < 0) return;
+    if (id === current && !opts.force) { setDrawer(false); return; }
+    rememberScroll();
+    panelIds.forEach(function (pid) {
+      var p = document.getElementById(pid);
+      if (!p) return;
+      if (pid === id) {
+        if (p.hidden) {
+          p.hidden = false;
+          // Forced reflow, not rAF: rAF does not fire in a background tab and would leave the panel transparent
+          if (!reduce) { p.classList.add('is-entering'); void p.offsetWidth; p.classList.remove('is-entering'); }
+        }
+      } else {
+        p.hidden = true;
+      }
+    });
+    links.forEach(function (l) { if (l.dataset.panel === id) l.setAttribute('aria-current', 'page'); else l.removeAttribute('aria-current'); });
+    var l = linkFor(id);
+    // The bar names the question by its topic when there is one, otherwise by the question itself
+    var nText = linkText(l, '.n'), tText = linkText(l, '.t');
+    if (topQ) topQ.textContent = (/^Вопрос \d+$/.test(nText) || !nText) ? tText : nText;
+    var idx = panelIds.indexOf(id);
+    if (topCount) topCount.textContent = (idx + 1) + ' из ' + panelIds.length;
+    stepBtns.forEach(function (b) { var j = idx + Number(b.dataset.stepQ); b.disabled = j < 0 || j >= panelIds.length; });
+    current = id;
+    if (opts.restore !== false) window.scrollTo(0, scrollPos[id] || 0);
+    var panel = document.getElementById(id);
+    mountIn(panel);
+    closeGloss();
+    var fromDrawer = drawerOpen;
+    setDrawer(false);
+    if (fromDrawer || opts.focusPanel) panel.focus({ preventScroll: true });
+    if (!opts.fromHash) { try { history.replaceState(null, '', '#' + id); } catch (e) {} }
+  }
+  links.forEach(function (l, i) {
+    l.addEventListener('click', function (e) { e.preventDefault(); select(l.dataset.panel); });
+    l.addEventListener('keydown', function (e) {
+      var j = null;
+      if (e.key === 'ArrowDown') j = Math.min(i + 1, links.length - 1);
+      if (e.key === 'ArrowUp') j = Math.max(i - 1, 0);
+      if (j !== null) { e.preventDefault(); links[j].focus(); }
+    });
+  });
+  function fromHash() {
+    var h = (location.hash || '').replace('#', '');
+    if (panelIds.indexOf(h) >= 0) { select(h, { fromHash: true }); return true; }
+    return false;
+  }
+  window.addEventListener('hashchange', fromHash);
+  var startId = (location.hash || '').replace('#', '');
+  select(panelIds.indexOf(startId) >= 0 ? startId : panelIds[0], { fromHash: true, force: true });
+  // On load the browser jumps to the #anchor on its own; put the remembered position back unless the reader already moved
+  var touched = false;
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (t) { window.addEventListener(t, function () { touched = true; }, { once: true, passive: true }); });
+  window.addEventListener('load', function () {
+    setTimeout(function () { if (!touched && current) window.scrollTo(0, scrollPos[current] || 0); }, 0);
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-goto]');
+    if (!a) return;
+    e.preventDefault();
+    select(a.dataset.goto, { focusPanel: a.classList.contains('next-q') });
+  });
+
+  /* ---------- Toggle groups: one view at a time ---------- */
+  all('[data-toggle]').forEach(function (group) {
+    var btns = all('[data-show]', group);
+    function show(k, focus) {
+      btns.forEach(function (b) {
+        var on = b.dataset.show === k;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.tabIndex = on ? 0 : -1;
+        if (on && focus) b.focus();
+      });
+      all('[data-when]', group).forEach(function (p) { p.hidden = p.dataset.when !== k; });
+    }
+    btns.forEach(function (b, i) {
+      b.addEventListener('click', function () { show(b.dataset.show); });
+      b.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        var j = (i + (e.key === 'ArrowRight' ? 1 : -1) + btns.length) % btns.length;
+        show(btns[j].dataset.show, true);
+      });
+    });
+    var start = btns.filter(function (b) { return b.getAttribute('aria-selected') === 'true'; })[0] || btns[0];
+    if (start) show(start.dataset.show);
+  });
+
+  /* ---------- Modes: compare states such as now / after the fix ---------- */
+  all('[data-modes]').forEach(function (box) {
+    var btns = all('[data-mode]', box);
+    function setMode(m) {
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.mode === m ? 'true' : 'false'); });
+      all('[data-in-mode]', box).forEach(function (el) { el.hidden = el.dataset.inMode !== m; });
+      all('[data-kinds]', box).forEach(function (el) {
+        el.dataset.kinds.split(/\s+/).forEach(function (pair) {
+          var kv = pair.split(':');
+          if (kv[0] === m) el.dataset.kind = kv[1];
+        });
+      });
+      box.dataset.activeMode = m;
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
+    var start = btns.filter(function (b) { return b.getAttribute('aria-pressed') === 'true'; })[0] || btns[0];
+    if (start) setMode(start.dataset.mode);
+  });
+
+  /* ---------- Path animation: steps light up one by one ---------- */
+  all('[data-path]').forEach(function (box) {
+    var steps = all('.path-step', box);
+    var btn = box.querySelector('[data-path-play]');
+    var timers = [];
+    function lightAll() { steps.forEach(function (s) { s.setAttribute('data-lit', ''); }); }
+    function play() {
+      timers.forEach(clearTimeout); timers = [];
+      if (reduce) { lightAll(); return; }
+      steps.forEach(function (s) { s.removeAttribute('data-lit'); });
+      if (btn) btn.disabled = true;
+      steps.forEach(function (s, i) {
+        timers.push(setTimeout(function () {
+          s.setAttribute('data-lit', '');
+          if (i === steps.length - 1 && btn) btn.disabled = false;
+        }, 250 + i * 650));
+      });
+    }
+    if (btn) btn.addEventListener('click', play);
+    all('[data-mode]', box).forEach(function (b) { b.addEventListener('click', lightAll); });
+    lightAll();
+  });
+
+  /* ---------- Stepper ---------- */
+  all('.stepper').forEach(function (box) {
+    var items = all('.steps > li', box);
+    var prev = box.querySelector('[data-step="prev"]');
+    var next = box.querySelector('[data-step="next"]');
+    var count = box.querySelector('.count');
+    var cur = 0;
+    function render() {
+      items.forEach(function (li, i) {
+        if (i === cur) li.setAttribute('data-current', ''); else li.removeAttribute('data-current');
+        if (i < cur) li.setAttribute('data-done', ''); else li.removeAttribute('data-done');
+      });
+      if (prev) prev.disabled = cur === 0;
+      if (next) next.textContent = cur === items.length - 1 ? 'Сначала' : 'Дальше';
+      if (count) count.textContent = 'Шаг ' + (cur + 1) + ' из ' + items.length;
+    }
+    if (prev) prev.addEventListener('click', function () { if (cur > 0) { cur--; render(); } });
+    if (next) next.addEventListener('click', function () { cur = cur === items.length - 1 ? 0 : cur + 1; render(); });
+    render();
+  });
+
+  /* ---------- Presets: pick an example, see the result ---------- */
+  all('[data-presets]').forEach(function (box) {
+    var btns = all('[data-p]', box);
+    var out = box.querySelector('.p-result');
+    function show(k) {
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.p === k ? 'true' : 'false'); });
+      var tpl = box.querySelector('template[data-p-body="' + k + '"]');
+      out.textContent = '';
+      if (tpl) out.appendChild(tpl.content.cloneNode(true));
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.p); }); });
+    if (btns[0]) show((btns.filter(function (b) { return b.getAttribute('aria-pressed') === 'true'; })[0] || btns[0]).dataset.p);
+  });
+
+  /* ---------- Decisions ---------- */
+  var DEC = {}, order = [];
+  all('.decision[data-id]').forEach(function (el) {
+    var id = el.dataset.id;
+    var legend = el.querySelector('legend');
+    var panel = el.closest('.panel');
+    DEC[id] = { title: el.dataset.title || (legend ? legend.textContent.trim() : id), tab: panel ? panel.id : null };
+    order.push(id);
+    // Every decision ends with «Другое», like the free answer in Claude's own questions; its text is the comment
+    var fs = el.querySelector('fieldset');
+    if (fs && !fs.querySelector('input[value="other"]')) {
+      var ol = document.createElement('label'); ol.className = 'opt opt-other';
+      ol.innerHTML = '<input type="radio" value="other"><span class="ot">Другое<span class="od">Свой вариант: опиши его в поле ниже.</span></span>';
+      ol.querySelector('input').name = id;
+      fs.appendChild(ol);
+    }
+    if (!el.querySelector('textarea[data-note]')) {
+      var wrap = document.createElement('div'); wrap.className = 'dec-note';
+      var lab = document.createElement('label'); lab.htmlFor = 'note-' + id; lab.textContent = 'Комментарий';
+      var ta = document.createElement('textarea'); ta.id = 'note-' + id; ta.rows = 2; ta.dataset.note = id;
+      wrap.appendChild(lab); wrap.appendChild(ta); el.appendChild(wrap);
+    }
+    if (!el.querySelector('[data-state]')) {
+      var st = document.createElement('div'); st.className = 'save-state'; st.dataset.state = id; st.setAttribute('aria-live', 'polite');
+      el.appendChild(st);
+    }
+  });
+  var state = {};
+  function choice(id) { return state[id] && state[id].choice; }
+  function note(id) { return (state[id] && state[id].note) || ''; }
+  function optLabel(id, v) {
+    v = v === undefined ? choice(id) : v;
+    if (!v) return '';
+    if (v === 'other') { var n = note(id).trim().replace(/\s+/g, ' '); return n ? 'Свой вариант: ' + (n.length > 90 ? n.slice(0, 90) + '…' : n) : 'Свой вариант'; }
+    var input = document.querySelector('input[name="' + id + '"][value="' + v + '"]');
+    if (!input) return v;
+    var ot = input.parentElement.querySelector('.ot');
+    return ot ? ot.childNodes[0].textContent.trim() : v;
+  }
+  function defaultReply(d) {
+    return order.filter(function (id) { return d.choice(id); }).map(function (id) { return DEC[id].title + ': ' + d.label(id); }).join('\n');
+  }
+  function composeReply() {
+    var api = { choice: choice, note: note, label: optLabel };
+    try { return (PAGE.composeReply || defaultReply)(api); } catch (e) { console.error(e); return defaultReply(api); }
+  }
+  function renderSummary() {
+    var list = document.getElementById('sum-list');
+    var n = 0;
+    if (list) list.textContent = '';
+    order.forEach(function (id) {
+      var c = choice(id);
+      if (c) n++;
+      if (!list) return;
+      var li = document.createElement('li');
+      var left = document.createElement('span');
+      var k = document.createElement('span'); k.className = 'k'; k.textContent = DEC[id].title;
+      var v = document.createElement('span'); v.textContent = c ? optLabel(id, c) : 'Не выбрано';
+      if (!c) v.style.color = 'var(--faint)';
+      left.appendChild(k); left.appendChild(v);
+      var a = document.createElement('a'); a.href = '#' + DEC[id].tab; a.textContent = c ? 'Изменить' : 'Выбрать';
+      a.addEventListener('click', function (e) {
+        e.preventDefault(); select(DEC[id].tab, { restore: false });
+        var el = document.querySelector('.decision[data-id="' + id + '"]');
+        if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      });
+      li.appendChild(left); li.appendChild(a);
+      list.appendChild(li);
+    });
+    var cnt = document.getElementById('dec-count');
+    if (cnt) cnt.textContent = n + ' из ' + order.length + ' выбрано';
+    // Progress per question in the sidebar
+    links.forEach(function (l) {
+      var ids = order.filter(function (id) { return DEC[id].tab === l.dataset.panel; });
+      var row = l.querySelector('.row');
+      var prog = l.querySelector('.prog');
+      if (!ids.length || l.dataset.panel === 'summary') { if (prog) prog.remove(); return; }
+      if (!prog) { prog = document.createElement('span'); prog.className = 'prog'; (row || l).appendChild(prog); }
+      var done = ids.filter(function (id) { return choice(id); }).length;
+      prog.textContent = done === ids.length ? '✓ решено' : 'решено ' + done + ' из ' + ids.length;
+      prog.classList.toggle('done', done === ids.length);
+    });
+    var reply = document.getElementById('reply');
+    if (reply) reply.textContent = composeReply();
+  }
+  function setStatus(id, text, kind) {
+    var el = document.querySelector('[data-state="' + id + '"]');
+    if (!el) return;
+    el.textContent = text || '';
+    el.className = 'save-state' + (kind ? ' ' + kind : '');
+  }
+  // Comment fields grow with their text: CSS field-sizing where supported, height from scrollHeight elsewhere
+  var autoSize = !(window.CSS && CSS.supports && CSS.supports('field-sizing', 'content'));
+  function fitNote(ta) {
+    if (!autoSize || !ta) return;
+    ta.style.height = 'auto';
+    ta.style.height = Math.min(ta.scrollHeight + 2, Math.round(window.innerHeight * 0.5)) + 'px';
+  }
+  function markOther(id, focus) {
+    var ta = document.querySelector('textarea[data-note="' + id + '"]');
+    if (!ta) return;
+    var lab = document.querySelector('label[for="' + ta.id + '"]');
+    var isOther = choice(id) === 'other';
+    if (lab) lab.textContent = isOther ? 'Свой вариант' : 'Комментарий';
+    ta.placeholder = isOther ? 'Опиши свой вариант' : '';
+    if (isOther && focus) ta.focus();
+  }
+  function apply(id) {
+    var s = state[id] || {};
+    all('input[name="' + id + '"]').forEach(function (r) { r.checked = r.value === s.choice; });
+    var ta = document.querySelector('textarea[data-note="' + id + '"]');
+    if (ta && document.activeElement !== ta) { ta.value = s.note || ''; fitNote(ta); }
+    markOther(id, false);
+  }
+  function fmt(iso) { try { return new Date(iso).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } }
+
+  /* ---------- Storage: page database on claude.ai, browser storage elsewhere ---------- */
+  var store = 'pending', db = null, uid = null, writable = true;
+  var chains = {}, lastSaved = {}, dirty = {}, retries = {};
+  var LOCAL_KEY = 'decision-page:' + location.pathname + ':' + COLLECTION;
+  function readLocal() { try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}'); } catch (e) { return {}; } }
+  function writeLocal() { try { localStorage.setItem(LOCAL_KEY, JSON.stringify(state)); return true; } catch (e) { return false; } }
+  function save(id) {
+    var body = { choice: choice(id) || null, note: note(id) };
+    var key = JSON.stringify(body);
+    if (lastSaved[id] === key) { delete dirty[id]; return; }
+    dirty[id] = true;
+    if (store === 'local') { if (writeLocal()) { lastSaved[id] = key; delete dirty[id]; setStatus(id, 'Сохранено в этом браузере', 'ok'); } else setStatus(id, 'Не сохранено: память браузера недоступна', 'err'); return; }
+    // Chosen before the store answered: kept and sent as soon as it connects
+    if (store === 'pending') { setStatus(id, 'Сохраню, как только подключится хранилище'); return; }
+    if (!writable) { setStatus(id, 'Нет прав на запись в этом просмотре', 'err'); return; }
+    body.updatedAt = new Date().toISOString();
+    if (uid) body.by = uid;
+    setStatus(id, 'Сохраняю…');
+    // One write at a time per document
+    chains[id] = (chains[id] || Promise.resolve()).then(function () {
+      return db.doc(COLLECTION + '/' + id).set(body).then(function () {
+        lastSaved[id] = key; retries[id] = 0;
+        if (JSON.stringify({ choice: choice(id) || null, note: note(id) }) === key) delete dirty[id];
+        setStatus(id, 'Сохранено ' + fmt(body.updatedAt), 'ok');
+      }, function (err) {
+        if (err && err.code === 'permission_denied') { writable = false; setStatus(id, 'Нет прав на запись в этом просмотре', 'err'); return; }
+        // Anything else is retried with a growing pause; the choice stays on the page meanwhile
+        var n = retries[id] = (retries[id] || 0) + 1;
+        if (n > 8) { setStatus(id, 'Не сохранилось. В «Итоге» есть кнопка, чтобы передать выбор текстом', 'err'); if (exportBtn) exportBtn.hidden = false; return; }
+        var wait = Math.min(30, 2 * n);
+        setStatus(id, 'Не сохранилось, повторю через ' + wait + ' с', 'err');
+        setTimeout(function () { if (dirty[id]) save(id); }, wait * 1000);
+      });
+    });
+  }
+  function flushDirty() { Object.keys(dirty).forEach(function (id) { save(id); }); }
+  window.addEventListener('online', flushDirty);
+  order.forEach(function (id) {
+    all('input[name="' + id + '"]').forEach(function (r) {
+      r.addEventListener('change', function () { state[id] = Object.assign({}, state[id], { choice: r.value }); markOther(id, r.value === 'other'); renderSummary(); save(id); });
+    });
+    var ta = document.querySelector('textarea[data-note="' + id + '"]');
+    if (ta) {
+      var t = null;
+      ta.addEventListener('input', function () { fitNote(ta); state[id] = Object.assign({}, state[id], { note: ta.value }); clearTimeout(t); t = setTimeout(function () { save(id); renderSummary(); }, 900); });
+      ta.addEventListener('blur', function () { clearTimeout(t); save(id); renderSummary(); });
+    }
+  });
+  renderSummary();
+
+  var banner = document.getElementById('db-banner');
+  var exportBtn = document.getElementById('export-decisions');
+  if (exportBtn) exportBtn.addEventListener('click', function () {
+    var out = { page: document.title, collection: COLLECTION, decisions: {} };
+    order.forEach(function (id) { out.decisions[id] = { title: DEC[id].title, choice: choice(id) || null, label: optLabel(id) || null, note: note(id) }; });
+    copyText(JSON.stringify(out, null, 2), exportBtn);
+  });
+  function useLocal(message) {
+    store = 'local';
+    var saved = readLocal();
+    Object.keys(saved).forEach(function (id) { if (DEC[id] && !dirty[id]) { state[id] = saved[id]; lastSaved[id] = JSON.stringify({ choice: saved[id].choice || null, note: saved[id].note || '' }); apply(id); } });
+    renderSummary();
+    if (banner) banner.textContent = message;
+    if (exportBtn) exportBtn.hidden = false;
+    flushDirty();
+  }
+  function useCap(name) {
+    try { return (window.claude && window.claude.use) ? window.claude.use(name) : Promise.resolve(null); } catch (e) { return Promise.resolve(null); }
+  }
+  if (!(window.claude && window.claude.use)) {
+    useLocal('Выбор сохраняется в этом браузере. Чтобы передать его Claude, нажми «Скопировать выбор текстом» и вставь в чат.');
+    return;
+  }
+  Promise.all([useCap('db'), useCap('user')]).then(function (res) {
+    db = res[0];
+    var user = res[1];
+    if (!db) { useLocal('Хранилище страницы недоступно в этом просмотре. Выбор сохраняется только в этом браузере.'); return; }
+    store = 'db';
+    if (user && user.id) user.id().then(function (v) { uid = v; }, function () {});
+    flushDirty();
+    if (banner) banner.textContent = 'Загружаю сохранённый выбор…';
+    var loaded = false;
+    var timer = setTimeout(function () { if (!loaded && banner) banner.textContent = 'Хранилище пока не отвечает. Выбор сохранится, когда появится связь.'; }, 10000);
+    db.collection(COLLECTION).onSnapshot(function (snap) {
+      snap.docs.forEach(function (d) {
+        // Local edits that are not confirmed yet win over what the store still holds
+        if (!d.exists || !DEC[d.id] || dirty[d.id]) return;
+        var data = d.data() || {};
+        state[d.id] = { choice: data.choice || null, note: data.note || '' };
+        lastSaved[d.id] = JSON.stringify(state[d.id]);
+        apply(d.id);
+        if (data.updatedAt) setStatus(d.id, 'Сохранено ' + fmt(data.updatedAt), 'ok');
+      });
+      renderSummary();
+      if (!snap.metadata || !snap.metadata.fromCache) {
+        loaded = true; clearTimeout(timer);
+        if (banner) { banner.className = 'db-banner live'; banner.textContent = 'Выбор сохраняется сам. Я прочитаю его, когда продолжим.'; }
+      }
+    }, function () {
+      loaded = true; clearTimeout(timer);
+      if (banner) banner.textContent = 'Хранилище отключилось. Выбор на странице работает, но не сохраняется.';
+    });
+  });
+})();
+</script>
