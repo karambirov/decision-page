@@ -9,7 +9,9 @@ Claude reads your choices back and continues. At the end it assembles the result
 
 It works for any topic: a trip, a dinner for six, what laptop to buy, how a concept works, a design review, an incident, a product funnel with millions of users. It is what talking to an agent in the Claude desktop app could feel like, built today as a skill.
 
-<!-- DEMO VIDEO -->
+https://github.com/user-attachments/assets/fb5c6d28-7f92-40e1-b276-5180f908f23e
+
+*Illustration, not a screenshot: a simplified chat window with a decision page beside it. The company, the people and the numbers are made up.*
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="docs/page-wide-dark.png"><img src="docs/page-wide-light.png" alt="The example page at 1280 px. The sidebar lists three questions with short verdicts and a summary item. The open question, whether customers will leave if the price goes up, shows the answer, three facts, and the price switcher set to $15 with bars for first-month revenue, monthly churn and revenue in 12 months" width="838"></picture>
 
@@ -172,7 +174,7 @@ scripts/build.py          checks a page and assembles it from a content file and
 scripts/build-scene.mjs   bundles a stageshow scene into one script for embedding
 references/               modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies
 examples/pages/           example content file in English and Russian, made-up data: raising a Team plan price
-examples/scenes/          example scene: a checkout button that stops working
+examples/scenes/          example scenes: a checkout button that stops working, and the demo video at the top of this README
 docs/                     screenshots for this README
 ```
 

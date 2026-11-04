@@ -1,0 +1,761 @@
+/* All rules belong to this scene. The page (.dp-*) is assets/template.html in its
+   narrow-pane layout, scaled about 1.15x so it still reads when GitHub shrinks the
+   video to a phone column. The chat (.rd-*) is deliberately generic. */
+.rd {
+  & .ss-stage {
+    /* The template's light tokens */
+    --bg: #ffffff;
+    --paper: #ffffff;
+    --raise: #f2f2f2;
+    --fg: #141414;
+    --fg-2: #2b2b2b;
+    --muted: #666666;
+    --faint: #999999;
+    --line: #e7e7e7;
+    --line-strong: #d6d6d6;
+    --hover: rgba(0, 0, 0, 0.04);
+    --active: rgba(0, 0, 0, 0.07);
+    --primary: #181818;
+    --neutral: #7a7a7a;
+    --bad: #c0392b;
+    --ok: #2e7d4f;
+    --warn: #9a6512;
+    --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
+    --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    /* The pane's travel */
+    --rd-travel: cubic-bezier(0.45, 0, 0.1, 1);
+
+    overflow: hidden;
+    border-radius: 0;
+    /* A mid-light ground of its own: the video cannot follow GitHub's theme, and
+       this sits as a plate on white and on near-black alike */
+    background: #d9dde3;
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Keycaps inside the window's empty left side while the chat is centered */
+  .ss-keys[data-at='bottom-left'] {
+    left: 52px;
+    bottom: 44px;
+  }
+
+  /* One gutter on the left, top and right; the window runs off the bottom */
+  .rd-win {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    width: 782px;
+    height: 560px;
+    box-shadow: var(--ss-shadow-hero);
+  }
+
+  .rd-body {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  /* ---- Chat ---- */
+
+  .rd-chat {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 290px;
+    /* Centered in the window until the pane opens */
+    transform: translateX(246px);
+    transition: transform 0.8s var(--rd-travel);
+    will-change: transform;
+  }
+
+  .rd-chat[data-aside] {
+    transform: translateX(0);
+  }
+
+  /* The kit's chat thread, pinned over the composer: its foot sits 61px above
+     the composer at rest, room for the composer to grow by two lines when the
+     question is pasted. Only the look is set here: the template's greys */
+  .rd-thread {
+    --ss-thread-size: 15.5px;
+    --ss-me: #ececec;
+    --ss-me-text: var(--fg);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* Its box runs down past the composer, so a message forming out of the
+       composer is inside the mask; the turns end 312px down */
+    padding: 0 18px 210px;
+    /* Turns leaving under the window's bar fade before the edge cuts them */
+    mask-image: linear-gradient(to bottom, transparent, #000 30px);
+  }
+
+  .rd-thread[data-app='chat'] [data-from='them'] > .ss-bubble {
+    color: var(--fg);
+  }
+
+  /* Placeholder turns glide with the thread's own rows: the kit's FLIP sets
+     their top, and they ease it on the thread's scroll curve */
+  .rd-past {
+    position: relative;
+    top: 0;
+    flex: none;
+    display: grid;
+    transition: top var(--ss-scroll);
+    will-change: transform;
+  }
+
+  .rd-past__q {
+    justify-self: end;
+    margin-bottom: 12px;
+  }
+
+  .rd-past__line {
+    display: flex;
+    align-items: center;
+    height: 24px;
+  }
+
+  /* Grows upward from its foot, which sits one gutter above the stage's edge:
+     the body is 522 tall and its last 64px are past the stage, so 64 + 28 */
+  .rd-composer {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 92px;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 12px 12px 12px 16px;
+    border-radius: 22px;
+    background: var(--bg);
+    box-shadow: 0 0 0 1px var(--line-strong), 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  /* One line sits level with the send button */
+  .rd-composer__text {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 5px 0;
+    font-size: 15.5px;
+    line-height: 1.45;
+    color: var(--fg);
+  }
+
+  .rd-composer__placeholder {
+    margin-left: 3px;
+    color: var(--faint);
+  }
+
+  /* The caret: drawn at the end of the text (before the placeholder when
+     empty) with no advance width, so it never wraps onto a line of its own */
+  .rd-composer__text::after,
+  .rd-composer__text[data-empty]::before {
+    content: '';
+    display: inline-block;
+    width: 1.5px;
+    height: 19px;
+    margin-right: -1.5px;
+    vertical-align: -4px;
+    background: var(--fg);
+  }
+
+  .rd-composer__text[data-empty]::after {
+    content: none;
+  }
+
+  .rd-send-slot {
+    flex: none;
+    align-self: stretch;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .rd-send {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e3e3e3;
+    color: #fff;
+    transition: background-color 0.15s ease;
+  }
+
+  .rd-composer[data-filled] .rd-send {
+    background: var(--primary);
+  }
+
+  /* ---- The page pane ---- */
+
+  .rd-page {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 290px;
+    width: 492px;
+    background: var(--bg);
+    box-shadow: -1px 0 0 var(--line);
+    transform: translateX(calc(100% + 2px));
+    transition: transform 0.8s var(--rd-travel);
+    will-change: transform;
+  }
+
+  .rd-page[data-open] {
+    transform: translateX(0);
+  }
+
+  /* Bar for a narrow pane: the current question as a dropdown, previous and next */
+  .dp-topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 50px;
+    padding: 0 10px;
+    background: var(--bg);
+    box-shadow: 0 1px 0 var(--line);
+  }
+
+  .dp-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-size: 15.5px;
+    font-weight: 500;
+    color: var(--fg);
+    transition: background-color 100ms ease;
+  }
+
+  .dp-switch svg {
+    flex: none;
+    color: var(--muted);
+  }
+
+  .dp-switch[data-hover],
+  .dp-switch[data-open] {
+    background: var(--active);
+  }
+
+  .dp-count {
+    margin-left: auto;
+    padding: 0 6px;
+    font-size: 14px;
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .dp-nav {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    color: var(--muted);
+    transition: opacity 0.2s ease;
+  }
+
+  .dp-nav[data-off] {
+    opacity: 0.35;
+  }
+
+  /* Each question is its own view; a swap fades and rises a touch, as the template's panels do */
+  .dp-view {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    transform: translateY(4px);
+    /* Leaving: out quickly, before the new view is up */
+    transition: opacity 110ms ease, transform 110ms ease;
+    will-change: transform;
+  }
+
+  .dp-view[data-on] {
+    opacity: 1;
+    transform: none;
+    transition: opacity 200ms var(--ease-out) 70ms, transform 200ms var(--ease-out) 70ms;
+  }
+
+  .dp-scroller {
+    position: absolute;
+    inset: 0;
+  }
+
+  .dp-scroller .ss-scroll {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .dp-main {
+    display: grid;
+    gap: 20px;
+    padding: 22px 22px 40px;
+  }
+
+  .dp-q {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .dp-bubble {
+    max-width: 88%;
+    margin: 0;
+    padding: 10px 16px;
+    border-radius: 18px;
+    background: var(--raise);
+    font-size: 16.5px;
+    line-height: 1.45;
+    color: var(--fg);
+  }
+
+  .dp-answer {
+    display: grid;
+  }
+
+  .dp-h2 {
+    margin-bottom: 8px;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+  }
+
+  .dp-p {
+    display: flex;
+    align-items: center;
+    height: 27px;
+  }
+
+  .dp-block {
+    display: grid;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: var(--paper);
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+
+  .dp-block__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .dp-h3 {
+    font-size: 16.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--fg);
+  }
+
+  /* The template's segmented control, on the kit's sliding thumb */
+  .dp-seg {
+    --ss-row: 32px;
+    flex: none;
+    padding: 2px;
+    border-radius: 10px;
+    background: var(--raise);
+  }
+
+  .dp-seg .ss-seg__thumb {
+    border-radius: 8px;
+    background: var(--paper);
+    box-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+
+  .dp-seg .ss-seg__option {
+    padding: 0 14px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .dp-seg .ss-seg__option[data-on] {
+    color: var(--fg);
+  }
+
+  .dp-hbars {
+    display: grid;
+    gap: 16px;
+  }
+
+  .rd-hbar {
+    display: grid;
+    gap: 7px;
+  }
+
+  .rd-hbar__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 16.5px;
+    line-height: 1.35;
+    color: var(--fg);
+  }
+
+  .rd-hbar__head b {
+    --ss-count-unit-gap: 0;
+    font-size: 17px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rd-hbar__track {
+    height: 7px;
+    border-radius: 999px;
+    background: var(--raise);
+    overflow: hidden;
+  }
+
+  .rd-hbar__fill {
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .rd-hbar--hl .rd-hbar__fill {
+    background: var(--fg);
+  }
+
+  .rd-hbar--bad .rd-hbar__fill {
+    background: var(--bad);
+  }
+
+  /* Decision: options as rows in one hairline group */
+  .dp-decision {
+    gap: 12px;
+  }
+
+  .dp-legend {
+    font-size: 16.5px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .dp-opts {
+    display: grid;
+  }
+
+  .dp-opt {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+    padding: 12px 14px;
+    box-shadow: inset 0 0 0 1px var(--line);
+    transition: background-color 120ms ease;
+  }
+
+  .dp-opt + .dp-opt {
+    margin-top: -1px;
+  }
+
+  .dp-opt:first-child {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .dp-opt:last-child {
+    border-radius: 0 0 12px 12px;
+  }
+
+  .dp-opt[data-hover] {
+    background: var(--hover);
+  }
+
+  .dp-opt[data-checked] {
+    background: var(--raise);
+  }
+
+  /* The native radio at the template's accent: a dark ring and dot when checked */
+  .dp-radio {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: inset 0 0 0 1.5px #8c8c8c;
+    transition: box-shadow 120ms ease;
+  }
+
+  .dp-radio::after {
+    content: '';
+    position: absolute;
+    inset: 4.5px;
+    border-radius: 50%;
+    background: var(--primary);
+    transform: scale(0);
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .dp-opt[data-checked] .dp-radio {
+    box-shadow: inset 0 0 0 1.5px var(--primary);
+  }
+
+  .dp-opt[data-checked] .dp-radio::after {
+    transform: scale(1);
+  }
+
+  .dp-ot {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--fg);
+  }
+
+  .dp-od {
+    display: block;
+    margin-top: 2px;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .dp-rec {
+    margin-left: 9px;
+    padding: 1px 7px;
+    border-radius: 6px;
+    background: var(--raise);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    white-space: nowrap;
+    vertical-align: 1px;
+    transition: background-color 120ms ease;
+  }
+
+  .dp-opt[data-checked] .dp-rec {
+    background: var(--paper);
+  }
+
+  /* The template's save line, a step darker and larger so it reads small */
+  .dp-save {
+    min-height: 20px;
+    font-size: 15px;
+    line-height: 20px;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .dp-save[data-on] {
+    opacity: 1;
+  }
+
+  .dp-more {
+    padding-block: 22px;
+  }
+
+  /* Summary */
+  .dp-sum {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 2px;
+  }
+
+  .dp-sum__k {
+    grid-column: 1;
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+
+  .dp-sum__v {
+    grid-column: 1;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--fg);
+  }
+
+  .dp-sum__link {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-size: 15px;
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+  }
+
+  .dp-btn {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 9px;
+    background: var(--raise);
+    font-size: 15.5px;
+    font-weight: 500;
+    color: var(--fg);
+    transition: filter 100ms ease;
+  }
+
+  .dp-btn[data-hover] {
+    filter: brightness(0.94);
+  }
+
+  .dp-reply {
+    margin: 0;
+    padding: 13px 16px;
+    border-radius: 12px;
+    background: var(--raise);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--fg);
+  }
+
+  /* The question list as the narrow pane's menu */
+  .dp-side {
+    --ss-popover-bg: var(--paper);
+    --ss-popover-shadow: var(--shadow-lg);
+    top: 54px;
+    left: 9px;
+    width: 414px;
+    display: grid;
+    gap: 12px;
+    padding: 14px 7px;
+    border-radius: 14px;
+  }
+
+  .dp-side__head {
+    display: grid;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .dp-side__rule {
+    margin: 2px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .dp-side__h1 {
+    font-size: 16.5px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--fg);
+  }
+
+  .dp-qnav {
+    display: grid;
+    gap: 1px;
+  }
+
+  .dp-qnav__label {
+    padding: 0 12px 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--faint);
+  }
+
+  .dp-link {
+    display: grid;
+    gap: 2px;
+    padding: 8px 12px;
+    border-radius: 9px;
+    transition: background-color 100ms ease;
+  }
+
+  .dp-link[data-current] {
+    background: var(--active);
+  }
+
+  .dp-link[data-hover] {
+    background: var(--hover);
+  }
+
+  .dp-link--summary {
+    position: relative;
+    margin-top: 9px;
+  }
+
+  .dp-link--summary::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: 12px;
+    left: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .dp-link__t {
+    font-size: 15.5px;
+    line-height: 1.4;
+    color: var(--fg);
+  }
+
+  .dp-link__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 7px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .dp-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .dp-pill::before {
+    content: '';
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .dp-pill--warn::before {
+    background: var(--warn);
+  }
+
+  .dp-pill--neutral::before {
+    background: var(--neutral);
+  }
+
+  .dp-pill--info::before {
+    background: var(--faint);
+  }
+
+  .dp-prog {
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dp-prog::before {
+    content: '·';
+    margin-right: 7px;
+  }
+
+  .dp-prog--done {
+    color: var(--ok);
+  }
+}
