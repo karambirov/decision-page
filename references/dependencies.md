@@ -27,7 +27,7 @@ Nothing in the skill ties it to one company or one person. Personal rules (writi
 | Environment | What works |
 |---|---|
 | Claude Code in the Claude Desktop app or on claude.ai | everything: publishing the page, choice storage, Claude reading the choices, the app's look |
-| Claude Code in a terminal without the Artifact tool | the page builds as a local file and opens in a browser; choices are stored in the browser and passed to Claude with the «Скопировать выбор текстом» ("Copy choices as text") button |
+| Claude Code in a terminal without the Artifact tool | the page builds as a local file and opens in a browser; choices are stored in the browser and passed to Claude with the "Copy choices as text" button («Скопировать выбор текстом» on Russian pages) |
 | other agents (Codex and the like) | not a target. The template, the build and the checks do not depend on Claude, so they may work, but nobody tests this |
 
 Scenes need `stageshow` installed and Node 20; without them the page builds without scenes.

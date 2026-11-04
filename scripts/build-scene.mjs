@@ -2,7 +2,7 @@
 // Build a stageshow scene into one IIFE script and one stylesheet for a decision page.
 //
 //   node build-scene.mjs --scene <dir with index.tsx> --name <GlobalName> --out <dir>
-//                        [--stageshow <stageshow skill dir>] [--replay "Повторить сцену"]
+//                        [--stageshow <stageshow skill dir>] [--replay "<button text>"]
 //
 // The scene is written like a stageshow example: `export default function Scene()` in
 // index.tsx, importing the kit as '../../kit'. The script copies it into a temporary
@@ -10,6 +10,7 @@
 // node_modules), adds a host with a replay button, builds with stageshow's Vite and
 // removes the temporary folder. The page mounts it with
 // <div class="demo-host" data-mount="<GlobalName>"></div>.
+// The replay button speaks the page's language (main[data-lang], ru or en) unless --replay is given.
 import { spawnSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
@@ -23,7 +24,7 @@ function arg(name, fallback) {
 const scene = arg('scene') && resolve(arg('scene'))
 const name = arg('name')
 const out = arg('out') && resolve(arg('out'))
-const replay = arg('replay', 'Повторить сцену')
+const replay = arg('replay', null)
 if (!scene || !name || !out) {
   console.error('usage: node build-scene.mjs --scene <dir> --name <GlobalName> --out <dir> [--stageshow <dir>]')
   process.exit(2)
@@ -64,23 +65,28 @@ writeFileSync(
 import { createRoot } from 'react-dom/client'
 import Scene from './index'
 
+const REPLAY: string | null = ${JSON.stringify(replay)}
+const REPLAY_BY_LANG: Record<string, string> = { ru: 'Повторить сцену', en: 'Replay scene' }
+
 // A once-played story remounts at its boundary when the reader asks for a replay
-function Host() {
+function Host({ replay }: { replay: string }) {
   const [run, setRun] = useState(0)
   return (
     <div className="scene-host">
       <Scene key={run} />
       <button type="button" className="scene-replay" onClick={() => setRun((n) => n + 1)}>
-        ${JSON.stringify(replay).slice(1, -1)}
+        {replay}
       </button>
     </div>
   )
 }
 
 export function mount(el: HTMLElement) {
+  // The page engine writes the language it chose to main[data-lang] before it mounts scenes
+  const lang = el.closest('[data-lang]')?.getAttribute('data-lang') ?? ''
   createRoot(el).render(
     <StrictMode>
-      <Host />
+      <Host replay={REPLAY ?? REPLAY_BY_LANG[lang] ?? REPLAY_BY_LANG.ru} />
     </StrictMode>,
   )
 }

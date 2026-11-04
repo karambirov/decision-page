@@ -23,7 +23,7 @@ The repository is personal and private, and the skill is not distributed yet. Do
 ## How to check a change
 
 1. The template builds: `python3 scripts/build.py assets/template.html --out <dir> --allow-placeholders`.
-2. The example builds with no errors or warnings: `python3 scripts/build.py examples/pages/release-cadence.content.html --out <dir>`.
+2. Both examples build with no errors or warnings: `python3 scripts/build.py examples/pages/release-cadence.content.html --out <dir>` and the same for `release-cadence.en.content.html`. The English page shows no Cyrillic in the engine's strings.
 3. Open `preview.html` through a local http server, not as a file, and check:
    - 590 px wide: this is how the page looks in the Claude Desktop side pane;
    - 1280 px with the sidebar, and 375 px;

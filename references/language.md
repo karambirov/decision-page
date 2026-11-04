@@ -4,6 +4,8 @@ The reader is busy and opens the page between other tasks. The text must read on
 
 Pages are written in the reader's language. The rules below hold for any language; the extra rules for Russian are in [Russian pages](#russian-pages).
 
+The engine's own strings (buttons, statuses, the question counter, the «Другое» / "Other" option, the summary) come in Russian and English. Set `data-lang` on `<main>` to the page's language; for another language pick the closer of the two and write the rest of the page in the reader's language.
+
 ## Rules
 
 - **Answer first.** The verdict in the menu, the answer in the question's heading, the explanation under it, details behind a disclosure.

@@ -1,0 +1,240 @@
+<title>Releases and hotfixes</title>
+<!--APP-->
+  <aside class="side" id="side" aria-label="Questions on this page">
+    <div class="side-head">
+      <div class="eyebrow">Thread review · test page · November 4, 2026</div>
+      <h1>iOS releases and hotfixes</h1>
+      <p class="lede">The mobile team asked in a thread how often to release and how to test hotfixes. All numbers are made up; this is a test page.</p>
+      <div class="meta"><span>Data: Q3 2026, test data</span><span>The thread is made up</span></div>
+    </div>
+    <nav class="qnav" aria-label="Questions">
+      <div class="qnav-label">Questions</div>
+      <a class="q-link" href="#cadence" data-panel="cadence"><span class="n">Release cadence</span><span class="t">Should iOS releases move from weekly to every two weeks?</span><span class="row"><span class="pill warn">A cheaper way exists</span></span></a>
+      <a class="q-link" href="#hotfix" data-panel="hotfix"><span class="n">Hotfixes</span><span class="t">Can hotfixes skip regression testing?</span><span class="row"><span class="pill warn">Yes, with a short check</span></span></a>
+      <a class="q-link q-summary" href="#summary" data-panel="summary"><span class="n">Summary</span><span class="t">Decisions and the reply to the thread</span><span class="row"><span class="pill info" id="dec-count">0 chosen</span></span></a>
+    </nav>
+  </aside>
+
+  <div class="content">
+<main data-collection="decisions" data-lang="en">
+  <!-- ===================== Release cadence ===================== -->
+  <section class="panel" id="cadence">
+    <div class="answer">
+      <h2>Not necessarily: skipping empty weeks saves almost as much.</h2>
+      <p>With a release every two weeks, <button type="button" class="term" data-term="regress">regression testing</button> takes less time, but a finished fix waits longer for a release, and each release is twice as big. The testers save almost as much time if we keep releasing weekly and skip the weeks when the branch holds only <button type="button" class="term" data-term="tech">technical changes</button>. Then nothing has to wait longer.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>5 of 13</b><span>releases in Q3 had only technical changes</span></div>
+      <div class="fact"><b>11</b><span>changes in a typical release, Q3 median</span></div>
+      <div class="fact"><b>3 times</b><span>as often, releases with more than 15 changes needed a hotfix</span></div>
+    </div>
+    <p class="note">Test data: every number in this question is made up.</p>
+
+    <div class="block" data-toggle>
+      <div class="block-head">
+        <h3>A month of releases, three ways</h3>
+        <div class="seg" role="tablist" aria-label="Release option">
+          <button type="button" role="tab" data-show="weekly" aria-selected="true">Weekly</button>
+          <button type="button" role="tab" data-show="biweekly" aria-selected="false" tabindex="-1">Every two weeks</button>
+          <button type="button" role="tab" data-show="skip" aria-selected="false" tabindex="-1">Weekly, skip empty</button>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="weekly">
+        <div class="hbars" role="list">
+          <div class="hbar bad" role="listitem">
+            <div class="hbar-head"><span>Regression testing, days a month</span><b>6.5</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>More than four runs, each takes both testers</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>A finished fix waits, days</span><b>3.5</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 50%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="biweekly" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Regression testing, days a month</span><b>4.3</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 66%"></div></div>
+            <small>Two runs, but each is longer: twice as many changes</small>
+          </div>
+          <div class="hbar bad" role="listitem">
+            <div class="hbar-head"><span>A finished fix waits, days</span><b>7</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 100%"></div></div>
+            <small>A release grows to about 22 changes</small>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-body" data-when="skip" hidden>
+        <div class="hbars" role="list">
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>Regression testing, days a month</span><b>4</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 62%"></div></div>
+            <small>No run in empty weeks</small>
+          </div>
+          <div class="hbar" role="listitem">
+            <div class="hbar-head"><span>A finished fix waits, days</span><b>3.5</b></div>
+            <div class="hbar-track"><div class="hbar-fill" style="--w: 50%"></div></div>
+            <small>Technical changes ship with the next regular release</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block decision" data-id="release-cadence" data-title="iOS release cadence">
+      <fieldset>
+        <legend>How to ship iOS versions</legend>
+        <label class="opt"><input type="radio" name="release-cadence" value="weekly-skip"><span class="ot">Weekly, skipping weeks with only technical changes<span class="rec">recommended</span><span class="od">Testing saves almost as much as with two weeks, and fixes people can see don't wait longer.</span></span></label>
+        <label class="opt"><input type="radio" name="release-cadence" value="biweekly-trial"><span class="ot">Every two weeks, as a one-month trial<span class="od">A little less regression testing, but fixes wait twice as long, and big releases need hotfixes more often.</span></span></label>
+        <label class="opt"><input type="radio" name="release-cadence" value="keep-weekly"><span class="ot">Leave as is<span class="od">Fixes ship fastest, but regression testing still runs every week.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>How I counted</summary>
+      <p>Quarter: 13 weeks. A regular regression run takes a day and a half. For a release every two weeks I assumed 2 days: twice as many changes, but many flows are checked only once. This is an assumption; it needs checking with the testers.</p>
+      <p>Waiting: a fix is ready on a random day and on average waits half a release cycle.</p>
+      <p>Empty week: the branch has no change a person will see and no bug fix. The release lead decides on the day the branch is cut. If technical changes pile up for two weeks, the release goes out without skipping, so library updates don't fall behind.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Hotfix regression ===================== -->
+  <section class="panel" id="hotfix" hidden>
+    <div class="answer">
+      <h2>Yes, but they need a short check instead of regression testing.</h2>
+      <p>A hotfix changes little code, so there is no point in testing the whole app for it. But fixes like these have broken neighboring flows before. A short manual check of the key paths catches such breakages and barely delays the release.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>4</b><span>hotfixes in Q3, each under 30 lines of code</span></div>
+      <div class="fact"><b>1 of 4</b><span>hotfixes broke a neighboring flow: a payment fix turned off promo codes for two days</span></div>
+      <div class="fact"><b>0</b><span>automated UI checks on the purchase path: the build won't notice a breakage like that</span></div>
+    </div>
+    <p class="note">Test data: every number in this question is made up.</p>
+
+    <div class="block" data-path data-modes>
+      <div class="block-head">
+        <h3>A hotfix's path to people</h3>
+        <div class="seg" role="group" aria-label="How we check">
+          <button type="button" data-mode="full" aria-pressed="true">Full regression</button>
+          <button type="button" data-mode="skip" aria-pressed="false">No check</button>
+          <button type="button" data-mode="smoke" aria-pressed="false">Short check</button>
+        </div>
+      </div>
+      <ol class="path-steps">
+        <li class="path-step" data-kind="sent"><span class="dot">1</span><span class="what">The fix is ready<small>A teammate reviewed the code</small></span><span class="res"><span class="pill info">Start</span></span></li>
+        <li class="path-step" data-kind="sent"><span class="dot">2</span><span class="what">Build and automated tests<small>Unit tests and screenshot comparison</small></span><span class="res"><span class="pill info">30 min</span></span></li>
+        <li class="path-step" data-kinds="full:leak skip:leak smoke:quiet"><span class="dot">3</span>
+          <span class="what" data-in-mode="full">Full regression testing<small>Both testers go through every flow</small></span>
+          <span class="what" data-in-mode="skip" hidden>No manual check<small>The build goes straight to the App Store</small></span>
+          <span class="what" data-in-mode="smoke" hidden>Short check<small>12 key flows from a list, promo codes among them</small></span>
+          <span class="res"><span class="pill bad" data-in-mode="full">1.5 days</span><span class="pill bad" data-in-mode="skip" hidden>Skipped</span><span class="pill ok" data-in-mode="smoke" hidden>40 min</span></span></li>
+        <li class="path-step" data-kind="sent"><span class="dot">4</span><span class="what">App Store review<small>An urgent version can ask for an expedited review</small></span><span class="res"><span class="pill info">about a day</span></span></li>
+        <li class="path-step" data-kinds="full:quiet skip:leak smoke:quiet"><span class="dot">5</span>
+          <span class="what"><button type="button" class="term" data-term="phased">Phased release</button><small data-in-mode="full">Every flow checked</small><small data-in-mode="skip" hidden>Nobody looked at neighboring flows</small><small data-in-mode="smoke" hidden>Key flows checked</small></span>
+          <span class="res"><span class="pill ok" data-in-mode="full">Checked</span><span class="pill bad" data-in-mode="skip" hidden>Risk</span><span class="pill ok" data-in-mode="smoke" hidden>Checked</span></span></li>
+      </ol>
+      <p class="path-sum" data-in-mode="full">The fix reaches people about 2.5 days after it is ready, and more than half of that time goes to regression testing.</p>
+      <p class="path-sum" data-in-mode="skip" hidden>In about a day, but people will be the first to find a broken neighboring flow, as happened with promo codes.</p>
+      <p class="path-sum" data-in-mode="smoke" hidden>A little over a day, with the key paths checked. This check would have caught the promo code breakage.</p>
+      <div><button type="button" class="btn primary" data-path-play>Ship the fix</button></div>
+    </div>
+
+    <div class="block decision" data-id="hotfix-check" data-title="Hotfix testing">
+      <fieldset>
+        <legend>How to test a hotfix before release</legend>
+        <label class="opt"><input type="radio" name="hotfix-check" value="smoke"><span class="ot">A short check of the key paths instead of regression testing<span class="rec">recommended</span><span class="od">The fix goes to the App Store the same day, and the testers catch a breakage like the promo code one before people do.</span></span></label>
+        <label class="opt"><input type="radio" name="hotfix-check" value="skip"><span class="ot">No manual check<span class="od">A little faster, but people will be the first to see a broken neighboring flow.</span></span></label>
+        <label class="opt"><input type="radio" name="hotfix-check" value="full"><span class="ot">Keep full regression testing<span class="od">The safest, but a hotfix waits for regression testing just like a regular release.</span></span></label>
+      </fieldset>
+    </div>
+
+    <div class="block decision" data-id="hotfix-scope" data-title="What takes the fast track">
+      <fieldset>
+        <legend>Which fixes take the fast track if full regression testing is not needed</legend>
+        <label class="opt"><input type="radio" name="hotfix-scope" value="crash-buy"><span class="ot">Only crashes and broken search, purchase and sign-in<span class="rec">recommended</span><span class="od">The fast track won't become a way around regression testing for regular tasks. A fix over 30 lines goes out with a regular release.</span></span></label>
+        <label class="opt"><input type="radio" name="hotfix-scope" value="lead-call"><span class="ot">Any fix, at the lead developer's call<span class="od">More flexible, but the line will blur over time.</span></span></label>
+      </fieldset>
+    </div>
+
+    <details class="more">
+      <summary>What the check covers and how to notice a miss</summary>
+      <p>The short check list (test data): search, results, ticket details, card purchase, purchase with a promo code, sign-in, sign-out, account recovery, price alert subscription, price alert notification, profile, language change.</p>
+      <p>If the check misses something: we ship the urgent version as a phased release and watch the crash rate and successful purchases for the first day. If either gets worse, we pause the release and prepare the next fix. A version can't be rolled back in the App Store.</p>
+    </details>
+  </section>
+
+  <!-- ===================== Summary ===================== -->
+  <section class="panel" id="summary" hidden>
+    <div class="answer">
+      <h2>Decisions and the reply to the thread</h2>
+      <p class="db-banner" id="db-banner">Checking where to save your choices…</p>
+    </div>
+    <div class="block">
+      <h3>What you chose</h3>
+      <ul class="sum-list" id="sum-list"></ul>
+      <div><button type="button" class="btn" id="export-decisions" hidden>Copy choices as text for Claude</button></div>
+    </div>
+    <div class="block">
+      <div class="block-head"><h3>Draft reply to the mobile team's thread</h3><button type="button" class="btn" data-copy-from="#reply">Copy</button></div>
+      <p class="reply" id="reply"></p>
+      <p class="note">The draft is assembled from the chosen options and is never sent anywhere on its own. Its numbers are test data.</p>
+    </div>
+    <div class="block">
+      <h3>What I didn't check</h3>
+      <ul>
+        <li>Every number on the page is made up: this is a test page. I didn't look at real release statistics.</li>
+        <li>I assumed regression testing for a two-week release takes 2 days. If it takes 3, releasing every two weeks saves nothing at all.</li>
+        <li>App Store review time for an urgent version: “about a day” comes from experience, not from a measurement.</li>
+        <li>How Android ships. If it has its own cadence, the shared release calendar may drift apart.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Sources</h3>
+      <ul>
+        <li>The mobile team's thread with two questions (made up for the test)</li>
+        <li>iOS release and hotfix statistics for Q3 2026 (test data)</li>
+      </ul>
+    </div>
+  </section>
+</main>
+  </div>
+<!--TERMS-->
+{
+  "regress": "Regression testing: a full manual run through every flow of the app before a release. It makes sure the new version doesn't break what used to work.",
+  "tech": "Technical changes: changes a person using the app won't notice, for example a library update or reworked code with the same behavior. Bug fixes don't count.",
+  "phased": "Phased release on the App Store: over 7 days the new version reaches everyone with automatic updates, starting with 1%. It can be paused. A version can't be rolled back, only replaced with a new one."
+}
+<!--PAGE-->
+window.PAGE = {
+  composeReply: function (d) {
+    var L = [];
+    var c = d.choice('release-cadence');
+    var h = d.choice('hotfix-check');
+    var s = d.choice('hotfix-scope');
+    L.push('Hi all, I looked at the release statistics for Q3, and here are answers to both questions.');
+
+    var p1 = '1. Releasing every two weeks. ';
+    if (c === 'weekly-skip') p1 += 'I suggest we keep releasing weekly and skip the weeks when the branch holds only technical changes. Last quarter that was 5 releases of 13, so testing saves almost as much as with two weeks, and fixes for users won\'t wait longer.';
+    else if (c === 'biweekly-trial') p1 += 'Let\'s try it for a month, which is two releases. There will be less regression testing, but finished fixes will wait longer for a release, and our big releases need hotfixes three times as often. In a month we\'ll compare the number of hotfixes and decide whether to keep it.';
+    else if (c === 'keep-weekly') p1 += 'I suggest we keep releasing weekly for now: fixes reach users faster, and our big releases need hotfixes three times as often.';
+    else p1 += 'Still thinking, I\'ll get back to you.';
+    L.push(p1);
+
+    var p2 = '2. Regression testing for hotfixes. ';
+    if (h === 'smoke') p2 += 'They don\'t need full regression testing, but they can\'t go out with no check at all: one of the four hotfixes last quarter broke promo codes. Instead of regression testing, I suggest a short check of 12 key flows, about 40 minutes.';
+    else if (h === 'skip') p2 += 'I\'m fine with shipping them without a manual check: the fixes are small. So that we don\'t miss a breakage, we ship them as phased releases and watch crashes and purchases for the first day.';
+    else if (h === 'full') p2 += 'We keep full regression testing for now: one of the four hotfixes last quarter broke a neighboring flow, promo codes.';
+    else p2 += 'Still thinking, I\'ll get back to you.';
+    if (h === 'smoke' || h === 'skip') {
+      if (s === 'crash-buy') p2 += ' Only crashes and broken search, purchase and sign-in take the fast track; everything else waits for a regular release.';
+      else if (s === 'lead-call') p2 += ' The lead developer decides whether a fix takes the fast track.';
+    }
+    L.push(p2);
+
+    if (c || h) L.push('If there are no objections, we\'ll start with the next release, and I\'ll come back with numbers in a month.');
+    return L.join('\n\n');
+  }
+};

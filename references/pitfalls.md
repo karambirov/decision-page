@@ -21,7 +21,7 @@ Everything below has already happened on real pages. The template handles these 
 Scenarios that every change to saving is checked against:
 
 - a choice is made before the storage connects: it waits and is sent when the storage connects;
-- a write fails: the choice stays on the page, the write is retried with a growing pause, and after eight attempts the «Скопировать выбор текстом» ("Copy choices as text") button appears;
+- a write fails: the choice stays on the page, the write is retried with a growing pause, and after eight attempts the "Copy choices as text" button («Скопировать выбор текстом» on Russian pages) appears;
 - a snapshot comes from the storage while a local edit is not confirmed yet: the edit is not overwritten by the old value;
 - there is no storage (a local file, another agent): the choice goes to browser storage.
 

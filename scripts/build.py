@@ -27,8 +27,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 SIZE_LIMIT = 15 * 1024 * 1024
+ENGINE_LANGS = ('ru', 'en')  # the string tables in the template's engine
 PREVIEW_HEAD = (
-    '<!doctype html><html lang="ru"><head><meta charset="utf-8">'
+    '<!doctype html><html lang="{lang}"><head><meta charset="utf-8">'
     '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
     '</head><body>'
 )
@@ -196,6 +197,23 @@ def main():
     for k in sorted(set(terms) - used_terms):
         warnings.append(f'term "{k}" is defined but never used')
 
+    # Interface language: main[data-lang] picks the engine's string table
+    mains = [a for t, a, _ in c.elements if t == 'main']
+    lang_attr = mains[0].get('data-lang') if mains else None
+    # Same fallback as the engine: a Cyrillic h1 means ru, anything else en
+    h1 = re.search(r'<h1[^>]*>(.*?)</h1>', page, re.S)
+    lang = 'ru' if h1 and re.search('[\u0400-\u04FF]', h1.group(1)) else 'en'
+    if lang_attr is None:
+        if mains:
+            warnings.append('<main> has no data-lang: the engine guesses the interface language from the h1 '
+                            '(Cyrillic: ru, otherwise en); set data-lang="ru" or "en"')
+    elif '{{' not in lang_attr:
+        if lang_attr.strip().lower().split('-')[0] not in ENGINE_LANGS:
+            warnings.append(f'data-lang="{lang_attr}" has no string table (only {", ".join(ENGINE_LANGS)}): '
+                            'the engine guesses from the h1')
+        if re.fullmatch(r'[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*', lang_attr.strip()):
+            lang = lang_attr.strip()
+
     # Scenes
     mounts = {a.get('data-mount') for t, a, _ in c.elements if a.get('data-mount')}
     if mounts and not args.scene_js and '/*__SCENE_JS__*/' in src:
@@ -216,7 +234,7 @@ def main():
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     (out / 'page.html').write_text(page, encoding='utf-8')
-    (out / 'preview.html').write_text(PREVIEW_HEAD + page + '</body></html>', encoding='utf-8')
+    (out / 'preview.html').write_text(PREVIEW_HEAD.format(lang=lang) + page + '</body></html>', encoding='utf-8')
 
     for w in warnings:
         print('warning:', w)

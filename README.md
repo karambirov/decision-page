@@ -47,7 +47,7 @@ When UI behavior is easier to show than to describe, a question can carry an ani
 
 Other visuals in the template: a signal path with "now / after the fix" modes, a situation switcher, a step-through, try-it-yourself queries, bars, a two-column comparison and charts. The catalog is in [references/components.md](references/components.md).
 
-Claude writes the page in the language of the person reading it. The page's built-in UI strings («Другое», «Комментарий», «Итог» and the like) are in Russian for now, as is the example page in the screenshots.
+Claude writes the page in the language of the person reading it. The page's built-in UI strings ("Other", "Comment", "Summary" and the like) come in English and Russian. The example is bundled in both languages.
 
 ## Install and update
 
@@ -87,7 +87,7 @@ Claude writes a content file, not a whole page: the sidebar with the questions, 
 To build the example yourself, run this from the skill folder and open `preview.html` in a browser:
 
 ```bash
-python3 scripts/build.py examples/pages/release-cadence.content.html --out /tmp/decision-page-example
+python3 scripts/build.py examples/pages/release-cadence.en.content.html --out /tmp/decision-page-example
 ```
 
 ## Repository layout
@@ -98,7 +98,7 @@ assets/template.html      page template: Claude Desktop look, navigation, widget
 scripts/build.py          checks a page and assembles it from a content file and the template
 scripts/build-scene.mjs   bundles a stageshow scene into one script for embedding
 references/               modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies
-examples/pages/           example content file with made-up data: release cadence and hotfixes
+examples/pages/           example content file in English and Russian, made-up data: release cadence and hotfixes
 examples/scenes/          example scene: a checkout button that stops working
 docs/                     screenshots for this README
 ```

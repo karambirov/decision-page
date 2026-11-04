@@ -21,6 +21,7 @@ On a wide screen there is a sidebar menu on the left, like the chat list in Clau
 |---|---|---|
 | Menu header | `aside.side > .side-head` | a caption, an `h1` with the title, a short paragraph about who asked and about what, links to sources |
 | Menu item | `a.q-link[href="#ID"][data-panel=ID]` in `nav.qnav` | `.n` (number or topic), `.t` (the question in the asker's words), `.row` with the verdict `.pill`; «Итог» (summary) last, with the `q-summary` class |
+| Interface language | `div.content > main[data-lang="ru"]` or `"en"` | the language of the engine's own strings: buttons, statuses, the counter, «Другое» / "Other", the summary. Match it to the page text. Without it the engine picks ru for a Cyrillic `h1`, otherwise en; `build.py` warns |
 | Question | `section.panel#ID` inside `div.content > main` | all except the first with `hidden`. The engine adds the line with the question above the answer, the decision progress in the menu and the «Дальше» ("Next") button at the end by itself |
 | Answer | `.answer > h2 + p` | the heading answers the question, the paragraph explains why |
 | Facts | `.facts > .fact > b + span` | up to three, the number large, the caption with the period. Write a caveat under them (for example, "test data") as `p.note` |
