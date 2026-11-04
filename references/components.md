@@ -1,86 +1,86 @@
-# Виджеты шаблона
+# Template widgets
 
-Все виджеты уже есть в `assets/template.html`: разметка, стили и поведение. Движок находит их по атрибутам, поэтому новый экземпляр достаточно скопировать и заполнить. Скрипт движка не правь: если нужен новый тип виджета, добавь отдельный небольшой скрипт после `window.PAGE` и следуй правилам в конце файла.
+All widgets are already in `assets/template.html`: markup, styles and behavior. The engine finds them by attributes, so to add a new instance, copy one and fill it in. Do not edit the engine script: if you need a new widget type, add a separate small script after `window.PAGE` and follow the rules at the end of this file.
 
-## Вид
+## Look
 
-Страница открывается рядом с чатом в Claude Desktop, чаще всего в боковой панели шириной 550–750 px, и должна выглядеть как часть приложения. Цвета сняты со скриншота Claude Desktop: белый фон, серые поверхности `#f2f2f2`, тонкие линии около `#e7e7e7`, текст и основная кнопка почти чёрные (`#141414`, `#181818`), второстепенный текст `#666`, системный шрифт. Цветного акцента почти нет: цвет только у вердиктов и состояний «плохо», «хорошо».
+The page opens next to the chat in Claude Desktop, most often in a side pane 550–750 px wide, and must look like part of the app. The colors were taken from a screenshot of Claude Desktop: white background, gray surfaces `#f2f2f2`, thin lines around `#e7e7e7`, text and the primary button almost black (`#141414`, `#181818`), secondary text `#666`, the system font. There is almost no colored accent: only verdicts and the "bad" and "good" states have color.
 
-Почему так: карточки с тенями, цветные плашки и собственный акцент делают страницу чужой рядом с чатом; тёплые тона claude.ai с засечками не совпадают с Claude Desktop. Обе версии пробовали, обе выглядели странно рядом с приложением.
+Why: cards with shadows, colored badges and an accent of the page's own make the page look foreign next to the chat; the warm claude.ai tones with serifs do not match Claude Desktop. Both versions were tried, and both looked odd next to the app.
 
-- В узкой панели вопросы переключаются выпадающим списком в верхней строке, как заголовки самого приложения, и стрелками «назад» и «вперёд». Шире 1000 px слева постоянное меню.
-- Одна карточка на виджет или решение, тонкая граница, без тени. Факты строкой цифр между линиями.
-- Новые элементы собирай из токенов шаблона (`--bg`, `--side`, `--paper`, `--raise`, `--line`, `--primary`, `--sans`) без своих цветов и шрифтов. Веб-шрифты не подключай.
-- Проверяй страницу в ширине 590 px: так она выглядит в боковой панели.
+- In a narrow pane, questions are switched with a dropdown in the top bar, like the app's own headers, and with "back" and "forward" arrows. Wider than 1000 px, there is a permanent menu on the left.
+- One card per widget or decision, with a thin border and no shadow. Facts as a row of numbers between lines.
+- Build new elements from the template's tokens (`--bg`, `--side`, `--paper`, `--raise`, `--line`, `--primary`, `--sans`) with no colors or fonts of your own. Do not load web fonts.
+- Check the page at 590 px width: this is how it looks in the side pane.
 
-## Каркас
+## Skeleton
 
-На широком экране слева боковое меню, как список чатов в Claude, справа один вопрос. Уже 1000 px меню открывается выпадающим списком из верхней строки, где стоят текущий вопрос, счётчик «2 из 6» и стрелки. Прокрутка запоминается для каждого вопроса. Верхнюю строку, затемнение и кнопку меню шаблон держит вне раздела `<!--APP-->`: их не пишут руками.
+On a wide screen there is a sidebar menu on the left, like the chat list in Claude, and one question on the right. Below 1000 px the menu opens as a dropdown from the top bar, which holds the current question, the «2 из 6» ("2 of 6") counter and the arrows. Scroll position is remembered for each question. The template keeps the top bar, the backdrop and the menu button outside the `<!--APP-->` section: they are not written by hand.
 
-| Часть | Разметка | Правило |
+| Part | Markup | Rule |
 |---|---|---|
-| Шапка меню | `aside.side > .side-head` | подпись, `h1` с названием, короткий абзац о том, кто и о чём спросил, ссылки на источники |
-| Пункт меню | `a.q-link[href="#ID"][data-panel=ID]` в `nav.qnav` | `.n` (номер или тема), `.t` (вопрос словами спросившего), `.row` с `.pill` вердикта; «Итог» последним с классом `q-summary` |
-| Вопрос | `section.panel#ID` внутри `div.content > main` | все, кроме первого, с `hidden`. Строку с вопросом над ответом, прогресс решений в меню и кнопку «Дальше» в конце движок добавит сам |
-| Ответ | `.answer > h2 + p` | заголовок отвечает на вопрос, абзац объясняет почему |
-| Факты | `.facts > .fact > b + span` | до трёх, цифра крупно, подпись с периодом. Оговорку под ними (например, «данные тестовые») пиши `p.note` |
-| Блок | `.block`, заголовок `.block-head > h3` | одна мысль на блок |
-| Подробности | `details.more > summary` | код, запросы, ссылки, оговорки |
-| Термин | `button.term[data-term=KEY]` и ключ в `#terms` | пояснение в одну-две фразы простыми словами |
-| Ссылка на вопрос | `<a href="#ID" data-goto="ID">` | для отсылок между вопросами; прокрутка вопроса восстановится |
+| Menu header | `aside.side > .side-head` | a caption, an `h1` with the title, a short paragraph about who asked and about what, links to sources |
+| Menu item | `a.q-link[href="#ID"][data-panel=ID]` in `nav.qnav` | `.n` (number or topic), `.t` (the question in the asker's words), `.row` with the verdict `.pill`; «Итог» (summary) last, with the `q-summary` class |
+| Question | `section.panel#ID` inside `div.content > main` | all except the first with `hidden`. The engine adds the line with the question above the answer, the decision progress in the menu and the «Дальше» ("Next") button at the end by itself |
+| Answer | `.answer > h2 + p` | the heading answers the question, the paragraph explains why |
+| Facts | `.facts > .fact > b + span` | up to three, the number large, the caption with the period. Write a caveat under them (for example, "test data") as `p.note` |
+| Block | `.block`, heading `.block-head > h3` | one idea per block |
+| Details | `details.more > summary` | code, queries, links, caveats |
+| Term | `button.term[data-term=KEY]` and the key in `#terms` | an explanation in one or two sentences in plain words |
+| Link to a question | `<a href="#ID" data-goto="ID">` | for cross-references between questions; the question's scroll position is restored |
 
-Вердикт короткий, обычно 2–5 слов. Цвета вердиктов: `.pill.neutral` (шум, ничего страшного), `.pill.bad` (баг, риск), `.pill.warn` (отчасти, есть оговорки), `.pill.ok` (всё хорошо), `.pill.info` (счётчик, справка).
+A verdict is short, usually 2–5 words. Verdict colors: `.pill.neutral` (noise, nothing serious), `.pill.bad` (bug, risk), `.pill.warn` (partly, with caveats), `.pill.ok` (all good), `.pill.info` (counter, reference).
 
-## Путь сигнала с режимами
+## Signal path with modes
 
-Показывает, как одно событие проходит через слои и где ломается. Режимы «Сейчас / После исправления» показывают разницу без второй схемы.
+Shows how one event passes through the layers and where it breaks. The «Сейчас / После исправления» ("Now / After the fix") modes show the difference without a second diagram.
 
-- Контейнер `.block[data-path][data-modes]`, кнопка запуска `[data-path-play]`. Режимов может быть сколько угодно, `data-in-mode` ставится на любой элемент внутри, `data-modes` работает и без пути (например, код «сейчас / предлагаю»).
-- Шаги `li.path-step`, тип точки `data-kind="sent|quiet|leak"` или по режимам `data-kinds="now:leak after:quiet"`.
-- Текст, зависящий от режима: элементы с `data-in-mode="now"` и `data-in-mode="after"` (второй с `hidden`).
-- Итог под схемой `.path-sum`, по одному на режим.
+- Container `.block[data-path][data-modes]`, start button `[data-path-play]`. There can be any number of modes, `data-in-mode` goes on any element inside, and `data-modes` also works without a path (for example, for code shown as "now / proposed").
+- Steps `li.path-step`, dot type `data-kind="sent|quiet|leak"`, or per mode `data-kinds="now:leak after:quiet"`.
+- Mode-dependent text: elements with `data-in-mode="now"` and `data-in-mode="after"` (the second with `hidden`).
+- The result under the diagram is `.path-sum`, one per mode.
 
-## Переключатель ситуаций
+## Situation switcher
 
-Несколько сценариев одного явления: «двойное нажатие», «долгая загрузка», «зависание». Каждый показан одной и той же формой, чтобы сравнение было честным.
+Several scenarios of one phenomenon: "double tap", "long loading", "freeze". Each is shown in the same form so that the comparison is fair.
 
-- Контейнер `[data-toggle]`, кнопки `button[role=tab][data-show=KEY]` в `.seg[role=tablist]`, содержимое `[data-when=KEY]`.
+- Container `[data-toggle]`, buttons `button[role=tab][data-show=KEY]` in `.seg[role=tablist]`, content `[data-when=KEY]`.
 
-## Пошаговый разбор
+## Step-through
 
-Последовательность с причинностью: гонка, зависание, путь пользователя. Читатель идёт по шагам кнопкой «Дальше».
+A sequence with causality: a race, a freeze, a user's path. The reader goes through the steps with the «Дальше» button.
 
-- Контейнер `.stepper`, шаги `ol.steps > li`, шаг поломки с классом `bad`, кнопки `[data-step=prev]` и `[data-step=next]`, счётчик `.count`.
-- Пять-семь шагов. Если больше, разбей на ситуации.
+- Container `.stepper`, steps `ol.steps > li`, the step where things break with the `bad` class, buttons `[data-step=prev]` and `[data-step=next]`, counter `.count`.
+- Five to seven steps. If there are more, split them into situations.
 
-## Попробуй сам
+## Try it yourself
 
-Проверенные запросы, команды или примеры, которые читатель может повторить. Каждый результат реальный, с цифрой.
+Verified queries, commands or examples that the reader can repeat. Every result is real, with a number.
 
-- Контейнер `[data-presets]`, кнопки `.p-btn[data-p=KEY]` с отметкой `.mark.y` или `.mark.n`, результаты в `template[data-p-body=KEY]`, вывод в `.p-result`.
-- Кнопка копирования: `button[data-copy="текст"]` или `button[data-copy-from="#id"]`.
+- Container `[data-presets]`, buttons `.p-btn[data-p=KEY]` with a `.mark.y` or `.mark.n` mark, results in `template[data-p-body=KEY]`, output in `.p-result`.
+- Copy button: `button[data-copy="text"]` or `button[data-copy-from="#id"]`.
 
-## Сравнение
+## Comparison
 
-Две колонки «работает / не работает», «есть / нет», «до / после»: `.compare > .cmp.yes` и `.cmp.no` с заголовком `h4` и чипами `.chip`.
+Two columns, "works / does not work", "is there / is not there", "before / after": `.compare > .cmp.yes` and `.cmp.no` with an `h4` heading and `.chip` chips.
 
-## Полосы
+## Bars
 
-Сравнение нескольких величин, которое читается и на телефоне: `.hbars > .hbar` с заголовком `.hbar-head` (подпись и `<b>` с числом), дорожкой `.hbar-track > .hbar-fill style="--w: 58%"` и пояснением `small`. `.hbar.hl` выделяет главную величину нейтрально, `.hbar.bad` отмечает плохой исход. Ширину считай от наибольшего значения. Для двух-пяти величин это лучше SVG: текст в SVG уменьшается вместе с картинкой и на 375 px становится нечитаемым.
+A comparison of several values that also reads on a phone: `.hbars > .hbar` with a heading `.hbar-head` (a caption and `<b>` with the number), a track `.hbar-track > .hbar-fill style="--w: 58%"` and a `small` note. `.hbar.hl` highlights the main value neutrally; `.hbar.bad` marks a bad outcome. Compute widths relative to the largest value. For two to five values this is better than SVG: text in an SVG shrinks with the picture and becomes unreadable at 375 px.
 
-## Статичный список
+## Static list
 
-План или список задач с номерами: `ol.steps.static`, пояснение к пункту в `span.note`.
+A plan or a numbered list of tasks: `ol.steps.static`, a note on an item in `span.note`.
 
-## График
+## Chart
 
-Для временных рядов и большого числа точек. Встроенный SVG с классами `.bar-a`, `.bar-b`, `.t-fg`, `.t-muted`, `.grid-l`, `.axis-l`. Подписи прямо на столбцах, легенда только при трёх и больше рядах, `role="img"` и `aria-label` с цифрами. Правила формы и цвета берутся из скилла `dataviz`.
+For time series and many data points. Inline SVG with the classes `.bar-a`, `.bar-b`, `.t-fg`, `.t-muted`, `.grid-l`, `.axis-l`. Labels directly on the bars, a legend only with three or more series, `role="img"` and an `aria-label` with the numbers. The rules for form and color come from the `dataviz` skill.
 
-## Сцена
+## Scene
 
-Анимированный фрагмент интерфейса из `stageshow`: `<div class="demo-host" data-mount="GlobalName"></div>`. Движок монтирует сцену, когда открывается её вопрос. Сборка описана в [visuals.md](visuals.md).
+An animated interface fragment from `stageshow`: `<div class="demo-host" data-mount="GlobalName"></div>`. The engine mounts the scene when its question opens. The build is described in [visuals.md](visuals.md).
 
-## Решение
+## Decision
 
 ```html
 <div class="block decision" data-id="docs-event" data-title="Событие о документах">
@@ -92,26 +92,26 @@
 </div>
 ```
 
-- `data-id` уникален на странице и совпадает с `name` у вариантов. Значения вариантов короткие и латиницей: по ним Claude читает выбор.
-- Поле комментария, строку статуса и последний вариант «Другое» движок добавит сам. «Другое» нужно всегда: человек может не согласиться ни с одним вариантом. Если выбрать его, поле комментария становится «Свой вариант», а в итоге показывается этот текст. Значение `other` зарезервировано, своё «Другое» в разметку не добавляй.
-- Варианты взаимоисключающие. У каждого последствие в одну строку `.od`. Рекомендованный помечен `.rec`, причина рекомендации видна в последствии.
-- Нужен ли «Не сейчас» или «Оставить как есть», решай по смыслу: часто это честный вариант.
+- `data-id` is unique on the page and matches the options' `name`. Option values are short and in Latin letters: Claude reads the choice by them.
+- The engine adds the comment field, the status line and the last option «Другое» ("Other") by itself. «Другое» is always needed: the person may disagree with every option. If it is chosen, the comment field becomes «Свой вариант» ("Your own option"), and the summary shows that text. The value `other` is reserved; do not add your own «Другое» to the markup.
+- Options are mutually exclusive. Each has a one-line consequence `.od`. The recommended one is marked `.rec`, and the reason for the recommendation is visible in its consequence.
+- Whether you need «Не сейчас» ("Not now") or «Оставить как есть» ("Leave as is"), decide by meaning: it is often an honest option.
 
-## Итог
+## Summary
 
-Вопрос `#summary` с `#sum-list`, `#dec-count` в пункте меню «Итог», `#reply` и кнопкой копирования, `#export-decisions` (появится сам, если хранилища страницы нет), блоками «Что я не проверил» и «Источники». Текст ответа собирает `window.PAGE.composeReply(d)`: `d.choice(id)` даёт значение варианта, `d.label(id)` его подпись, `d.note(id)` комментарий.
+The `#summary` question with `#sum-list`, `#dec-count` in the «Итог» menu item, `#reply` with a copy button, `#export-decisions` (it appears by itself if there is no page storage), and the «Что я не проверил» ("What I did not check") and «Источники» ("Sources") blocks. The reply text is assembled by `window.PAGE.composeReply(d)`: `d.choice(id)` gives the option's value, `d.label(id)` its label, `d.note(id)` the comment.
 
-## Вложение виджетов
+## Nesting widgets
 
-Виджеты можно вкладывать друг в друга: движок находит их по атрибутам. Например, полосы внутри переключателя ситуаций, по набору полос на каждую ситуацию.
+Widgets can be nested inside each other: the engine finds them by attributes. For example, bars inside a situation switcher, one set of bars per situation.
 
-## Новый виджет
+## New widget
 
-Если ни один не подходит:
+If none of them fits:
 
-1. Сначала спроси себя, нужен ли он: вторая схема на вопрос почти всегда лишняя.
-2. Нажимаемое делай `<button>` с видимым фокусом и `:active { transform: scale(0.97) }`.
-3. Переходы только `transform` и `opacity`, 150–250 мс, `var(--ease-out)`, и вариант без движения под `prefers-reduced-motion`.
-4. Клавиатура: стрелки внутри группы, `aria-selected` или `aria-pressed`, `aria-live` для меняющегося результата.
-5. Ширина 375 px без горизонтальной прокрутки, тёмная тема через токены.
-6. За подробностями загрузи `web-design-guidelines`, `emil-design-eng` и `apple-design`.
+1. First ask yourself whether it is needed: a second diagram per question is almost always unnecessary.
+2. Make anything clickable a `<button>` with a visible focus and `:active { transform: scale(0.97) }`.
+3. Transitions only on `transform` and `opacity`, 150–250 ms, `var(--ease-out)`, and a variant without motion under `prefers-reduced-motion`.
+4. Keyboard: arrows inside a group, `aria-selected` or `aria-pressed`, `aria-live` for a result that changes.
+5. 375 px width with no horizontal scrolling, the dark theme through tokens.
+6. For details, load `web-design-guidelines`, `emil-design-eng` and `apple-design`.

@@ -1,49 +1,50 @@
-# Ловушки
+# Pitfalls
 
-Всё ниже уже случалось на настоящих страницах. Шаблон учитывает эти случаи, но при правках их легко вернуть.
+Everything below has already happened on real pages. The template handles these cases, but edits can easily bring them back.
 
-## Вёрстка и поведение
+## Layout and behavior
 
-- **`hidden` не прячет панель.** Правило `.panel { display: grid }` перебивает атрибут `hidden`. В шаблоне стоит `[hidden] { display: none !important; }`, не удаляй его.
-- **Панель остаётся прозрачной.** Появление через двойной `requestAnimationFrame` не срабатывает во фоновой вкладке, и панель висит с `opacity: 0`. Нужен принудительный пересчёт: добавить класс, прочитать `offsetWidth`, убрать класс.
-- **Поля вылезают за край.** Без `* { box-sizing: border-box; }` поле комментария шире блока на мобильном.
-- **Прокрутка не на месте.** Вопросы делят одну прокрутку страницы, поэтому без памяти новый вопрос открывается посередине. Движок запоминает позицию каждого вопроса (и в `sessionStorage`), новый вопрос открывает сверху, а `history.scrollRestoration = "manual"` не даёт браузеру вмешаться.
-- **Прыжок по якорю при загрузке.** Браузер сам прокручивает к `#id` после загрузки, и пузырь с вопросом уезжает под верхнюю строку. Движок после `load` возвращает сохранённую позицию, если читатель ещё не начал прокручивать.
-- **Прыжок по якорю.** Переход по `href="#id"` прокручивает к секции. Ссылки меню и `data-goto` перехватываются, адрес меняется через `history.replaceState`.
-- **Меню на телефоне.** Пока панель открыта, содержимое за ней `inert` и не прокручивается, Esc и нажатие на затемнение закрывают её, фокус возвращается на кнопку меню. Закрытая панель скрыта через `visibility`, чтобы по её ссылкам нельзя было пройти табом.
-- **Кракозябры в локальном просмотре.** Страница для публикации не содержит `<meta charset>`, его добавляет claude.ai. Для локального просмотра открывай `preview.html` из `scripts/build.py`.
-- **Код внутри шага разваливается по букве.** Если строку списка сделать сеткой «номер | текст», каждый `<code>` и `<b>` внутри становится отдельной ячейкой и попадает в узкую колонку номера. Шаги в шаблоне идут обычным потоком текста с номером сбоку; не возвращай им `display: grid`.
-- **Точка после термина на новой строке.** Термин — это кнопка, и знак препинания сразу после неё переносится отдельно. Движок склеивает кнопку с этим знаком (`.term-wrap`), поэтому ставь знак вплотную к `</button>`.
-- **Сцена на скрытом вопросе.** Монтируй сцену при открытии вопроса (`data-mount`), иначе она проиграется невидимой.
+- **`hidden` does not hide the panel.** The `.panel { display: grid }` rule overrides the `hidden` attribute. The template has `[hidden] { display: none !important; }`; do not remove it.
+- **The panel stays transparent.** A fade-in through a double `requestAnimationFrame` does not fire in a background tab, and the panel hangs at `opacity: 0`. A forced reflow is needed: add a class, read `offsetWidth`, remove the class.
+- **Fields stick out past the edge.** Without `* { box-sizing: border-box; }` the comment field is wider than its block on mobile.
+- **Scroll in the wrong place.** Questions share one page scroll, so without memory a new question opens in the middle. The engine remembers the position of each question (in `sessionStorage` too), opens a new question at the top, and `history.scrollRestoration = "manual"` keeps the browser from interfering.
+- **Anchor jump on load.** After loading, the browser scrolls to `#id` by itself, and the question bubble slides under the top bar. After `load`, the engine restores the saved position if the reader has not started scrolling yet.
+- **Anchor jump.** Following `href="#id"` scrolls to the section. Menu links and `data-goto` are intercepted, and the address changes through `history.replaceState`.
+- **Menu on a phone.** While the panel is open, the content behind it is `inert` and does not scroll; Esc and a tap on the backdrop close the panel, and focus returns to the menu button. The closed panel is hidden with `visibility` so that its links cannot be reached with Tab.
+- **Garbled characters in the local preview.** The page for publishing has no `<meta charset>`; claude.ai adds it. For a local preview, open `preview.html` from `scripts/build.py`.
+- **Code inside a step falls apart letter by letter.** If a list item is made a "number | text" grid, every `<code>` and `<b>` inside it becomes a separate cell and lands in the narrow number column. Steps in the template flow as normal text with the number at the side; do not give them `display: grid` back.
+- **A period after a term on a new line.** A term is a button, and a punctuation mark right after it wraps on its own. The engine glues the button to that mark (`.term-wrap`), so put the mark right against `</button>`.
+- **A scene on a hidden question.** Mount the scene when its question opens (`data-mount`); otherwise it plays while invisible.
 
-## Хранилище
+## Storage
 
-Сценарии, на которых проверяется любая правка сохранения:
+Scenarios that every change to saving is checked against:
 
-- выбор сделан до того, как подключилось хранилище: он ждёт и отправляется при подключении;
-- запись не прошла: выбор остаётся на странице, запись повторяется с растущей паузой, после восьми попыток появляется кнопка «Скопировать выбор текстом»;
-- пришёл снимок из хранилища, а локальная правка ещё не подтверждена: правка не перезаписывается старым значением;
-- хранилища нет (локальный файл, другой агент): выбор уходит в память браузера.
+- a choice is made before the storage connects: it waits and is sent when the storage connects;
+- a write fails: the choice stays on the page, the write is retried with a growing pause, and after eight attempts the «Скопировать выбор текстом» ("Copy choices as text") button appears;
+- a snapshot comes from the storage while a local edit is not confirmed yet: the edit is not overwritten by the old value;
+- there is no storage (a local file, another agent): the choice goes to browser storage.
 
+How to write saving code:
 
-- Не блокируй отрисовку ожиданием хранилища: страница работает сразу, выбор подгружается позже.
-- `claude.use("db")` может вернуть `null`, а ответа может не быть 10 секунд: шаблон показывает понятную строку в итоге.
-- Пиши в документ по одной записи за раз (цепочка промисов) и только при изменении, комментарий с задержкой около секунды.
-- Подписка на коллекцию одна на страницу, не в отрисовке.
+- Do not block rendering while waiting for the storage: the page works at once, and the choices load later.
+- `claude.use("db")` can return `null`, and there may be no answer for 10 seconds: the template shows a clear line in the summary («Итог»).
+- Write to a document one write at a time (a promise chain) and only when something changed; the comment with a delay of about a second.
+- One subscription to the collection per page, not in rendering.
 
-## Сцены stageshow
+## stageshow scenes
 
-- Конфиг Vite вне папки stageshow не находит пакеты. Собирай через `scripts/build-scene.mjs`: он временно кладёт сцену внутрь stageshow и убирает за собой.
-- Не оставляй свои сцены в `stageshow/examples`: обновление скилла их сотрёт. Храни сцену рядом со страницей или в `examples/scenes` этого скилла.
-- Полупрозрачные слои поверх интерфейса дают эффект просвечивания: фон шторок и подвалов делай непрозрачным.
-- Спутник поверх телефона закрывает заголовки: выноси его в отдельную колонку и связывай стрелкой.
-- Длинные подписи переносятся и ломают кадр на 375 px: укорачивай.
+- A Vite config outside the stageshow folder does not find the packages. Build through `scripts/build-scene.mjs`: it temporarily puts the scene inside stageshow and cleans up after itself.
+- Do not leave your scenes in `stageshow/examples`: a skill update will erase them. Keep a scene next to its page or in `examples/scenes` of this skill.
+- Semi-transparent layers over the interface let things show through: make the backgrounds of sheets and footers opaque.
+- A companion over the phone covers the headings: move it to a separate column and link it with an arrow.
+- Long labels wrap and break the frame at 375 px: shorten them.
 
-## Текст и содержание
+## Text and content
 
-Первые версии таких страниц проваливались не на коде, а на подаче: «очень длинная, мало интерактивности, много текста, много повторов, много англицизмов». Это и есть главные ловушки.
+The first versions of such pages failed not on code but on presentation: "very long, little interactivity, a lot of text, a lot of repetition, a lot of anglicisms". These are the main traps.
 
-- Статья вместо страницы: длинные разделы про практики и подходы. Суть практики одной фразой там, где она нужна для решения.
-- Повторы: одна и та же цифра в шапке, в разделе и в итоге.
-- Предложение без ответа на «где это живёт и сколько стоит» (см. [proposals.md](proposals.md)).
-- Решения в конце страницы, оторванные от контекста.
+- An article instead of a page: long sections about practices and approaches. Give the essence of a practice in one sentence, where it is needed for a decision.
+- Repeats: the same number in the header, in a section and in the summary.
+- A proposal with no answer to "where does it live and what does it cost" (see [proposals.md](proposals.md)).
+- Decisions at the end of the page, cut off from their context.

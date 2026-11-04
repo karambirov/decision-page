@@ -3,131 +3,132 @@ name: decision-page
 description: "An interactive page that complements the Claude chat when a chat answer stops being convenient. Short questions and quick choices stay in the chat; when the work has several linked decisions, heavy evidence, a mechanism that is clearer shown than told, or a reply to draft for someone else, Claude builds a page styled like Claude Desktop that opens next to the chat: one question at a time with the answer first, evidence one tap deeper, an interactive visual per question (animated UI scenes, step-throughs, before/after toggles, try-it-yourself queries), decisions with options and comments saved in the page, and a reply draft assembled from the choices. Claude reads the choices back and continues in the chat or in the next round. Use for incident and alert reviews, log and error-tracker investigations, solution design with trade-offs, triaging a request or thread, planning tasks from findings, and every follow-up round. Triggers: «разбери», «разбор инцидента», «спроектируй решение», «разбери обращение», «разбери тред», «что с этим делать», «помоги принять решение», «сделай страницу», «я заполнил ответы», «прочитай мои решения», «следующий раунд», decision page, interactive brief, review this incident, help me decide."
 ---
 
-# Страница решений
+# Decision page
 
-Скилл дополняет чат, а не заменяет его. Короткий вопрос, уточнение или выбор из двух-трёх вариантов задавай в чате, там это быстрее. Страница нужна, когда в чате становится неудобно: решений несколько и они связаны, доказательств много, механизм проще показать, чем описать, или нужно собрать ответ третьему человеку. Тогда человек открывает страницу рядом с чатом, по одному вопросу видит ответ, трогает схему и выбирает вариант прямо рядом с контекстом. Выбор и комментарии сохраняются в хранилище страницы, Claude читает их и продолжает в чате или в следующем раунде.
+The skill complements the chat; it does not replace it. Ask a short question, a clarification or a choice between two or three options in the chat: it is faster there. A page is needed when the chat becomes inconvenient: there are several decisions and they are linked, there is a lot of evidence, a mechanism is easier to show than to describe, or a reply to a third person has to be put together. Then the person opens the page next to the chat, sees the answer one question at a time, plays with the diagram and picks an option right next to its context. Choices and comments are saved in the page's storage; Claude reads them and continues in the chat or in the next round.
 
-Скилл описывает весь цикл: исследование, каркас, сборку из шаблона, текст, проверку, публикацию и следующие раунды. Шаблон `assets/template.html` уже содержит движок страницы и дизайн, поэтому каждая новая страница начинается с содержания, а не с вёрстки.
+The skill covers the whole cycle: research, outline, assembly from the template, text, checks, publishing and follow-up rounds. The template `assets/template.html` already contains the page engine and the design, so every new page starts with content, not layout.
 
-## Чат или страница
+## Chat or page
 
-| В чате | На странице |
+| In the chat | On a page |
 |---|---|
-| один вопрос или уточнение | два и больше связанных решения |
-| выбор из двух-трёх вариантов без длинных объяснений (в Claude Code для этого есть вопрос с вариантами) | у вариантов есть последствия, которые надо показать |
-| ответ укладывается в пару абзацев | доказательства: код, данные, логи, обсуждения |
-| статус работы, короткий отчёт | механизм, который понятнее в движении: путь сигнала, гонка, поведение интерфейса |
-| | черновик ответа третьему человеку, который собирается из выбора |
+| one question or clarification | two or more linked decisions |
+| a choice between two or three options without long explanations (Claude Code has a question with options for this) | the options have consequences that need to be shown |
+| the answer fits in a couple of paragraphs | evidence: code, data, logs, discussions |
+| work status, a short report | a mechanism that is clearer in motion: a signal's path, a race, interface behavior |
+| | a draft reply to a third person, assembled from the choices |
 
-Правила стыка:
+Rules for where chat and page meet:
 
-- Когда страница опубликована, в чате пиши коротко: ссылку, что на ней решить и что будет дальше. Содержание страницы в чат не пересказывай.
-- Если по ходу работы со страницей возник один быстрый вопрос, задай его в чате, а не новым раундом.
-- Когда человек сказал, что заполнил страницу, прочитай выбор и ответь в чате коротко: что понял и что делаешь дальше. Новый раунд страницы нужен, только если снова набралось несколько решений.
-- Страница не нужна, когда задача сводится к правке кода или когда просят файл (Markdown, документ, презентацию) или сообщение.
+- Once the page is published, keep the chat message short: the link, what to decide on the page and what happens next. Do not retell the page's content in the chat.
+- If a single quick question comes up while working with the page, ask it in the chat, not as a new round. "Quick" means a clarification the person can answer without research or thought, like "which of these two files?". A decision that needs evidence, discussion or a comment is not quick, even if it fits in one line: it goes to a page.
+- One decision per independent item. Never bundle several independent decisions into one question or one option ("create all five tasks?"): each task, each proposal, each change gets its own decision with its own options and comment. A bundle forces the person to accept or reject things they see differently.
+- When the person says they have filled in the page, read the choices and reply in the chat briefly: what you understood and what you are doing next. A new page round is needed only if several decisions have piled up again.
+- A page is not needed when the task comes down to a code change, or when the request is for a file (Markdown, a document, a presentation) or a message.
 
-## Вид задан шаблоном
+## The look is fixed by the template
 
-Страница должна выглядеть как часть Claude Desktop: её открывают рядом с чатом, обычно в боковой панели шириной около 590 px. Цвета, шрифт, кнопки и навигация уже заданы в `assets/template.html`, они сняты со скриншотов приложения.
+The page must look like part of Claude Desktop: it is opened next to the chat, usually in a side pane about 590 px wide. Colors, font, buttons and navigation are already set in `assets/template.html`; they were taken from screenshots of the app.
 
-- Не придумывай свой стиль. Советы общего руководства по дизайну страниц (например, из `artifact-design` или из ответа `Artifact quickstart`) про «собственную визуальную идентичность», палитру и пару шрифтов здесь не применяются: страница должна выглядеть частью приложения, рядом с которым её читают.
-- Не копируй стили в страницу и не переписывай их. Пиши файл содержания, `scripts/build.py` возьмёт стили и движок из шаблона.
-- Новый элемент собирай из токенов шаблона. Подробно в разделе «Вид» в [references/components.md](references/components.md).
+- Do not invent your own style. Advice from general page design guidance (for example, from `artifact-design` or from the `Artifact quickstart` response) about "your own visual identity", a palette and a font pair does not apply here: the page must look like part of the app it is read next to.
+- Do not copy styles into the page and do not rewrite them. Write a content file; `scripts/build.py` takes the styles and the engine from the template.
+- Build a new element from the template's tokens. Details in the "Look" section of [references/components.md](references/components.md).
 
-## Ход работы
+## Workflow
 
-### 1. Рамка
+### 1. Frame
 
-Выясни из запроса и контекста, не устраивая анкету:
+Work out the following from the request and the context, without running a questionnaire:
 
-- **Читатель.** Кто принимает решения и что он знает. Термины его области можно не объяснять, чужие нужно.
-- **Исходные вопросы.** Сформулируй их словами того, кто спросил. Каждый вопрос станет пунктом бокового меню и своим экраном.
-- **Решения.** Что владелец должен выбрать после чтения. Если решений нет, страница не нужна.
-- **Адресат ответа.** Кому уйдёт итог: в тред, в задачу, руководителю.
-- **Режим.** Разбор инцидента, проектирование, разбор обращения, план задач или следующий раунд. Типовые вопросы, наглядные схемы и решения для каждого режима описаны в [references/modes.md](references/modes.md).
+- **Reader.** Who makes the decisions and what they know. Terms from their own field need no explanation; terms from other fields do.
+- **Original questions.** Phrase them in the words of the person who asked. Each question becomes a sidebar item and a screen of its own.
+- **Decisions.** What the owner must choose after reading. If there are no decisions, a page is not needed.
+- **Reply addressee.** Where the outcome goes: to a thread, to a task, to a manager.
+- **Mode.** Incident review, solution design, request review, task plan or follow-up round. Typical questions, visuals and decisions for each mode are described in [references/modes.md](references/modes.md).
 
-### 2. Исследование до страницы
+### 2. Research before the page
 
-Страница показывает ответ, а не ход поиска. Пока ответы неизвестны, вёрстку не начинай.
+The page shows the answer, not the search for it. While the answers are unknown, do not start the layout.
 
-- Каждое утверждение держится на артефакте: файл и строка на конкретном SHA, запрос и период в данных, событие в логах, сообщение в треде. Заранее запиши, откуда взята каждая цифра.
-- Ищи вторую независимую опору для главного вывода: например, сверь журнал ошибок с продуктовой аналитикой. Расхождение источников само по себе находка.
-- Указывай уверенность. Непроверенное идёт в блок «Что я не проверил», а не в факты.
-- Перед каждым предложением пройди [чек-лист предложения](references/proposals.md). Владелец почти всегда спрашивает одно и то же: что мы потеряем, где это будет жить, сколько стоит, как не сломать.
+- Every claim rests on an artifact: a file and line at a specific SHA, a query and period in the data, an event in the logs, a message in a thread. Write down in advance where every number comes from.
+- Look for a second, independent support for the main conclusion: for example, check the error log against product analytics. A disagreement between sources is a finding in itself.
+- State your confidence. Unchecked items go into the «Что я не проверил» ("What I did not check") block, not into the facts.
+- Before every proposal, go through the [proposal checklist](references/proposals.md). The owner almost always asks the same things: what we lose, where it will live, what it costs, how not to break anything.
 
-### 3. Каркас
+### 3. Outline
 
-Перед вёрсткой заполни для каждого вопроса таблицу и сверь её с владельцем, если сомневаешься в рамке:
+Before the layout, fill in this table for each question, and check it with the owner if you are unsure about the frame:
 
-| Поле | Объём |
+| Field | Size |
 |---|---|
-| Вердикт в меню | 2–4 слова: «Нет, это шум», «Да, это баг», «Отчасти» |
-| Ответ | заголовок плюс одна-две фразы |
-| Факты | три карточки, в каждой цифра и подпись |
-| Наглядная часть | одна на вопрос, выбор по [references/visuals.md](references/visuals.md) |
-| Решения | одно-три, у каждого варианты с последствиями и комментарий |
-| Подробности | код, запросы, ссылки, оговорки под раскрытием |
+| Verdict in the menu | short, usually 2–5 words: "No, it's noise", "Yes, it's a bug", "Partly" |
+| Answer | a heading plus one or two sentences |
+| Facts | up to three, each a number with a caption |
+| Visual | one per question, chosen with [references/visuals.md](references/visuals.md) |
+| Decisions | one to three, each with options and their consequences, and a comment |
+| Details | code, queries, links, caveats behind a disclosure |
 
-Последний пункт меню всегда «Итог»: список решений, черновик ответа с кнопкой «Скопировать», «Что я не проверил», источники.
+The last menu item is always «Итог» (summary): the list of decisions, the reply draft with a «Скопировать» (copy) button, «Что я не проверил», sources.
 
-### 4. Сборка
+### 4. Assembly
 
-1. Пиши файл содержания, а не всю страницу: `<title>`, затем разделы `<!--APP-->` (боковое меню `aside.side` и `div.content` с `<main>`), `<!--TERMS-->` (JSON терминов), `<!--PAGE-->` (`window.PAGE`) и при необходимости `<!--STYLE-->`. `scripts/build.py` сольёт его с актуальным шаблоном, поэтому стили и движок не копируются. Образец: `examples/pages/release-cadence.content.html`. Полная копия `assets/template.html` нужна, только если меняешь стили или движок.
-2. Разметку бери из шаблона. Каталог виджетов описан в [references/components.md](references/components.md): путь сигнала с режимами «сейчас / после», переключатель ситуаций, пошаговый разбор, «попробуй сам», полосы, сравнение, сцена, статичный список.
-3. Если поведение интерфейса проще показать, чем описать, собери анимированную сцену скиллом `stageshow` и скриптом `scripts/build-scene.mjs` (рецепт в [references/visuals.md](references/visuals.md), пример в `examples/scenes/dead-button`).
-4. Опиши термины в блоке `#terms` и функцию `PAGE.composeReply`, которая собирает ответ из выбора.
+1. Write a content file, not the whole page: `<title>`, then the sections `<!--APP-->` (the sidebar `aside.side` and `div.content` with `<main>`), `<!--TERMS-->` (terms JSON), `<!--PAGE-->` (`window.PAGE`) and, if needed, `<!--STYLE-->`. `scripts/build.py` merges it with the current template, so styles and the engine are not copied. Sample: `examples/pages/release-cadence.content.html`. A full copy of `assets/template.html` is needed only if you change the styles or the engine.
+2. Take markup from the template. The widget catalog is in [references/components.md](references/components.md): signal path with "now / after" modes, situation switcher, step-through, "try it yourself", bars, comparison, scene, static list.
+3. If interface behavior is easier to show than to describe, build an animated scene with the `stageshow` skill and the `scripts/build-scene.mjs` script (recipe in [references/visuals.md](references/visuals.md), example in `examples/scenes/dead-button`).
+4. Define the terms in the `#terms` block and write the `PAGE.composeReply` function, which assembles the reply from the choices.
 
-### 5. Текст
+### 5. Text
 
-Пиши для занятого человека по правилам [references/language.md](references/language.md): ответ первым, каждый факт один раз, без сленга и англицизмов, неизбежные термины кнопкой-пояснением. Для русского текста прогони видимые тексты через `redaktura-skills:redaktura`, если он установлен.
+Write for a busy person, following [references/language.md](references/language.md): answer first, each fact once, no slang or borrowed jargon, unavoidable terms as explain buttons. For Russian text, run the visible text through `redaktura-skills:redaktura` if it is installed.
 
-### 6. Проверка
+### 6. Checks
 
-1. `python3 scripts/build.py page.src.html --out <папка>`: подставит сцены, проверит разметку и соберёт `page.html` для публикации и `preview.html` для локального просмотра.
-2. Открой `preview.html` во встроенном браузере. Проверь ширину 590 px (так страница выглядит в боковой панели Claude Desktop) с выпадающим списком вопросов и стрелками, ширину 1280 px с постоянным меню, 375 px, тёмную тему, ссылки по якорям, память прокрутки, подсказки к терминам, каждый виджет, выбор и сохранение (локально он уходит в память браузера), консоль без ошибок.
-3. Исправь найденное и пересобери. Типовые ловушки описаны в [references/pitfalls.md](references/pitfalls.md).
+1. `python3 scripts/build.py page.src.html --out <dir>`: inserts the scenes, checks the markup and builds `page.html` for publishing and `preview.html` for local viewing.
+2. Open `preview.html` in the built-in browser. Check: 590 px width (this is how the page looks in the Claude Desktop side pane) with the question dropdown and the arrows, 1280 px width with the permanent menu, 375 px, the dark theme, anchor links, scroll memory, term tooltips, every widget, choosing and saving (locally, choices go to browser storage), and a console with no errors.
+3. Fix what you found and rebuild. Typical traps are described in [references/pitfalls.md](references/pitfalls.md).
 
-### 7. Публикация
+### 7. Publishing
 
-- Новую страницу начинай с `Artifact` `action: "quickstart"`, `intent: "other"`, затем загрузи `artifact-capabilities` и публикуй `page.html` с `capabilities: {db: {}, user: {}}`.
-- Обновления публикуй тем же путём к файлу, чтобы ссылка и сохранённые решения не потерялись. Если сессия новая, сначала прочитай артефакт по ссылке.
-- Запиши в память проекта ссылку, коллекцию и идентификаторы решений, чтобы следующая сессия нашла их.
+- Start a new page with `Artifact` `action: "quickstart"`, `intent: "other"`, then load `artifact-capabilities` and publish `page.html` with `capabilities: {db: {}, user: {}}`.
+- Publish updates to the same file path so that the link and the saved decisions are not lost. If the session is new, first read the artifact by its link.
+- Save the link, the collection and the decision IDs to project memory so that the next session can find them.
 
-### 8. Следующий раунд
+### 8. Next round
 
-Когда владелец говорит, что заполнил страницу, действуй по [references/decision-loop.md](references/decision-loop.md): прочитай коллекцию через `ArtifactData`, раздели каждый комментарий на вопросы, опасения и новые требования, доисследуй и собери страницу следующего раунда. Действия наружу (сообщения, задачи, PR, изменения в сервисах) только после явного «да» на точный текст или список.
+When the owner says they have filled in the page, follow [references/decision-loop.md](references/decision-loop.md): read the collection through `ArtifactData`, split each comment into questions, concerns and new requirements, research further and build the next round's page. Outward actions (messages, tasks, PRs, changes in services) only after an explicit "yes" to the exact text or list.
 
-## Жёсткие правила
+## Hard rules
 
-- **Ответ первым.** В меню вердикт, вверху вопроса ответ, подробности на одно нажатие глубже.
-- **Каждый факт один раз.** Повтор цифры или вывода в двух местах удаляй.
-- **Одна наглядная часть на вопрос.** Вторая схема почти всегда повтор первой.
-- **Решение рядом с контекстом.** Варианты взаимоисключающие, у каждого последствие в одну строку, рекомендованный помечен, комментарий есть всегда.
-- **Ничего не отправлять от имени владельца.** Ответ на странице только копируется.
-- **Не выдумывать.** Цифры с периодом и источником, непроверенное в отдельном блоке.
-- **Правила владельца главнее.** CLAUDE.md, память и правила проекта о стиле, задачах и отправке сообщений перекрывают этот скилл.
+- **Answer first.** The verdict in the menu, the answer at the top of the question, details one tap deeper.
+- **Each fact once.** If a number or a conclusion repeats in two places, delete the repeat.
+- **One visual per question.** A second diagram almost always repeats the first.
+- **Decision next to its context.** Options are mutually exclusive, each has a one-line consequence, the recommended one is marked, and there is always a comment.
+- **Send nothing on the owner's behalf.** The reply on the page can only be copied.
+- **Do not make things up.** Numbers come with a period and a source; unchecked items go in a separate block.
+- **The owner's rules come first.** CLAUDE.md, memory and project rules about style, tasks and sending messages override this skill.
 
-## Скиллы, на которые опирается страница
+## Skills the page relies on
 
-Страница выглядит и работает хорошо благодаря нескольким скиллам. Шаблон уже несёт их главные правила, поэтому загружай их по поводу, а не каждый раз.
+The page looks and works well thanks to several skills. The template already carries their main rules, so load them when there is a reason, not every time.
 
-| Скилл | Что даёт | Когда загружать |
+| Skill | What it gives | When to load |
 |---|---|---|
-| `artifact-design`, `artifact-capabilities` | контракт страницы claude.ai, хранилище решений | при первой публикации в сессии |
-| `stageshow` | анимированные сцены интерфейса с курсором | когда нужна сцена |
-| `dataviz`, `artifact-diagramming` | графики и схемы | когда на странице график или схема |
-| `apple-design`, `emil-design-eng` | движение, нажатия, раскрытие по шагам | при новом виджете или анимации |
-| `web-design-guidelines` | доступность, клавиатура, адаптивность | при новом виджете |
-| `redaktura-skills:statya`, `redaktura-skills:redaktura` | структура и редактура русского текста | на шаге текста |
-| скиллы дизайна платформы: для iOS `ios-design-guidelines`, `apple-design`, `uikit-max` | требования к поведению интерфейса в предложениях | когда предложение меняет то, что видит человек ([proposals.md](references/proposals.md)) |
+| `artifact-design`, `artifact-capabilities` | the claude.ai page contract, decision storage | on the first publish in a session |
+| `stageshow` | animated interface scenes with a cursor | when a scene is needed |
+| `dataviz`, `artifact-diagramming` | charts and diagrams | when the page has a chart or a diagram |
+| `apple-design`, `emil-design-eng` | motion, presses, step-by-step reveal | for a new widget or animation |
+| `web-design-guidelines` | accessibility, keyboard, responsiveness | for a new widget |
+| `redaktura-skills:statya`, `redaktura-skills:redaktura` | structure and editing of Russian text | at the text step |
+| platform design skills: for iOS `ios-design-guidelines`, `apple-design`, `uikit-max` | interface behavior requirements in proposals | when a proposal changes what the person sees ([proposals.md](references/proposals.md)) |
 
-Откуда их ставить и как обходиться без них, описано в [references/dependencies.md](references/dependencies.md).
+Where to install them from and how to manage without them is described in [references/dependencies.md](references/dependencies.md).
 
-## Файлы
+## Files
 
-- `assets/template.html`: каркас страницы с движком (меню вопросов или переключатель в узкой панели, память прокрутки, термины, виджеты, решения, хранилище, ответ).
-- `scripts/build.py`: проверка разметки, подстановка сцен, сборка `page.html` и `preview.html`.
-- `scripts/build-scene.mjs`: сборка сцены stageshow в один скрипт для встраивания.
-- `examples/scenes/dead-button`: пример сцены: кнопка «Оформить заказ» перестаёт работать, а счётчик ошибок растёт.
-- `examples/pages/release-cadence.content.html`: пример файла содержания на выдуманных данных: частота выпусков и срочные исправления.
-- `references/`: режимы, виджеты, наглядность, язык, чек-лист предложений, цикл решений, ловушки, зависимости.
+- `assets/template.html`: the page skeleton with the engine (question menu, or a switcher in a narrow pane, scroll memory, terms, widgets, decisions, storage, reply).
+- `scripts/build.py`: markup checks, scene insertion, building `page.html` and `preview.html`.
+- `scripts/build-scene.mjs`: builds a stageshow scene into a single script for embedding.
+- `examples/scenes/dead-button`: an example scene: the «Оформить заказ» ("Place order") button stops working while the error counter grows.
+- `examples/pages/release-cadence.content.html`: an example content file on made-up data: release cadence and hotfixes.
+- `references/`: modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies.

@@ -1,56 +1,56 @@
-# Чек-лист предложения
+# Proposal checklist
 
-Прежде чем поставить вариант решения на страницу, ответь на вопросы ниже. Владелец задаёт их почти всегда, и если ответа нет на странице, раунд уходит на уточнения.
+Before you put a decision option on the page, answer the questions below. The owner asks them almost always, and if the answer is not on the page, the round is spent on clarifications.
 
-## Убрать или отфильтровать сигнал
+## Removing or filtering a signal
 
-Событие в журнале, метрика, алерт, лог.
+An event in the error log, a metric, an alert, a log.
 
-- Что именно перестанет приходить, а что останется? Например, сетевые сбои уйдут, ошибки сервера продолжат приходить.
-- Где та же информация остаётся видна: общая группа ошибок, продуктовая аналитика, логи сервера? Дай ссылку или запрос, которым её найти.
-- Не уходит ли вместе с шумом сигнал другой команды или продукта?
-- Как заметить, если после изменения проблема вернётся?
+- What exactly will stop coming in, and what will remain? For example, network failures will go away, and server errors will keep coming in.
+- Where does the same information stay visible: a shared error group, product analytics, server logs? Give a link or a query to find it.
+- Does the noise take another team's or another product's signal with it?
+- How will we notice if the problem comes back after the change?
 
-## Новая метрика, событие или поле
+## A new metric, event or field
 
-- Что это, одной фразой, и какой вопрос она отвечает.
-- Где она будет жить: продуктовая аналитика, журнал ошибок, мониторинг производительности. Почему именно там.
-- Нет ли уже данных, из которых её можно посчитать сегодня? Сначала проверь существующие события и замеры (по коду: что отправляется, когда начинается и заканчивается замер).
-- Сколько это стоит: объём событий, место в хранилище, лимиты, работа аналитиков.
-- Кто владелец и кто будет смотреть.
+- What it is, in one sentence, and which question it answers.
+- Where it will live: product analytics, the error log, performance monitoring. Why exactly there.
+- Is there already data it can be computed from today? Check existing events and measurements first (in the code: what is sent, when a measurement starts and ends).
+- What it costs: event volume, storage space, limits, analysts' work.
+- Who owns it and who will look at it.
 
-## Изменение кода в рискованном месте
+## A code change in a risky place
 
-Старый код, общий для многих экранов, без тестов, на Objective-C, на пути покупки.
+Old code shared by many screens, without tests, in Objective-C, on the purchase path.
 
-- Что меняется минимально и что остаётся как было.
-- Какие тесты проверят поведение до и после. Если код плохо тестируется, какой тонкий слой можно вынести и покрыть.
-- Как выключить без новой версии: настройка на сервере, эксперимент.
-- Как выпускать: поэтапно, на долю людей, с какой метрикой следить.
-- Что увидит человек, если исправление не сработает.
+- What changes, kept to a minimum, and what stays as it was.
+- Which tests will check the behavior before and after. If the code is hard to test, which thin layer can be extracted and covered.
+- How to turn it off without a new version: a server setting, an experiment.
+- How to release it: in phases, to a share of people, watching which metric.
+- What the person will see if the fix does not work.
 
-## Изменение того, что видит и делает человек
+## A change to what a person sees and does
 
-Индикатор на кнопке, порядок экранов, сообщения об ошибках, жесты, модальные окна. Такие предложения проектируй с загруженными скиллами дизайна и интерфейса платформы, а не по памяти:
+A loading indicator on a button, the order of screens, error messages, gestures, modal windows. Design such proposals with the platform's design and interface skills loaded, not from memory:
 
-| Платформа | Скиллы |
+| Platform | Skills |
 |---|---|
-| iOS | `ios-design-guidelines`, `apple-design`, `uikit-max` или `swiftui-expert-skill` по фреймворку экрана, плюс UI-скилл проекта, если он есть |
-| Android | `android-design-guidelines`, плюс UI-скилл проекта |
-| Веб | `web-design-guidelines`, `emil-design-eng`, `apple-design` |
+| iOS | `ios-design-guidelines`, `apple-design`, `uikit-max` or `swiftui-expert-skill` depending on the screen's framework, plus the project's UI skill if there is one |
+| Android | `android-design-guidelines`, plus the project's UI skill |
+| Web | `web-design-guidelines`, `emil-design-eng`, `apple-design` |
 
-Если у скилла есть вариант для папки проекта (например, `<репозиторий>:uikit-max`), бери его.
+If a skill has a variant for the project folder (for example, `<repository>:uikit-max`), use that one.
 
-- На странице опиши поведение словами человека: что он видит после нажатия, что может сделать во время ожидания, что видит при неудаче. Под каждым требованием коротко укажи, на какое правило оно опирается.
-- Эти же требования переходят в тексты задач, чтобы разработчик и тестирование проверяли одно и то же.
+- On the page, describe the behavior in the person's words: what they see after tapping, what they can do while waiting, what they see on failure. Under each requirement, briefly state which rule it rests on.
+- The same requirements go into the task texts, so that the developer and QA check the same thing.
 
-## Продуктовые проблемы и задачи
+## Product problems and tasks
 
-- Каждая видимая человеку проблема отдельно, даже если причина общая: так её можно проверить и закрыть.
-- Для каждой: как воспроизвести, кого задевает и сколько, как поймём, что исправлено.
+- Each problem visible to a person is separate, even if the cause is shared: that way it can be verified and closed.
+- For each one: how to reproduce it, whom it affects and how many, how we will know it is fixed.
 
-## Отслеживание после исправления
+## Tracking after a fix
 
-- Если исправление устраняет ситуацию, событие о ней не нужно.
-- Нужно одно событие-страховка в месте, где ломается правило («второй запуск при живом первом»), с меткой причины. Оно молчит, пока исправление работает, и громко сообщает, если нет.
-- Нормальное поведение (двойное нажатие) в журнал ошибок не пишется.
+- If the fix removes the situation, an event about it is not needed.
+- What is needed is one safeguard event at the place where the rule breaks ("a second launch while the first one is still running"), with a reason tag. It stays silent while the fix works and reports loudly if it does not.
+- Normal behavior (a double tap) is not written to the error log.
