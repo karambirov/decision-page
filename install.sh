@@ -9,17 +9,16 @@
 # is present, it also runs npm install in the stageshow folder (about 110 MB, plus the npm cache).
 # Nothing else changes: no system packages, no settings.
 #
-# Running it again updates every skill it installed. A skill folder installed some other way is
-# moved to a backup folder first; a folder that is a symlink or a git checkout is left alone.
+# Helper skills are installed only when missing: a skill the person already has, in any form
+# (a folder, a link, a git checkout, a plugin), is left alone. Running it again updates
+# decision-page itself when this installer put it there.
 set -eu
 
 DEST="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
-BACKUP="$DEST/.decision-page-backup/$(date +%Y%m%d-%H%M%S)"
 MARK=".installed-by-decision-page"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT INT TERM
 mkdir -p "$DEST"
-backed_up=0
 
 # Download a GitHub repository once and print the folder it was unpacked into
 fetch() {
@@ -31,43 +30,56 @@ fetch() {
   printf '%s' "$dir"
 }
 
-# put <owner/repo> <folder in the repo> <skill name>
-put() {
-  target="$DEST/$3"
-  if [ -L "$target" ] || [ -d "$target/.git" ]; then
-    echo "  - $3: kept as is (a link or a git working copy)"
-    return 0
-  fi
+# Is a skill with this name already available to Claude Code: a folder or link in the skills
+# folder, or a skill inside an installed plugin?
+has_skill() {
+  [ -e "$DEST/$1" ] && return 0
+  [ -d "$HOME/.claude/plugins/cache" ] && find "$HOME/.claude/plugins/cache" -maxdepth 6 -path "*/$1/SKILL.md" 2>/dev/null | grep -q .
+}
+
+# copy <owner/repo> <folder in the repo> <skill name>
+copy() {
   src="$(fetch "$1")/$2"
   if [ ! -f "$src/SKILL.md" ]; then
     echo "  ! $3: not found in $1, skipped" >&2
-    return 0
+    return 1
   fi
-  if [ -d "$target" ] && [ ! -f "$target/$MARK" ]; then
-    mkdir -p "$BACKUP"
-    mv "$target" "$BACKUP/$3"
-    backed_up=$((backed_up + 1))
+  rm -rf "$DEST/$3"
+  cp -R "$src" "$DEST/$3"
+  printf 'https://github.com/%s/tree/HEAD/%s\n' "$1" "$2" > "$DEST/$3/$MARK"
+}
+
+# need <owner/repo> <folder in the repo> <skill name>: install a helper skill only when missing
+need() {
+  if has_skill "$3"; then
+    echo "  = $3: already installed"
+  elif copy "$1" "$2" "$3"; then
+    echo "  + $3"
   fi
-  rm -rf "$target"
-  cp -R "$src" "$target"
-  printf 'https://github.com/%s/tree/HEAD/%s\n' "$1" "$2" > "$target/$MARK"
-  echo "  + $3"
+}
+
+# This skill: install, or update a copy this installer put there; leave any other copy alone
+self() {
+  target="$DEST/decision-page"
+  if [ -e "$target" ] && [ ! -f "$target/$MARK" ]; then
+    echo "  = decision-page: already installed some other way, left as is"
+  elif [ -e "$target" ]; then
+    copy karambirov/decision-page . decision-page && echo "  ^ decision-page: updated"
+  else
+    copy karambirov/decision-page . decision-page && echo "  + decision-page"
+  fi
 }
 
 echo "Installing into $DEST"
-put karambirov/decision-page . decision-page
-put benjitaylor/skills stageshow stageshow
-put emilkowalski/skill skills/apple-design apple-design
-put emilkowalski/skill skills/emil-design-eng emil-design-eng
-put ehmo/platform-design-skills skills/web web-design-guidelines
-put ehmo/platform-design-skills skills/ios ios-design-guidelines
-put ehmo/platform-design-skills skills/android android-design-guidelines
-if grep -q '"redaktura-skills@' "$HOME/.claude/plugins/installed_plugins.json" 2>/dev/null; then
-  echo "  - redaktura, statya: already available through the redaktura-skills plugin"
-else
-  put N1arko/redaktura-skills redaktura redaktura
-  put N1arko/redaktura-skills statya statya
-fi
+self
+need benjitaylor/skills stageshow stageshow
+need emilkowalski/skill skills/apple-design apple-design
+need emilkowalski/skill skills/emil-design-eng emil-design-eng
+need ehmo/platform-design-skills skills/web web-design-guidelines
+need ehmo/platform-design-skills skills/ios ios-design-guidelines
+need ehmo/platform-design-skills skills/android android-design-guidelines
+need N1arko/redaktura-skills redaktura redaktura
+need N1arko/redaktura-skills statya statya
 
 # Python 3 builds every page. On a Mac without developer tools, /usr/bin/python3 is only a stub
 # that opens an install dialog, so do not run it there.
@@ -95,12 +107,14 @@ scenes=no
 node_note="needs Node.js 20.19 or newer from https://nodejs.org"
 if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
   if node -e 'const [a,b]=process.versions.node.split(".").map(Number); process.exit(a>20||(a===20&&b>=19)?0:1)' 2>/dev/null; then
-    if [ -f "$DEST/stageshow/package.json" ] && [ ! -L "$DEST/stageshow" ]; then
+    if [ -f "$DEST/stageshow/package.json" ] && [ -f "$DEST/stageshow/$MARK" ]; then
       if (cd "$DEST/stageshow" && npm install --no-fund --no-audit --loglevel=error >/dev/null 2>&1); then
         scenes=yes
       else
         node_note="npm install failed in $DEST/stageshow; run it there by hand to see why"
       fi
+    elif [ -d "$DEST/stageshow/node_modules" ]; then
+      scenes=yes
     fi
   else
     node_note="Node.js $(node -v) is too old; stageshow needs 20.19 or newer"
@@ -109,9 +123,6 @@ fi
 
 echo
 echo "Done."
-if [ "$backed_up" -gt 0 ]; then
-  echo "Replaced $backed_up skill(s) installed some other way; the old copies are in $BACKUP"
-fi
 if [ "$build_ok" = yes ]; then
   echo "Check: the example page builds. Python 3: ready."
 elif [ "$python_ok" = yes ]; then

@@ -27,24 +27,20 @@ It works for any topic: a trip, a dinner for six, what laptop to buy, how a conc
    ```
 
    What it does:
-   - **Skill folders.** It copies `decision-page` and the eight skills it relies on from their authors' repositories into `~/.claude/skills`. Set `CLAUDE_SKILLS_DIR` to use another folder.
+   - **Skill folders.** It copies `decision-page` into `~/.claude/skills`, then each of the eight skills it relies on that the person does not have yet, from its author's repository. Set `CLAUDE_SKILLS_DIR` to use another folder.
    - **Scenes.** When Node.js 20.19 or newer is present, it runs `npm install` in the `stageshow` folder. That takes about 110 MB, plus the npm cache.
-   - **Skills already in the folder:**
-     - A same-named skill that was installed some other way is moved to `~/.claude/skills/.decision-page-backup/` first.
-     - A folder that is a symlink or a git checkout is left alone.
-     - If the `redaktura-skills` plugin is installed, `redaktura` and `statya` are skipped.
+   - **Skills the person already has** are left alone, whatever way they were installed: a folder, a link, a git checkout or a plugin.
    - **Nothing else changes:** no system packages, no settings. The download is about 2 MB.
 2. **Read the last lines it prints and act on them:**
    - **"Check: the example page builds"** means the install works.
    - **"Python 3: MISSING".** Pages can't be built without Python 3. On a Mac, ask the person first, then run `xcode-select --install` and tell them to click **Install** in the window that opens. When it finishes, run step 1 again.
    - **"Check FAILED".** Run the command it prints, then fix what the error shows.
    - **"Animated scenes: off".** Node.js is missing or older than 20.19. This is optional: pages work without animated scenes. Offer to install Node.js from [nodejs.org](https://nodejs.org) only if the person wants scenes.
-   - **"Replaced N skill(s)".** Tell the person where the old copies are.
 3. **Tell the person to start a new chat,** so Claude picks up the skills. Give them an example request from [How to use it](#how-to-use-it), in their language.
 
-**Update.** Run step 1 again. It is safe to repeat, including after a run that stopped with an error.
+**Update.** Run step 1 again: it updates `decision-page` and adds any helper skill that is still missing. It is safe to repeat, including after a run that stopped with an error.
 
-**Remove.** Delete these folders from `~/.claude/skills`, plus `.decision-page-backup` if the person does not need the old copies:
+**Remove.** Delete these folders from `~/.claude/skills`, but only the ones whose folder has an `.installed-by-decision-page` file: the others were there before.
 - `decision-page`, `stageshow`, `apple-design`, `emil-design-eng`;
 - `web-design-guidelines`, `ios-design-guidelines`, `android-design-guidelines`;
 - `redaktura`, `statya`.

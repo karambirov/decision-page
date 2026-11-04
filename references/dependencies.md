@@ -11,7 +11,7 @@ The page relies on several skills. The template already contains their main rule
 | `ios-design-guidelines`, `android-design-guidelines` | `npx skills add ehmo/platform-design-skills` | interface behavior requirements when a proposal changes an app screen | general platform knowledge |
 | `statya`, `redaktura` | `npx skills add N1arko/redaktura-skills`, or the Claude Code plugin from the same repository (then the names are `redaktura-skills:statya`, `redaktura-skills:redaktura`) | structure and editing of Russian text | the rules from [language.md](language.md) |
 
-All of the above except the built-in ones install with one command, which also runs `npm install` for `stageshow` when Node.js is present: `curl -fsSL https://raw.githubusercontent.com/karambirov/decision-page/main/install.sh | sh`. It needs only curl and tar, copies each skill from its author's repository into `~/.claude/skills`, moves a same-named skill installed some other way to `~/.claude/skills/.decision-page-backup/`, leaves alone any folder that is a link or a git working copy, skips `redaktura` and `statya` when the `redaktura-skills` plugin is installed, and ends by building the bundled example page as a check.
+All of the above except the built-in ones install with one command, which also runs `npm install` for `stageshow` when Node.js is present: `curl -fsSL https://raw.githubusercontent.com/karambirov/decision-page/main/install.sh | sh`. It needs only curl and tar, copies each skill from its author's repository into `~/.claude/skills`, installs a helper skill only when the person does not have it yet (as a folder, a link or a plugin), and ends by building the bundled example page as a check.
 
 The scripts need Python 3 (standard library only), and Node 20 to build scenes.
 
