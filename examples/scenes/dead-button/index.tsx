@@ -111,7 +111,7 @@ export default function DeadButton() {
 
               <footer className="sb-foot">
                 <span className="sb-buy" data-target="buy">
-                  Оформить заказ · 2&nbsp;490&nbsp;₽
+                  Checkout · $34.90
                 </span>
               </footer>
 
@@ -121,7 +121,7 @@ export default function DeadButton() {
                 <span className="sb-sheet__close" data-target="close">
                   <Icon name="close" size={14} stroke={2} />
                 </span>
-                <span className="sb-sheet__title">Как вам прошлая покупка?</span>
+                <span className="sb-sheet__title">How was your last purchase?</span>
                 <span className="sb-sheet__scores">
                   {[0, 1, 2, 3, 4].map((i) => (
                     <span key={i} className="sb-score" />
@@ -131,7 +131,7 @@ export default function DeadButton() {
                   <Bar w={54} h={8} r={4} tone={2} />
                   <Bar w={62} h={8} r={4} tone={2} />
                 </span>
-                <span className="sb-sheet__send">Отправить</span>
+                <span className="sb-sheet__send">Send</span>
               </div>
             </div>
           </Phone>
@@ -140,23 +140,23 @@ export default function DeadButton() {
           <div className="sb-issue" data-target="issue" data-hit={s.taps > 0 || undefined}>
             <span className="sb-issue__head">
               <Badge tone="danger" dot>
-                ошибка
+                error
               </Badge>
-              <span className="sb-issue__team">за 30 дней</span>
+              <span className="sb-issue__team">last 30 days</span>
             </span>
-            <span className="sb-issue__title">Повторное нажатие «Оформить заказ»</span>
+            <span className="sb-issue__title">Repeated “Checkout” tap</span>
             <span className="sb-issue__stats">
               <span className="sb-stat">
                 <span className="sb-stat__value">
-                  <Count value={EVENTS + s.taps} duration={360} format={(n) => Math.round(n).toLocaleString('ru-RU')} />
+                  <Count value={EVENTS + s.taps} duration={360} format={(n) => Math.round(n).toLocaleString('en-US')} />
                 </span>
-                <span className="sb-stat__label">событий</span>
+                <span className="sb-stat__label">events</span>
               </span>
               <span className="sb-stat">
                 <span className="sb-stat__value">
-                  <Count value={USERS + (s.taps > 0 ? 1 : 0)} duration={360} format={(n) => Math.round(n).toLocaleString('ru-RU')} />
+                  <Count value={USERS + (s.taps > 0 ? 1 : 0)} duration={360} format={(n) => Math.round(n).toLocaleString('en-US')} />
                 </span>
-                <span className="sb-stat__label">человек</span>
+                <span className="sb-stat__label">people</span>
               </span>
             </span>
           </div>
