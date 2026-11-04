@@ -172,7 +172,7 @@ def main():
             errors.append(f'decision "{d}": radio name must equal the decision id, found {sorted(bad_names)}')
         values = [r.get('value') for r in radios]
         if 'other' in values:
-            errors.append(f'decision "{d}": the value "other" is reserved, the engine adds «Другое» itself')
+            errors.append(f'decision "{d}": the value "other" is reserved, the engine adds the "Other" option itself')
         if len(values) != len(set(values)):
             errors.append(f'decision "{d}": duplicate option values')
         recs = [a for t, a, ds in c.elements if 'rec' in (a.get('class') or '').split() and ds and ds[-1] == d]

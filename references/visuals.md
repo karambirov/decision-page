@@ -17,7 +17,7 @@ One thing per question that the reader can touch. It answers "how does this work
 
 ## stageshow scene
 
-When the problem is visible to the user, a scene convinces better than any description. Example: `examples/scenes/dead-button` shows how, after a survey is closed, the «Оформить заказ» ("Place order") button stops working, while the event counter in the error log grows with every tap.
+When the problem is visible to the user, a scene convinces better than any description. Example: `examples/scenes/dead-button` shows how, after a survey is closed, the "Checkout" button stops working, while the event counter in the error log grows with every tap.
 
 How to build one:
 
@@ -35,7 +35,7 @@ The build weighs about 400 KB; that is normal. Build several scenes on one page 
 
 ## Signal path
 
-Fits error logs, analytics, network failures: "request → network layer → handler → log". Five to seven steps, each with a result: "sent", "stayed silent", "logged again". The «После исправления» ("After the fix") mode changes only the steps that the fix changes.
+Fits error logs, analytics, network failures: "request → network layer → handler → log". Five to seven steps, each with a result: "sent", "stayed silent", "logged again". The "After the fix" mode changes only the steps that the fix changes.
 
 ## Situation switcher
 

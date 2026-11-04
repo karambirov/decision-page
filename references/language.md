@@ -4,7 +4,7 @@ The reader is busy and opens the page between other tasks. The text must read on
 
 Pages are written in the reader's language. The rules below hold for any language; the extra rules for Russian are in [Russian pages](#russian-pages).
 
-The engine's own strings (buttons, statuses, the question counter, the «Другое» / "Other" option, the summary) come in Russian and English. Set `data-lang` on `<main>` to the page's language; for another language pick the closer of the two and write the rest of the page in the reader's language.
+The engine's own strings (buttons, statuses, the question counter, the "Other" option, the summary) come in Russian and English. Set `data-lang` on `<main>` to the page's language; for another language pick the closer of the two and write the rest of the page in the reader's language.
 
 ## Rules
 
@@ -12,10 +12,10 @@ The engine's own strings (buttons, statuses, the question counter, the «Дру�
 - **Each fact once.** A repeat is the same conclusion or the same number in the text. A number that a widget shows (a bar label, a path step) does not count as a repeat. If a conclusion is needed in two questions, link to it from the second one (`data-goto`).
 - **How much text is visible at once.** The answer heading and the paragraph under it: up to 120 words. Facts, widget labels and decision options do not count.
 - **Short paragraphs.** One idea, two or three sentences.
-- **No judgments instead of facts.** Not "a critical problem", but "2,132 people could not place an order in two weeks".
-- **Numbers for people.** "327K", "9.3%", "about one in ten". The period and the source next to the number. Turn event counts into people and a share.
-- **Honest confidence.** "Checked on 4 events out of 300", "from the code, without reproducing it". Doubtful items go into the «Что я не проверил» ("What I did not check") block.
-- **Decision options.** A verb and a consequence: "Fix it in the shared code. This also closes the same events for other teams."
+- **No judgments instead of facts.** Not "a critical problem", but "1,240 people could not finish checkout in two weeks".
+- **Numbers for people.** "48K", "6.4%", "about one in fifteen". The period and the source next to the number. Turn event counts into people and a share.
+- **Honest confidence.** "Checked on 5 events out of 300", "from the code, without reproducing it". Doubtful items go into the "What I didn't check" block.
+- **Decision options.** A verb and a consequence: "Retry the upload three times. Most failed uploads go through on the second try."
 
 ## Terms
 
@@ -31,7 +31,7 @@ The reply is written for the addressee, not for the owner, in the addressee's re
 
 Extra rules for pages in Russian.
 
-**Numbers.** Write them the Russian way: «327 тыс.», «9,3 %», «примерно каждый десятый».
+**Numbers.** Write them the Russian way: «48 тыс.», «6,4 %», «примерно каждый десятый».
 
 **Terms.** Replace slang and anglicisms with Russian words. The `.term` rule above still applies to terms that cannot be avoided.
 

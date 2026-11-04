@@ -15,14 +15,14 @@ Why: cards with shadows, colored badges and an accent of the page's own make the
 
 ## Skeleton
 
-On a wide screen there is a sidebar menu on the left, like the chat list in Claude, and one question on the right. Below 1000 px the menu opens as a dropdown from the top bar, which holds the current question, the «2 из 6» ("2 of 6") counter and the arrows. Scroll position is remembered for each question. The template keeps the top bar, the backdrop and the menu button outside the `<!--APP-->` section: they are not written by hand.
+On a wide screen there is a sidebar menu on the left, like the chat list in Claude, and one question on the right. Below 1000 px the menu opens as a dropdown from the top bar, which holds the current question, the "2 of 6" counter and the arrows. Scroll position is remembered for each question. The template keeps the top bar, the backdrop and the menu button outside the `<!--APP-->` section: they are not written by hand.
 
 | Part | Markup | Rule |
 |---|---|---|
 | Menu header | `aside.side > .side-head` | a caption, an `h1` with the title, a short paragraph about who asked and about what, links to sources |
-| Menu item | `a.q-link[href="#ID"][data-panel=ID]` in `nav.qnav` | `.n` (number or topic), `.t` (the question in the asker's words), `.row` with the verdict `.pill`; «Итог» (summary) last, with the `q-summary` class |
-| Interface language | `div.content > main[data-lang="ru"]` or `"en"` | the language of the engine's own strings: buttons, statuses, the counter, «Другое» / "Other", the summary. Match it to the page text. Without it the engine picks ru for a Cyrillic `h1`, otherwise en; `build.py` warns |
-| Question | `section.panel#ID` inside `div.content > main` | all except the first with `hidden`. The engine adds the line with the question above the answer, the decision progress in the menu and the «Дальше» ("Next") button at the end by itself |
+| Menu item | `a.q-link[href="#ID"][data-panel=ID]` in `nav.qnav` | `.n` (number or topic), `.t` (the question in the asker's words), `.row` with the verdict `.pill`; "Summary" last, with the `q-summary` class. On Russian pages call it «Итог»: the engine's Russian messages refer to it by that name |
+| Interface language | `div.content > main[data-lang="ru"]` or `"en"` | the language of the engine's own strings: buttons, statuses, the counter, the "Other" option, the summary. Match it to the page text. Without it the engine picks ru for a Cyrillic `h1`, otherwise en; `build.py` warns |
+| Question | `section.panel#ID` inside `div.content > main` | all except the first with `hidden`. The engine adds the line with the question above the answer, the decision progress in the menu and the "Next" button at the end by itself |
 | Answer | `.answer > h2 + p` | the heading answers the question, the paragraph explains why |
 | Facts | `.facts > .fact > b + span` | up to three, the number large, the caption with the period. Write a caveat under them (for example, "test data") as `p.note` |
 | Block | `.block`, heading `.block-head > h3` | one idea per block |
@@ -34,7 +34,7 @@ A verdict is short, usually 2–5 words. Verdict colors: `.pill.neutral` (noise,
 
 ## Signal path with modes
 
-Shows how one event passes through the layers and where it breaks. The «Сейчас / После исправления» ("Now / After the fix") modes show the difference without a second diagram.
+Shows how one event passes through the layers and where it breaks. The "Now / After the fix" modes show the difference without a second diagram.
 
 - Container `.block[data-path][data-modes]`, start button `[data-path-play]`. There can be any number of modes, `data-in-mode` goes on any element inside, and `data-modes` also works without a path (for example, for code shown as "now / proposed").
 - Steps `li.path-step`, dot type `data-kind="sent|quiet|leak"`, or per mode `data-kinds="now:leak after:quiet"`.
@@ -49,7 +49,7 @@ Several scenarios of one phenomenon: "double tap", "long loading", "freeze". Eac
 
 ## Step-through
 
-A sequence with causality: a race, a freeze, a user's path. The reader goes through the steps with the «Дальше» button.
+A sequence with causality: a race, a freeze, a user's path. The reader goes through the steps with the "Next" button.
 
 - Container `.stepper`, steps `ol.steps > li`, the step where things break with the `bad` class, buttons `[data-step=prev]` and `[data-step=next]`, counter `.count`.
 - Five to seven steps. If there are more, split them into situations.
@@ -84,23 +84,23 @@ An animated interface fragment from `stageshow`: `<div class="demo-host" data-mo
 ## Decision
 
 ```html
-<div class="block decision" data-id="docs-event" data-title="Событие о документах">
+<div class="block decision" data-id="upload-retry" data-title="Photo upload retries">
   <fieldset>
-    <legend>Что сделать с событием о документах</legend>
-    <label class="opt"><input type="radio" name="docs-event" value="fix-shared"><span class="ot">Исправить в общем коде<span class="rec">советую</span><span class="od">Закроет такие же события у других команд.</span></span></label>
-    <label class="opt"><input type="radio" name="docs-event" value="keep"><span class="ot">Оставить как есть</span></label>
+    <legend>What to do when a photo upload fails</legend>
+    <label class="opt"><input type="radio" name="upload-retry" value="retry-3"><span class="ot">Retry three times, then show an error<span class="rec">recommended</span><span class="od">Most uploads that fail on a weak network go through on the second try.</span></span></label>
+    <label class="opt"><input type="radio" name="upload-retry" value="keep"><span class="ot">Leave as is<span class="od">People keep seeing an error after the first failure.</span></span></label>
   </fieldset>
 </div>
 ```
 
 - `data-id` is unique on the page and matches the options' `name`. Option values are short and in Latin letters: Claude reads the choice by them.
-- The engine adds the comment field, the status line and the last option «Другое» ("Other") by itself. «Другое» is always needed: the person may disagree with every option. If it is chosen, the comment field becomes «Свой вариант» ("Your own option"), and the summary shows that text. The value `other` is reserved; do not add your own «Другое» to the markup.
+- The engine adds the comment field, the status line and the last option "Other" by itself. "Other" is always needed: the person may disagree with every option. If it is chosen, the comment field becomes "Your own option", and the summary shows that text. The value `other` is reserved; do not add your own "Other" option to the markup.
 - Options are mutually exclusive. Each has a one-line consequence `.od`. The recommended one is marked `.rec`, and the reason for the recommendation is visible in its consequence.
-- Whether you need «Не сейчас» ("Not now") or «Оставить как есть» ("Leave as is"), decide by meaning: it is often an honest option.
+- Whether you need "Not now" or "Leave as is", decide by meaning: it is often an honest option.
 
 ## Summary
 
-The `#summary` question with `#sum-list`, `#dec-count` in the «Итог» menu item, `#reply` with a copy button, `#export-decisions` (it appears by itself if there is no page storage), and the «Что я не проверил» ("What I did not check") and «Источники» ("Sources") blocks. The reply text is assembled by `window.PAGE.composeReply(d)`: `d.choice(id)` gives the option's value, `d.label(id)` its label, `d.note(id)` the comment.
+The `#summary` question with `#sum-list`, `#dec-count` in the "Summary" menu item, `#reply` with a copy button, `#export-decisions` (it appears by itself if there is no page storage), and the "What I didn't check" and "Sources" blocks. The reply text is assembled by `window.PAGE.composeReply(d)`: `d.choice(id)` gives the option's value, `d.label(id)` its label, `d.note(id)` the comment.
 
 ## Nesting widgets
 

@@ -53,7 +53,7 @@ The page shows the answer, not the search for it. While the answers are unknown,
 
 - Every claim rests on an artifact: a file and line at a specific SHA, a query and period in the data, an event in the logs, a message in a thread. Write down in advance where every number comes from.
 - Look for a second, independent support for the main conclusion: for example, check the error log against product analytics. A disagreement between sources is a finding in itself.
-- State your confidence. Unchecked items go into the «Что я не проверил» ("What I did not check") block, not into the facts.
+- State your confidence. Unchecked items go into the "What I didn't check" block, not into the facts.
 - Before every proposal, go through the [proposal checklist](references/proposals.md). The owner almost always asks the same things: what we lose, where it will live, what it costs, how not to break anything.
 
 ### 3. Outline
@@ -69,7 +69,7 @@ Before the layout, fill in this table for each question, and check it with the o
 | Decisions | one to three, each with options and their consequences, and a comment |
 | Details | code, queries, links, caveats behind a disclosure |
 
-The last menu item is always «Итог» (summary): the list of decisions, the reply draft with a «Скопировать» (copy) button, «Что я не проверил», sources.
+The last menu item is always "Summary" («Итог» on Russian pages): the list of decisions, the reply draft with a "Copy" button, "What I didn't check", sources.
 
 ### 4. Assembly
 
@@ -80,7 +80,7 @@ The last menu item is always «Итог» (summary): the list of decisions, the 
 
 ### 5. Text
 
-Write for a busy person, following [references/language.md](references/language.md): answer first, each fact once, no slang or borrowed jargon, unavoidable terms as explain buttons. For Russian text, run the visible text through `redaktura-skills:redaktura` if it is installed.
+Write for a busy person, following [references/language.md](references/language.md): answer first, each fact once, no slang or borrowed jargon, unavoidable terms as explain buttons. For Russian text, run the visible text through `redaktura` (`redaktura-skills:redaktura` when installed as a plugin) if it is installed.
 
 ### 6. Checks
 
@@ -119,16 +119,16 @@ The page looks and works well thanks to several skills. The template already car
 | `dataviz`, `artifact-diagramming` | charts and diagrams | when the page has a chart or a diagram |
 | `apple-design`, `emil-design-eng` | motion, presses, step-by-step reveal | for a new widget or animation |
 | `web-design-guidelines` | accessibility, keyboard, responsiveness | for a new widget |
-| `redaktura-skills:statya`, `redaktura-skills:redaktura` | structure and editing of Russian text | at the text step |
-| platform design skills: for iOS `ios-design-guidelines`, `apple-design`, `uikit-max` | interface behavior requirements in proposals | when a proposal changes what the person sees ([proposals.md](references/proposals.md)) |
+| `statya`, `redaktura` (or `redaktura-skills:statya`, `redaktura-skills:redaktura` as a plugin) | structure and editing of Russian text | at the text step |
+| platform design skills: for iOS `ios-design-guidelines`, `apple-design`, `uikit-max`; for Android `android-design-guidelines` | interface behavior requirements in proposals | when a proposal changes what the person sees ([proposals.md](references/proposals.md)) |
 
-Where to install them from and how to manage without them is described in [references/dependencies.md](references/dependencies.md).
+`sh scripts/install-deps.sh` installs all of them except the built-in ones and `uikit-max`. Where each comes from and how to manage without them is described in [references/dependencies.md](references/dependencies.md). If a page needs a missing skill, say which one and how to install it, then go on without it.
 
 ## Files
 
 - `assets/template.html`: the page skeleton with the engine (question menu, or a switcher in a narrow pane, scroll memory, terms, widgets, decisions, storage, reply).
 - `scripts/build.py`: markup checks, scene insertion, building `page.html` and `preview.html`.
 - `scripts/build-scene.mjs`: builds a stageshow scene into a single script for embedding.
-- `examples/scenes/dead-button`: an example scene: the «Оформить заказ» ("Place order") button stops working while the error counter grows.
+- `examples/scenes/dead-button`: an example scene: the "Checkout" button stops working while the error counter grows.
 - `examples/pages/release-cadence.content.html` and `release-cadence.en.content.html`: the same example content file in Russian and English, on made-up data: release cadence and hotfixes.
 - `references/`: modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies.

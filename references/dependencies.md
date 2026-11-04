@@ -8,18 +8,19 @@ The page relies on several skills. The template already contains their main rule
 | `stageshow` | `npx skills add benjitaylor/skills`, then `npm install` in the skill's folder | animated interface scenes | a step-through or a situation switcher instead of a scene |
 | `apple-design`, `emil-design-eng` | `npx skills add emilkowalski/skill` | motion, presses, step-by-step reveal | the rules from the template and [components.md](components.md) |
 | `web-design-guidelines` | `npx skills add ehmo/platform-design-skills` | accessibility, keyboard, responsiveness | the rules from [components.md](components.md) |
-| `redaktura-skills:statya`, `redaktura-skills:redaktura` | Claude Code plugin from `N1arko/redaktura-skills` | structure and editing of Russian text | the rules from [language.md](language.md) |
+| `ios-design-guidelines`, `android-design-guidelines` | `npx skills add ehmo/platform-design-skills` | interface behavior requirements when a proposal changes an app screen | general platform knowledge |
+| `statya`, `redaktura` | `npx skills add N1arko/redaktura-skills`, or the Claude Code plugin from the same repository (then the names are `redaktura-skills:statya`, `redaktura-skills:redaktura`) | structure and editing of Russian text | the rules from [language.md](language.md) |
+
+All of the above except the built-in ones install with one command from the skill's folder: `sh scripts/install-deps.sh`. It also runs `npm install` for `stageshow`.
 
 The scripts need Python 3 (standard library only), and Node 20 to build scenes.
 
 ## How to share the skill
 
-The skill is not distributed yet; see [CONTRIBUTING.md](../CONTRIBUTING.md) and the distribution issue before offering it to anyone. When it is, the notes below apply.
-
 Nothing in the skill ties it to one company or one person. Personal rules (writing style, message approval, task tracker, language) live in each person's CLAUDE.md and memory; the skill only respects them. The examples in `examples/` use made-up data.
 
-- **Git.** The `decision-page` folder is the repository: `SKILL.md` at the root, `README.md` next to it. Colleagues clone it into `~/.claude/skills/decision-page` or `~/.agents/skills/decision-page`.
-- **npx.** It installs with one command: `npx skills add karambirov/decision-page -g -a claude-code`; a private repository needs read access and git that can clone it. Update: `npx skills update decision-page`.
+- **npx.** `npx skills add karambirov/decision-page -g -a claude-code -y`, then `sh ~/.claude/skills/decision-page/scripts/install-deps.sh` for the dependencies. Update: `npx skills update decision-page`. If the repository is private, installing needs read access and git that can clone it.
+- **Git.** The `decision-page` folder is the repository: `SKILL.md` at the root, `README.md` next to it. It also works as a plain clone into `~/.claude/skills/decision-page`.
 - **Different Claude accounts.** The page is published in the account of whoever works with the skill and by default is visible only to them. Each page has its own choice storage.
 
 ## What depends on the environment
@@ -27,7 +28,7 @@ Nothing in the skill ties it to one company or one person. Personal rules (writi
 | Environment | What works |
 |---|---|
 | Claude Code in the Claude Desktop app or on claude.ai | everything: publishing the page, choice storage, Claude reading the choices, the app's look |
-| Claude Code in a terminal without the Artifact tool | the page builds as a local file and opens in a browser; choices are stored in the browser and passed to Claude with the "Copy choices as text" button («Скопировать выбор текстом» on Russian pages) |
+| Claude Code in a terminal without the Artifact tool | the page builds as a local file and opens in a browser; choices are stored in the browser and passed to Claude with the "Copy choices as text for Claude" button |
 | other agents (Codex and the like) | not a target. The template, the build and the checks do not depend on Claude, so they may work, but nobody tests this |
 
 Scenes need `stageshow` installed and Node 20; without them the page builds without scenes.

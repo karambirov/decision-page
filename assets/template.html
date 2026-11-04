@@ -1,4 +1,4 @@
-<title>{{Название страницы в 2–4 слова}}</title>
+<title>{{Page name in 2–4 words}}</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* decision-page template, made to sit next to the chat in Claude Desktop: the same white ground, grey surfaces,
@@ -374,119 +374,119 @@ pre.code .c { color: var(--faint); }
     <button type="button" class="nav-btn" data-step-q="1"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
 <!--APP-->
-  <aside class="side" id="side" aria-label="Вопросы страницы">
+  <aside class="side" id="side" aria-label="Questions on this page">
     <div class="side-head">
-      <div class="eyebrow">{{Что это: разбор треда, инцидента, обращения}} · {{дата}}</div>
-      <h1>{{Заголовок: суть в 3–6 словах}}</h1>
-      <p class="lede">{{Кто и о чём спросил, одной-двумя фразами.}}</p>
-      <div class="meta"><span>Данные: {{период}}</span><a href="{{ссылка на SHA}}">{{Код на SHA}}</a><a href="{{ссылка на источник}}">{{Источник}}</a></div>
+      <div class="eyebrow">{{What this is: a thread, incident or request review}} · {{date}}</div>
+      <h1>{{Title: the gist in 3–6 words}}</h1>
+      <p class="lede">{{Who asked about what, in one or two sentences.}}</p>
+      <div class="meta"><span>Data: {{period}}</span><a href="{{link to the SHA}}">{{Code at SHA}}</a><a href="{{link to the source}}">{{Source}}</a></div>
     </div>
     <!-- One link per question, the summary last. data-panel is the id of the section it opens. -->
-    <nav class="qnav" aria-label="Вопросы">
-      <div class="qnav-label">Вопросы</div>
-      <a class="q-link" href="#q1" data-panel="q1"><span class="n">Вопрос 1</span><span class="t">{{Вопрос словами спросившего}}</span><span class="row"><span class="pill neutral">{{Вердикт}}</span></span></a>
-      <a class="q-link" href="#q2" data-panel="q2"><span class="n">Вопрос 2</span><span class="t">{{Вопрос}}</span><span class="row"><span class="pill bad">{{Вердикт}}</span></span></a>
-      <a class="q-link" href="#q3" data-panel="q3"><span class="n">Вопрос 3</span><span class="t">{{Вопрос}}</span><span class="row"><span class="pill warn">{{Вердикт}}</span></span></a>
-      <a class="q-link q-summary" href="#summary" data-panel="summary"><span class="n">Итог</span><span class="t">Решения и ответ</span><span class="row"><span class="pill info" id="dec-count">0 выбрано</span></span></a>
+    <nav class="qnav" aria-label="Questions">
+      <div class="qnav-label">Questions</div>
+      <a class="q-link" href="#q1" data-panel="q1"><span class="n">Question 1</span><span class="t">{{The question in the asker's words}}</span><span class="row"><span class="pill neutral">{{Verdict}}</span></span></a>
+      <a class="q-link" href="#q2" data-panel="q2"><span class="n">Question 2</span><span class="t">{{Question}}</span><span class="row"><span class="pill bad">{{Verdict}}</span></span></a>
+      <a class="q-link" href="#q3" data-panel="q3"><span class="n">Question 3</span><span class="t">{{Question}}</span><span class="row"><span class="pill warn">{{Verdict}}</span></span></a>
+      <a class="q-link q-summary" href="#summary" data-panel="summary"><span class="n">Summary</span><span class="t">Decisions and the reply</span><span class="row"><span class="pill info" id="dec-count">0 chosen</span></span></a>
     </nav>
   </aside>
 
   <div class="content">
 <!-- data-lang: "ru" or "en", the language of the engine's own interface (buttons, statuses, counters). Without it the engine picks ru when the h1 has Cyrillic, otherwise en. -->
-<main data-collection="decisions" data-lang="{{ru или en}}">
+<main data-collection="decisions" data-lang="{{ru or en}}">
   <!-- ===================== Question 1: path with now/after modes ===================== -->
   <section class="panel" id="q1">
     <div class="answer">
-      <h2>{{Ответ одной фразой}}</h2>
-      <p>{{Одна-две фразы: почему так. Термин, который нужно пояснить, оформи кнопкой:}} <button type="button" class="term" data-term="example">{{термин}}</button>.</p>
+      <h2>{{The answer in one sentence}}</h2>
+      <p>{{One or two sentences on why. Make a term that needs explaining a button:}} <button type="button" class="term" data-term="example">{{term}}</button>.</p>
     </div>
 
     <div class="facts">
-      <div class="fact"><b>{{Цифра}}</b><span>{{что она значит, период}}</span></div>
-      <div class="fact"><b>{{Цифра}}</b><span>{{подпись}}</span></div>
-      <div class="fact"><b>{{Цифра}}</b><span>{{подпись}}</span></div>
+      <div class="fact"><b>{{Number}}</b><span>{{what it means, period}}</span></div>
+      <div class="fact"><b>{{Number}}</b><span>{{caption}}</span></div>
+      <div class="fact"><b>{{Number}}</b><span>{{caption}}</span></div>
     </div>
 
     <div class="block" data-path data-modes>
       <div class="block-head">
-        <h3>{{Путь одного сигнала}}</h3>
-        <div class="seg" role="group" aria-label="Режим">
-          <button type="button" data-mode="now" aria-pressed="true">Сейчас</button>
-          <button type="button" data-mode="after" aria-pressed="false">После исправления</button>
+        <h3>{{One signal's path}}</h3>
+        <div class="seg" role="group" aria-label="Mode">
+          <button type="button" data-mode="now" aria-pressed="true">Now</button>
+          <button type="button" data-mode="after" aria-pressed="false">After the fix</button>
         </div>
       </div>
       <ol class="path-steps">
-        <li class="path-step" data-kind="sent"><span class="dot">1</span><span class="what">{{Шаг}}<small>{{пояснение}}</small></span><span class="res"><span class="pill info">{{Итог шага}}</span></span></li>
+        <li class="path-step" data-kind="sent"><span class="dot">1</span><span class="what">{{Step}}<small>{{explanation}}</small></span><span class="res"><span class="pill info">{{Step result}}</span></span></li>
         <li class="path-step" data-kinds="now:leak after:quiet"><span class="dot">2</span>
-          <span class="what" data-in-mode="now">{{Что происходит сейчас}}</span>
-          <span class="what" data-in-mode="after" hidden>{{Что будет после}}</span>
-          <span class="res"><span class="pill bad" data-in-mode="now">{{Плохо}}</span><span class="pill ok" data-in-mode="after" hidden>{{Хорошо}}</span></span></li>
+          <span class="what" data-in-mode="now">{{What happens now}}</span>
+          <span class="what" data-in-mode="after" hidden>{{What happens after}}</span>
+          <span class="res"><span class="pill bad" data-in-mode="now">{{Bad}}</span><span class="pill ok" data-in-mode="after" hidden>{{Good}}</span></span></li>
       </ol>
-      <p class="path-sum" data-in-mode="now">{{Итог сейчас}}</p>
-      <p class="path-sum" data-in-mode="after" hidden>{{Итог после}}</p>
-      <div><button type="button" class="btn primary" data-path-play>{{Пустить сигнал}}</button></div>
+      <p class="path-sum" data-in-mode="now">{{Result now}}</p>
+      <p class="path-sum" data-in-mode="after" hidden>{{Result after}}</p>
+      <div><button type="button" class="btn primary" data-path-play>{{Send the signal}}</button></div>
     </div>
 
-    <div class="block decision" data-id="q1-main" data-title="{{Короткое имя решения}}">
+    <div class="block decision" data-id="q1-main" data-title="{{Short decision name}}">
       <fieldset>
-        <legend>{{Вопрос решения: что сделать с …}}</legend>
-        <label class="opt"><input type="radio" name="q1-main" value="opt-a"><span class="ot">{{Вариант}}<span class="rec">советую</span><span class="od">{{Последствие в одну строку}}</span></span></label>
-        <label class="opt"><input type="radio" name="q1-main" value="opt-b"><span class="ot">{{Вариант}}<span class="od">{{Последствие}}</span></span></label>
-        <label class="opt"><input type="radio" name="q1-main" value="keep"><span class="ot">Оставить как есть</span></label>
+        <legend>{{Decision question: what to do with …}}</legend>
+        <label class="opt"><input type="radio" name="q1-main" value="opt-a"><span class="ot">{{Option}}<span class="rec">recommended</span><span class="od">{{One-line consequence}}</span></span></label>
+        <label class="opt"><input type="radio" name="q1-main" value="opt-b"><span class="ot">{{Option}}<span class="od">{{Consequence}}</span></span></label>
+        <label class="opt"><input type="radio" name="q1-main" value="keep"><span class="ot">Leave as is</span></label>
       </fieldset>
     </div>
 
     <details class="more">
-      <summary>Показать код и доказательства</summary>
-      <p class="code-cap">{{путь/к/файлу.swift:строки}}</p>
-      <pre class="code"><span class="l">{{строка кода}}</span><span class="l m">{{отмеченная строка}}</span></pre>
-      <p>{{Оговорки и ссылки}}</p>
+      <summary>Show the code and evidence</summary>
+      <p class="code-cap">{{path/to/file.swift:lines}}</p>
+      <pre class="code"><span class="l">{{code line}}</span><span class="l m">{{highlighted line}}</span></pre>
+      <p>{{Caveats and links}}</p>
     </details>
   </section>
 
   <!-- ===================== Question 2: scene, situations, stepper ===================== -->
   <section class="panel" id="q2" hidden>
     <div class="answer">
-      <h2>{{Ответ}}</h2>
-      <p>{{Почему}}</p>
+      <h2>{{Answer}}</h2>
+      <p>{{Why}}</p>
     </div>
 
     <!-- Animated scene from stageshow; mounts when the tab opens. Remove the block if there is no scene. -->
     <div class="block">
       <div class="demo-host" data-mount="{{SceneGlobalName}}"></div>
-      <p class="note">{{Подпись: что видно в сцене}}</p>
+      <p class="note">{{Caption: what the scene shows}}</p>
     </div>
 
     <div class="block" data-toggle>
       <div class="block-head">
-        <h3>{{Три ситуации}}</h3>
-        <div class="seg" role="tablist" aria-label="Ситуации">
-          <button type="button" role="tab" data-show="a" aria-selected="true">{{А}}</button>
-          <button type="button" role="tab" data-show="b" aria-selected="false" tabindex="-1">{{Б}}</button>
+        <h3>{{Three situations}}</h3>
+        <div class="seg" role="tablist" aria-label="Situations">
+          <button type="button" role="tab" data-show="a" aria-selected="true">{{A}}</button>
+          <button type="button" role="tab" data-show="b" aria-selected="false" tabindex="-1">{{B}}</button>
         </div>
       </div>
-      <div class="toggle-body" data-when="a"><p>{{Описание ситуации А}}</p></div>
-      <div class="toggle-body" data-when="b" hidden><p>{{Описание ситуации Б}}</p></div>
+      <div class="toggle-body" data-when="a"><p>{{Description of situation A}}</p></div>
+      <div class="toggle-body" data-when="b" hidden><p>{{Description of situation B}}</p></div>
     </div>
 
     <div class="block stepper">
-      <h3>{{Как это происходит по шагам}}</h3>
+      <h3>{{How it happens, step by step}}</h3>
       <ol class="steps">
-        <li>{{Шаг}}</li>
-        <li class="bad">{{Шаг, где ломается}}</li>
+        <li>{{Step}}</li>
+        <li class="bad">{{The step where it breaks}}</li>
       </ol>
       <div class="stepper-nav">
-        <button type="button" class="btn" data-step="prev">Назад</button>
-        <button type="button" class="btn primary" data-step="next">Дальше</button>
+        <button type="button" class="btn" data-step="prev">Back</button>
+        <button type="button" class="btn primary" data-step="next">Next</button>
         <span class="count"></span>
       </div>
     </div>
 
-    <div class="block decision" data-id="q2-main" data-title="{{Имя решения}}">
+    <div class="block decision" data-id="q2-main" data-title="{{Decision name}}">
       <fieldset>
-        <legend>{{Вопрос решения}}</legend>
-        <label class="opt"><input type="radio" name="q2-main" value="fix"><span class="ot">{{Вариант}}<span class="rec">советую</span><span class="od">{{Последствие}}</span></span></label>
-        <label class="opt"><input type="radio" name="q2-main" value="later"><span class="ot">Не сейчас</span></label>
+        <legend>{{Decision question}}</legend>
+        <label class="opt"><input type="radio" name="q2-main" value="fix"><span class="ot">{{Option}}<span class="rec">recommended</span><span class="od">{{Consequence}}</span></span></label>
+        <label class="opt"><input type="radio" name="q2-main" value="later"><span class="ot">Not now</span></label>
       </fieldset>
     </div>
   </section>
@@ -494,47 +494,47 @@ pre.code .c { color: var(--faint); }
   <!-- ===================== Question 3: presets, compare, chart ===================== -->
   <section class="panel" id="q3" hidden>
     <div class="answer">
-      <h2>{{Ответ}}</h2>
-      <p>{{Почему}}</p>
+      <h2>{{Answer}}</h2>
+      <p>{{Why}}</p>
     </div>
 
     <div class="block compare-block">
-      <h3>{{Что работает, а что нет}}</h3>
+      <h3>{{What works and what does not}}</h3>
       <div class="compare">
-        <div class="cmp yes"><h4>{{Работает}}</h4><div class="chips"><span class="chip"><code>{{поле}}</code></span></div></div>
-        <div class="cmp no"><h4>{{Не работает}}</h4><div class="chips"><span class="chip"><code>{{поле}}</code></span></div></div>
+        <div class="cmp yes"><h4>{{Works}}</h4><div class="chips"><span class="chip"><code>{{field}}</code></span></div></div>
+        <div class="cmp no"><h4>{{Does not work}}</h4><div class="chips"><span class="chip"><code>{{field}}</code></span></div></div>
       </div>
     </div>
 
     <div class="block" data-presets>
-      <h3>{{Попробуй сам: проверенные запросы}}</h3>
+      <h3>{{Try it yourself: verified queries}}</h3>
       <div class="presets">
         <div class="p-list">
-          <button type="button" class="p-btn" data-p="1" aria-pressed="true"><span>{{Запрос словами}}</span><span class="mark y">находит</span></button>
-          <button type="button" class="p-btn" data-p="2" aria-pressed="false"><span>{{Запрос словами}}</span><span class="mark n">не находит</span></button>
+          <button type="button" class="p-btn" data-p="1" aria-pressed="true"><span>{{Query in words}}</span><span class="mark y">finds</span></button>
+          <button type="button" class="p-btn" data-p="2" aria-pressed="false"><span>{{Query in words}}</span><span class="mark n">finds nothing</span></button>
         </div>
         <div class="p-result" aria-live="polite"></div>
       </div>
-      <template data-p-body="1"><div class="big">{{Результат}}</div><p>{{Что это значит}}</p><div class="p-query"><code>{{запрос}}</code><button type="button" class="btn" data-copy="{{запрос}}">Скопировать запрос</button></div></template>
-      <template data-p-body="2"><div class="big bad">{{0 результатов}}</div><p>{{Почему}}</p><div class="p-query"><code>{{запрос}}</code><button type="button" class="btn" data-copy="{{запрос}}">Скопировать запрос</button></div></template>
+      <template data-p-body="1"><div class="big">{{Result}}</div><p>{{What it means}}</p><div class="p-query"><code>{{query}}</code><button type="button" class="btn" data-copy="{{query}}">Copy query</button></div></template>
+      <template data-p-body="2"><div class="big bad">{{0 results}}</div><p>{{Why}}</p><div class="p-query"><code>{{query}}</code><button type="button" class="btn" data-copy="{{query}}">Copy query</button></div></template>
     </div>
 
     <div class="block">
-      <h3>{{Подпись графика: что сравниваем}}</h3>
+      <h3>{{Chart caption: what is compared}}</h3>
       <!-- Inline SVG chart: follow the dataviz skill (direct labels, no legend when two series, tabular numbers). -->
-      <svg viewBox="0 0 600 160" role="img" aria-label="{{Описание графика с цифрами}}">
+      <svg viewBox="0 0 600 160" role="img" aria-label="{{Chart description with the numbers}}">
         <line class="axis-l" x1="0" y1="130" x2="600" y2="130"/>
         <rect class="bar-a" x="40" y="50" width="60" height="80" rx="4"/>
         <text class="t-fg" x="70" y="42" text-anchor="middle" font-size="13">{{80}}</text>
-        <text class="t-muted" x="70" y="150" text-anchor="middle" font-size="12">{{метка}}</text>
+        <text class="t-muted" x="70" y="150" text-anchor="middle" font-size="12">{{label}}</text>
       </svg>
     </div>
 
-    <div class="block decision" data-id="q3-main" data-title="{{Имя решения}}">
+    <div class="block decision" data-id="q3-main" data-title="{{Decision name}}">
       <fieldset>
-        <legend>{{Вопрос решения}}</legend>
-        <label class="opt"><input type="radio" name="q3-main" value="do"><span class="ot">{{Вариант}}<span class="rec">советую</span></span></label>
-        <label class="opt"><input type="radio" name="q3-main" value="not-needed"><span class="ot">Не нужно</span></label>
+        <legend>{{Decision question}}</legend>
+        <label class="opt"><input type="radio" name="q3-main" value="do"><span class="ot">{{Option}}<span class="rec">recommended</span></span></label>
+        <label class="opt"><input type="radio" name="q3-main" value="not-needed"><span class="ot">Not needed</span></label>
       </fieldset>
     </div>
   </section>
@@ -542,26 +542,26 @@ pre.code .c { color: var(--faint); }
   <!-- ===================== Summary ===================== -->
   <section class="panel" id="summary" hidden>
     <div class="answer">
-      <h2>Решения и ответ</h2>
-      <p class="db-banner" id="db-banner">Проверяю, где сохранять выбор…</p>
+      <h2>Decisions and the reply</h2>
+      <p class="db-banner" id="db-banner">Checking where to save your choices…</p>
     </div>
     <div class="block">
-      <h3>Что выбрано</h3>
+      <h3>What you chose</h3>
       <ul class="sum-list" id="sum-list"></ul>
-      <div><button type="button" class="btn" id="export-decisions" hidden>Скопировать выбор текстом для Claude</button></div>
+      <div><button type="button" class="btn" id="export-decisions" hidden>Copy choices as text for Claude</button></div>
     </div>
     <div class="block">
-      <div class="block-head"><h3>{{Черновик ответа: кому и куда}}</h3><button type="button" class="btn" data-copy-from="#reply">Скопировать</button></div>
+      <div class="block-head"><h3>{{Draft reply: to whom and where}}</h3><button type="button" class="btn" data-copy-from="#reply">Copy</button></div>
       <p class="reply" id="reply"></p>
-      <p class="note">Черновик собирается из выбранных вариантов. Никуда сам не отправляется.</p>
+      <p class="note">The draft is assembled from the chosen options and is never sent anywhere on its own.</p>
     </div>
     <div class="block">
-      <h3>Что я не проверил</h3>
-      <ul><li>{{Непроверенное утверждение и как его проверить}}</li></ul>
+      <h3>What I didn't check</h3>
+      <ul><li>{{An unchecked claim and how to check it}}</li></ul>
     </div>
     <div class="block">
-      <h3>Источники</h3>
-      <ul><li><a href="{{ссылка}}">{{Источник}}</a></li></ul>
+      <h3>Sources</h3>
+      <ul><li><a href="{{link}}">{{Source}}</a></li></ul>
     </div>
   </section>
 </main>
@@ -574,7 +574,7 @@ pre.code .c { color: var(--faint); }
 <!-- Glossary: keys match data-term on .term buttons. Plain language, one or two sentences. -->
 <script type="application/json" id="terms">
 {
-  "example": "{{Пояснение термина простыми словами}}"
+  "example": "{{The term explained in plain words}}"
 }
 </script>
 
@@ -585,10 +585,10 @@ pre.code .c { color: var(--faint); }
 window.PAGE = {
   composeReply: function (d) {
     var L = [];
-    L.push('{{Обращение и первая фраза}}');
+    L.push('{{Greeting and the first sentence}}');
     var c = d.choice('q1-main');
-    if (c === 'opt-a') L.push('{{Фраза для варианта А}}');
-    else if (c === 'opt-b') L.push('{{Фраза для варианта Б}}');
+    if (c === 'opt-a') L.push('{{Sentence for option A}}');
+    else if (c === 'opt-b') L.push('{{Sentence for option B}}');
     return L.join('\n\n');
   }
 };
@@ -1002,7 +1002,7 @@ window.PAGE = {
     var panel = el.closest('.panel');
     DEC[id] = { title: el.dataset.title || (legend ? legend.textContent.trim() : id), tab: panel ? panel.id : null };
     order.push(id);
-    // Every decision ends with «Другое», like the free answer in Claude's own questions; its text is the comment
+    // Every decision ends with "Other", like the free answer in Claude's own questions; its text is the comment
     var fs = el.querySelector('fieldset');
     if (fs && !fs.querySelector('input[value="other"]')) {
       var ol = document.createElement('label'); ol.className = 'opt opt-other';

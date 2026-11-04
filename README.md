@@ -33,7 +33,7 @@ In a narrow panel, the question menu opens from the top bar, and arrows move bet
 
 <img src="docs/question-switcher.png" width="590" alt="The question menu open from the top bar: page title, two questions with verdicts and progress, and the summary item">
 
-A decision has mutually exclusive options, each with a one-line consequence. One option is marked as recommended. The engine adds an «Другое» (other) option for a free answer and a comment field, and saves the choice by itself.
+A decision has mutually exclusive options, each with a one-line consequence. One option is marked as recommended. The engine adds an "Other" option for a free answer and a comment field, and saves the choice by itself.
 
 <img src="docs/decision.png" width="574" alt="A decision block: the recommended option selected, a comment typed below, the saved time under it">
 
@@ -54,10 +54,16 @@ Claude writes the page in the language of the person reading it. The page's buil
 The repository is private for now and used only by its owner. Installing needs read access to it and a git setup that can clone it, for example after `gh auth login`.
 
 ```bash
-npx skills add karambirov/decision-page -g -a claude-code
+npx skills add karambirov/decision-page -g -a claude-code -y
 ```
 
-`-g` installs the skill for all your projects, `-a claude-code` picks Claude Code without a prompt. To update:
+`-g` installs the skill for all your projects, `-a claude-code` picks Claude Code, `-y` skips the prompts. Then install the skills it relies on (scenes, motion, accessibility, platform guidelines, Russian editing) with one script:
+
+```bash
+sh ~/.claude/skills/decision-page/scripts/install-deps.sh
+```
+
+Restart Claude Code afterwards. To update:
 
 ```bash
 npx skills update decision-page
@@ -69,14 +75,15 @@ The CLI sends no install telemetry for private repositories. If you want telemet
 
 - **Claude Code in the Claude Desktop app or on claude.ai.** This is the full experience: the page is published as an artifact and opens next to the chat, choices are saved in the page's storage, and Claude reads them back. In Claude Code in a terminal, the page stays a local file opened in a browser. Choices are kept in browser storage, and you pass them to Claude with the copy button in the summary.
 - **Python 3** for the build script. Only the standard library is used.
-- **Optional, for animated scenes:** the `stageshow` skill and Node 20. Install it with `npx skills add benjitaylor/skills`, then run `npm install` in its folder. Without it, pages build without scenes, and Claude uses a step-through or a situation switcher instead.
-- **Recommended:** the design and writing skills below. Pages build without them, but new widgets, scenes and texts come out worse.
+- **Optional, for animated scenes:** the `stageshow` skill and Node 20. `scripts/install-deps.sh` installs it and runs `npm install` in its folder. Without it, pages build without scenes, and Claude uses a step-through or a situation switcher instead.
+- **Recommended:** the design and writing skills below, also installed by `scripts/install-deps.sh`. Pages build without them, but new widgets, scenes and texts come out worse.
 
 | Skill | Install | What it adds |
 |---|---|---|
 | `apple-design`, `emil-design-eng` | `npx skills add emilkowalski/skill` | motion, presses, step-by-step reveal |
 | `web-design-guidelines` | `npx skills add ehmo/platform-design-skills` | accessibility, keyboard, responsive layout |
-| `redaktura-skills:statya`, `redaktura-skills:redaktura` | Claude Code plugin from `N1arko/redaktura-skills` | structure and editing of Russian text |
+| `ios-design-guidelines`, `android-design-guidelines` | `npx skills add ehmo/platform-design-skills` | behavior requirements when a proposal changes an app screen |
+| `statya`, `redaktura` | `npx skills add N1arko/redaktura-skills` | structure and editing of Russian text |
 
 The page also uses `artifact-design`, `artifact-capabilities`, `artifact-diagramming` and `dataviz`. They come with Claude Code.
 
@@ -97,6 +104,7 @@ SKILL.md                  instructions for Claude: chat or page, workflow, rules
 assets/template.html      page template: Claude Desktop look, navigation, widgets, storage, reply
 scripts/build.py          checks a page and assembles it from a content file and the template
 scripts/build-scene.mjs   bundles a stageshow scene into one script for embedding
+scripts/install-deps.sh   installs the skills the page relies on
 references/               modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies
 examples/pages/           example content file in English and Russian, made-up data: release cadence and hotfixes
 examples/scenes/          example scene: a checkout button that stops working

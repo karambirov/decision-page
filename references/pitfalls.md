@@ -21,14 +21,14 @@ Everything below has already happened on real pages. The template handles these 
 Scenarios that every change to saving is checked against:
 
 - a choice is made before the storage connects: it waits and is sent when the storage connects;
-- a write fails: the choice stays on the page, the write is retried with a growing pause, and after eight attempts the "Copy choices as text" button («Скопировать выбор текстом» on Russian pages) appears;
+- a write fails: the choice stays on the page, the write is retried with a growing pause, and after eight attempts the "Copy choices as text for Claude" button appears;
 - a snapshot comes from the storage while a local edit is not confirmed yet: the edit is not overwritten by the old value;
 - there is no storage (a local file, another agent): the choice goes to browser storage.
 
 How to write saving code:
 
 - Do not block rendering while waiting for the storage: the page works at once, and the choices load later.
-- `claude.use("db")` can return `null`, and there may be no answer for 10 seconds: the template shows a clear line in the summary («Итог»).
+- `claude.use("db")` can return `null`, and there may be no answer for 10 seconds: the template shows a clear line in the summary.
 - Write to a document one write at a time (a promise chain) and only when something changed; the comment with a delay of about a second.
 - One subscription to the collection per page, not in rendering.
 

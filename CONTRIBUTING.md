@@ -28,7 +28,7 @@ The repository is personal and private, and the skill is not distributed yet. Do
    - 590 px wide: this is how the page looks in the Claude Desktop side pane;
    - 1280 px with the sidebar, and 375 px;
    - light and dark themes;
-   - switching questions, the arrows, scroll memory, the «Другое» option, the growing comment field, saving choices;
+   - switching questions, the arrows, scroll memory, the "Other" option, the growing comment field, saving choices;
    - no errors in the console.
 4. If a scene changed: `node scripts/build-scene.mjs --scene examples/scenes/dead-button --name DeadButtonDemo --out <dir>`.
 5. After a notable change to `SKILL.md` or the references, test the skill with a fresh agent that has no context. Give it only the skill name and a made-up topic, forbid publishing and sending anything, then look at its page at 590 px and ask it what in the skill was unclear.
