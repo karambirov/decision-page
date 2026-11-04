@@ -11,7 +11,7 @@ The page relies on several skills. The template already contains their main rule
 | `ios-design-guidelines`, `android-design-guidelines` | `npx skills add ehmo/platform-design-skills` | interface behavior requirements when a proposal changes an app screen | general platform knowledge |
 | `statya`, `redaktura` | `npx skills add N1arko/redaktura-skills`, or the Claude Code plugin from the same repository (then the names are `redaktura-skills:statya`, `redaktura-skills:redaktura`) | structure and editing of Russian text | the rules from [language.md](language.md) |
 
-All of the above except the built-in ones install with one command from the skill's folder: `sh scripts/install-deps.sh`. It also runs `npm install` for `stageshow`.
+All of the above except the built-in ones install with one command, which also runs `npm install` for `stageshow` when Node.js is present: `curl -fsSL https://raw.githubusercontent.com/karambirov/decision-page/main/install.sh | sh`. It needs only curl and tar, copies each skill from its author's repository into `~/.claude/skills`, and leaves alone any skill folder that is a link or a git working copy.
 
 The scripts need Python 3 (standard library only), and Node 20 to build scenes.
 
@@ -19,7 +19,8 @@ The scripts need Python 3 (standard library only), and Node 20 to build scenes.
 
 Nothing in the skill ties it to one company or one person. Personal rules (writing style, message approval, task tracker, language) live in each person's CLAUDE.md and memory; the skill only respects them. The examples in `examples/` use made-up data.
 
-- **npx.** `npx skills add karambirov/decision-page -g -a claude-code -y`, then `sh ~/.claude/skills/decision-page/scripts/install-deps.sh` for the dependencies. Update: `npx skills update decision-page`.
+- **Link.** Send the repository link to a person; their agent installs it by the instructions at the top of the README. Updating is the same command again.
+- **npx.** `npx skills add karambirov/decision-page -g -a claude-code -y` installs this skill alone; the install command above adds the helper skills.
 - **Git.** The `decision-page` folder is the repository: `SKILL.md` at the root, `README.md` next to it. It also works as a plain clone into `~/.claude/skills/decision-page`.
 - **Different Claude accounts.** The page is published in the account of whoever works with the skill and by default is visible only to them. Each page has its own choice storage.
 
