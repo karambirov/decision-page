@@ -1,6 +1,54 @@
 # Page modes
 
-A mode suggests which questions become menu items, which visuals work and which decisions are usually needed. It is a guide, not a form: if the asker's questions are different, the menu is built from them.
+A mode suggests which questions become menu items, which visuals work and which decisions are usually needed. It is a guide, not a form: any topic works, and if the person's questions are different, the menu is built from them.
+
+## Choosing between options
+
+A laptop, an apartment, a job offer, a service, a school, a library for a project.
+
+Questions: what matters to the person, which options are real, how they compare on what matters, what the catch of each one is, which to pick.
+
+- **Verdicts:** "Option B", "Either works", "Wait".
+- **Visuals:**
+  - a comparison on the person's own criteria;
+  - a situation switcher, "if you mostly do X / if you mostly do Y";
+  - bars for the full cost over the time of use.
+- **Evidence:** specs and prices with dates and links; reviews as a second source.
+- **Decisions:**
+  - what matters most;
+  - the budget;
+  - the pick.
+
+  One decision per question, not one bundle.
+- **Summary:** the pick with its reasons, what to check before committing, links.
+
+## Planning
+
+A trip, an event, a dinner menu, a move, a renovation, a study plan.
+
+Questions: what is fixed (dates, budget, people, constraints), what can vary, which plan fits, what to book or do first.
+
+- **Verdicts:** "Plan B", "Book now", "Still open".
+- **Visuals:**
+  - a step-through of the day or the timeline;
+  - a scenario switcher (rain or sun, budget or comfort);
+  - bars for costs or time.
+- **Decisions:** one per independent part: the route, the place to stay, each day, each dish.
+- **Summary:** the plan in a form ready to use: an itinerary, a shopping list, a checklist.
+
+## Understanding a topic
+
+How something works, what a document or a dataset says, a concept to learn.
+
+Questions: the person's own questions, in their words.
+
+- **Verdicts:** a short answer to each question.
+- **Visuals:** a step-through, a path through the parts, "try it yourself" examples, a "before / after" toggle.
+- **Decisions:**
+  - what to go deeper into;
+  - what to apply and how;
+  - optionally, a check of understanding as options with explanations.
+- **Summary:** notes in the person's words and next steps.
 
 ## Review of an incident, an alert or a "noisy" event
 

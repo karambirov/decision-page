@@ -1,10 +1,17 @@
 # decision-page
 
-**A Claude Code skill that turns a long chat answer into an interactive decision page next to the chat.** Several linked decisions and lots of evidence get one screen per question. The answer comes first and the proof sits one tap away. The options carry their consequences. Your choices are saved, Claude reads them back, and it assembles the reply you need to send. Use it for incident reviews and postmortems, error-tracker and log investigations, design decisions with trade-offs, and triaging a request or a Slack thread.
+**A richer way to talk with Claude.** A long chat answer becomes an interactive page next to the chat. It works like a presentation you answer:
+- one question per screen, the answer first;
+- visuals and scenarios to play with;
+- options with their consequences, your choices saved as you go.
+
+Claude reads your choices back and continues. At the end it assembles the result: a plan, a list, or a reply to send.
+
+It works for any topic: a trip, a dinner for six, what laptop to buy, how a concept works, a design review, an incident, a product funnel with millions of users. It is what talking to an agent in the Claude desktop app could feel like, built today as a skill.
 
 ![A decision page at 1280 px: questions with short verdicts in the sidebar; the open question shows the answer, three facts, a chart and a decision](docs/page-wide.png)
 
-*The bundled example page. All data on it is made up.*
+*The bundled example: a team deciding how often to ship. All data on it is made up.*
 
 ## Install
 
@@ -51,30 +58,34 @@
 
 ## Is it for you
 
-It is for you if you use Claude to work through things that end in decisions: what to fix after an incident, which option to pick, what to answer a colleague. When the answer is several screens long, has three decisions in it and links to code, data and logs, reading it in a chat is hard and replying to it is harder.
+It is for anyone who uses the Claude desktop app and works through things with it. In a chat, Claude answers with text and the occasional table. When the answer is several screens long, holds three choices and leans on sources, reading it is hard and answering it is harder. A page makes the same conversation visual and interactive. It is just as useful to a designer, a developer on call, a product manager, a student or someone planning a family holiday.
 
 The skill keeps the chat for what fits there and moves the rest to a page:
 
 | Stays in the chat | Goes to a page |
 |---|---|
-| one question or clarification | two or more linked decisions |
+| one question or clarification | two or more linked choices |
 | a choice between two or three options without long explanations | options whose consequences need to be shown |
-| an answer that fits in a couple of paragraphs | evidence: code, data, logs, discussions |
-| a status update, a short report | a mechanism that is clearer in motion: a signal passing through layers, a race, UI behavior |
-| | a reply to a third person, assembled from your choices |
+| an answer that fits in a couple of paragraphs | a lot to take in: sources, prices, data, code, logs |
+| a status update, a short report | something clearer shown than told: how a thing works, a timeline, a screen's behavior |
+| | a result assembled from your choices: a plan, a list, a reply |
 
 It is not for one-off questions, writing documents or making slides.
 
 ## How to use it
 
-Ask Claude in your own words. The skill starts when the work has decisions in it. For example:
+Ask Claude in your own words. The skill starts when there are choices to make or a lot to take in. For example:
 
+- *"Plan a four-day trip to Lisbon in March for two adults and a toddler."*
+- *"I'm choosing between these three laptops for video editing. Help me decide."*
+- *"Six guests on Saturday, one vegan and one gluten-free. Help me plan the menu."*
+- *"Explain how HTTPS works, step by step, with something I can click through."*
+- *"Here are two homepage designs. Walk me through the trade-offs."*
 - *"Review this incident and help me decide what to do about it."*
-- *"Here is a Slack thread asking us about X. Figure out what they need and draft a reply."*
-- *"These two Sentry issues are in the top. Are they real bugs, and what should we do?"*
-- *«Разбери этот тред и помоги принять решение»* (pages work in Russian too).
+- *"Our checkout conversion dropped last week. Figure out why and what to do."*
+- *«Помоги выбрать квартиру из этих трёх»* (pages work in Russian too).
 
-Claude researches first, then builds the page and opens it next to the chat. You pick options and write comments; the page saves them as you go. Tell Claude in the chat when you are done. Claude reads your choices, replies briefly and continues; a new round of the page comes only when several decisions pile up again. Nothing is sent on your behalf: the reply on the page can only be copied.
+Claude looks things up first, then builds the page and opens it next to the chat. You pick options and write comments; the page saves them as you go. Tell Claude in the chat when you are done. Claude reads your choices, replies briefly and continues; a new round of the page comes only when several decisions pile up again. Nothing is sent on your behalf: the reply on the page can only be copied.
 
 ## What a page looks like
 

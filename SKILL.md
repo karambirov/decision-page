@@ -1,6 +1,6 @@
 ---
 name: decision-page
-description: "An interactive page that complements the Claude chat when a chat answer stops being convenient. Short questions and quick choices stay in the chat; when the work has several linked decisions, heavy evidence, a mechanism that is clearer shown than told, or a reply to draft for someone else, Claude builds a page styled like Claude Desktop that opens next to the chat: one question at a time with the answer first, evidence one tap deeper, an interactive visual per question (animated UI scenes, step-throughs, before/after toggles, try-it-yourself queries), decisions with options and comments saved in the page, and a reply draft assembled from the choices. Claude reads the choices back and continues in the chat or in the next round. Use for incident and alert reviews, log and error-tracker investigations, solution design with trade-offs, triaging a request or thread, planning tasks from findings, and every follow-up round. Triggers: «разбери», «разбор инцидента», «спроектируй решение», «разбери обращение», «разбери тред», «что с этим делать», «помоги принять решение», «сделай страницу», «я заполнил ответы», «прочитай мои решения», «следующий раунд», decision page, interactive brief, review this incident, help me decide."
+description: "A richer way to talk with Claude than a wall of chat text. When a topic has several choices, a lot to take in, or something clearer shown than told, Claude builds an interactive page next to the chat in the Claude Desktop style: one question per screen with the answer first, visuals and scenarios to play with, options with their consequences, choices and comments saved in the page and read back, and a result assembled from them (a plan, a list, a reply). Works for any topic: planning a trip or a dinner, choosing what to buy, understanding a subject, a design review, an incident, a product funnel, a reply to a colleague, and every follow-up round. Short questions stay in the chat. Triggers: «помоги выбрать», «помоги принять решение», «разбери», «сравни варианты», «спланируй», «что с этим делать», «сделай страницу», «я заполнил ответы», «следующий раунд», help me decide, help me choose, compare options, walk me through, decision page."
 ---
 
 # Decision page
@@ -15,9 +15,9 @@ The skill covers the whole cycle: research, outline, assembly from the template,
 |---|---|
 | one question or clarification | two or more linked decisions |
 | a choice between two or three options without long explanations (Claude Code has a question with options for this) | the options have consequences that need to be shown |
-| the answer fits in a couple of paragraphs | evidence: code, data, logs, discussions |
+| the answer fits in a couple of paragraphs | evidence: sources, prices, data, code, logs, discussions |
 | work status, a short report | a mechanism that is clearer in motion: a signal's path, a race, interface behavior |
-| | a draft reply to a third person, assembled from the choices |
+| | a result assembled from the choices: a plan, a list, a reply to someone |
 
 Rules for where chat and page meet:
 
@@ -44,15 +44,15 @@ Work out the following from the request and the context, without running a quest
 - **Reader.** Who makes the decisions and what they know. Terms from their own field need no explanation; terms from other fields do.
 - **Original questions.** Phrase them in the words of the person who asked. Each question becomes a sidebar item and a screen of its own.
 - **Decisions.** What the owner must choose after reading. If there are no decisions, a page is not needed.
-- **Reply addressee.** Where the outcome goes: to a thread, to a task, to a manager.
-- **Mode.** Incident review, solution design, request review, task plan or follow-up round. Typical questions, visuals and decisions for each mode are described in [references/modes.md](references/modes.md).
+- **Outcome.** What the page ends with: a plan, a list, a choice to act on, or a reply to someone. If it goes to someone, who it is and where it goes.
+- **Mode.** Choosing between options, planning, understanding a topic, an incident review, solution design, a request review, a task plan or a follow-up round. Any topic works; typical questions, visuals and decisions for each mode are described in [references/modes.md](references/modes.md).
 
 ### 2. Research before the page
 
 The page shows the answer, not the search for it. While the answers are unknown, do not start the layout.
 
-- Every claim rests on an artifact: a file and line at a specific SHA, a query and period in the data, an event in the logs, a message in a thread. Write down in advance where every number comes from.
-- Look for a second, independent support for the main conclusion: for example, check the error log against product analytics. A disagreement between sources is a finding in itself.
+- Every claim rests on something the reader can check: a web page with its date, a product's spec or price page, a recipe's source, a file and line at a specific commit, a query and period in the data, an event in the logs, a message in a thread. Write down in advance where every number comes from.
+- Look for a second, independent support for the main conclusion: for example, check a seller's claim against reviews, or the error log against product analytics. A disagreement between sources is a finding in itself.
 - State your confidence. Unchecked items go into the "What I didn't check" block, not into the facts.
 - Before every proposal, go through the [proposal checklist](references/proposals.md). The owner almost always asks the same things: what we lose, where it will live, what it costs, how not to break anything.
 
@@ -69,7 +69,7 @@ Before the layout, fill in this table for each question, and check it with the o
 | Decisions | one to three, each with options and their consequences, and a comment |
 | Details | code, queries, links, caveats behind a disclosure |
 
-The last menu item is always "Summary" («Итог» on Russian pages): the list of decisions, the reply draft with a "Copy" button, "What I didn't check", sources.
+The last menu item is always "Summary" («Итог» on Russian pages): the list of decisions, the result assembled from them with a "Copy" button (a plan, a list, a reply draft), "What I didn't check", sources.
 
 ### 4. Assembly
 
