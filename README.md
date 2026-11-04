@@ -12,20 +12,42 @@
 
 ### Instructions for the AI agent installing this skill
 
-1. Run this command. It copies `decision-page` and the skills it relies on into `~/.claude/skills`, and changes nothing else on the computer. Read [install.sh](install.sh) first if your rules ask you to.
+1. **Download the installer, read it, and run it.** It needs only `curl` and `tar`.
 
    ```sh
-   curl -fsSL https://raw.githubusercontent.com/karambirov/decision-page/main/install.sh | sh
+   curl -fsSLo /tmp/decision-page-install.sh https://raw.githubusercontent.com/karambirov/decision-page/main/install.sh
+   sh /tmp/decision-page-install.sh
    ```
 
-2. Read the last lines it prints and act on them:
+   What it does:
+   - **Skill folders.** It copies `decision-page` and the eight skills it relies on from their authors' repositories into `~/.claude/skills`. Set `CLAUDE_SKILLS_DIR` to use another folder.
+   - **Scenes.** When Node.js 20.19 or newer is present, it runs `npm install` in the `stageshow` folder. That takes about 110 MB, plus the npm cache.
+   - **Skills already in the folder:**
+     - A same-named skill that was installed some other way is moved to `~/.claude/skills/.decision-page-backup/` first.
+     - A folder that is a symlink or a git checkout is left alone.
+     - If the `redaktura-skills` plugin is installed, `redaktura` and `statya` are skipped.
+   - **Nothing else changes:** no system packages, no settings. The download is about 2 MB.
+2. **Read the last lines it prints and act on them:**
+   - **"Check: the example page builds"** means the install works.
    - **"Python 3: MISSING".** Pages can't be built without Python 3. On a Mac, ask the person first, then run `xcode-select --install` and tell them to click **Install** in the window that opens. When it finishes, run step 1 again.
-   - **"Animated scenes: off".** Node.js is missing. This is optional: pages work without animated scenes. Offer to install Node.js from [nodejs.org](https://nodejs.org) only if the person wants scenes.
-3. Tell the person to start a new chat, so Claude picks up the skills. Give them an example request from [How to use it](#how-to-use-it), in their language.
+   - **"Check FAILED".** Run the command it prints, then fix what the error shows.
+   - **"Animated scenes: off".** Node.js is missing or older than 20.19. This is optional: pages work without animated scenes. Offer to install Node.js from [nodejs.org](https://nodejs.org) only if the person wants scenes.
+   - **"Replaced N skill(s)".** Tell the person where the old copies are.
+3. **Tell the person to start a new chat,** so Claude picks up the skills. Give them an example request from [How to use it](#how-to-use-it), in their language.
 
-To update later, run the same command again. On Windows the script does not run. Download the repositories listed in [What gets installed](#what-gets-installed) and copy the listed folders into `%USERPROFILE%\.claude\skills`.
+**Update.** Run step 1 again. It is safe to repeat, including after a run that stopped with an error.
 
-If you prefer the [skills CLI](https://skills.sh), `npx skills add karambirov/decision-page -g -a claude-code -y` installs this skill alone. Run the command above as well to get the helper skills.
+**Remove.** Delete these folders from `~/.claude/skills`, plus `.decision-page-backup` if the person does not need the old copies:
+- `decision-page`, `stageshow`, `apple-design`, `emil-design-eng`;
+- `web-design-guidelines`, `ios-design-guidelines`, `android-design-guidelines`;
+- `redaktura`, `statya`.
+
+**Windows.** The script does not run there, so do the same by hand:
+1. For each row of [What gets installed](#what-gets-installed), download the repository and copy the listed folder into `%USERPROFILE%\.claude\skills`, renamed to the skill name. For example, `skills/web` becomes `web-design-guidelines`.
+2. If Node.js 20.19+ is installed, run `npm install` in the `stageshow` folder.
+3. Pages need Python 3 from [python.org](https://www.python.org/downloads/).
+
+**skills CLI.** If you prefer the [skills CLI](https://skills.sh), `npx skills add karambirov/decision-page -g -a claude-code -y` installs this skill alone. Run the installer above as well to get the helper skills.
 
 ## Is it for you
 
@@ -93,7 +115,7 @@ The catalog is in [references/components.md](references/components.md). Claude w
 - **Claude Code in the Claude desktop app or on claude.ai** gives the full experience. The page is published as a private artifact in your account and opens next to the chat. Choices are saved in the page, and Claude reads them back.
 - **Claude Code in a terminal** also works, with less. The page is a local file opened in a browser. Choices stay in the browser, and you hand them to Claude with a copy button.
 - **Python 3** builds the pages. It uses only the standard library.
-- **Node.js** is optional. It builds animated scenes. Without it, Claude uses a step-through or a situation switcher instead.
+- **Node.js 20.19 or newer** is optional. It builds animated scenes. Without it, Claude uses a step-through or a situation switcher instead.
 
 ## What gets installed
 
@@ -113,7 +135,7 @@ The page also uses `artifact-design`, `artifact-capabilities`, `artifact-diagram
 
 - **Published pages.** A page is published as a private artifact in your own Claude account. Only you can see it until you share it.
 - **Messages.** Claude never sends messages, creates tasks or changes services on your behalf without your explicit "yes" to the exact text.
-- **Install telemetry.** `install.sh` sends nothing anywhere. The skills CLI reports installs of public repositories to skills.sh; to turn that off, prefix `npx` commands with `DISABLE_TELEMETRY=1`.
+- **Install telemetry.** `install.sh` only downloads: from GitHub, and from npm for scenes. It reports nothing. The skills CLI reports installs of public repositories to skills.sh; to turn that off, prefix `npx` commands with `DISABLE_TELEMETRY=1`.
 
 ## How it works
 
