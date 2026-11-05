@@ -9,7 +9,7 @@ The repository is public under the MIT license, and the skill is in early use. W
 ## Where things live
 
 - The working copy is the installed skill: `~/.agents/skills/decision-page`, linked from `~/.claude/skills/decision-page`. A change in this folder takes effect in all of the owner's chats at once.
-- `SKILL.md` holds the instructions for Claude. `references/` holds the details `SKILL.md` loads by link. `assets/template.html` is the look and the engine of the page. `scripts/` builds pages and scenes. `examples/` holds examples on made-up data. `docs/` holds images for the README.
+- `SKILL.md` holds the instructions for Claude. `references/` holds the details `SKILL.md` loads by link. `assets/template.html` is the look and the engine of the page. `scripts/` builds pages and scenes. `examples/` holds examples on made-up data; `examples/scenes/readme-demo` is the video at the top of the README.
 
 ## Principles not to break
 

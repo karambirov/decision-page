@@ -1,27 +1,43 @@
-# decision-page
+<h1 align="center">Ask Claude as usual.<br>Get an interactive page next to the chat.</h1>
 
-**A richer way to talk with Claude.** A long chat answer becomes an interactive page next to the chat. It works like a presentation you answer:
-- one question per screen, the answer first;
-- visuals and scenarios to play with;
-- options with their consequences, your choices saved as you go.
-
-Claude reads your choices back and continues. At the end it assembles the result: a plan, a list, or a reply to send.
-
-It works for any topic: a trip, a dinner for six, what laptop to buy, how a concept works, a design review, an incident, a product funnel with millions of users. It is what talking to an agent in the Claude desktop app could feel like, built today as a skill.
+<p align="center"><b>decision-page</b> is a skill for the Claude desktop app. When there is a lot to weigh, Claude answers with a page you can click through: the answer up front, the options side by side, and a plan or a ready reply put together from your picks.</p>
 
 https://github.com/user-attachments/assets/fb5c6d28-7f92-40e1-b276-5180f908f23e
 
-*Illustration, not a screenshot: a simplified chat window with a decision page beside it. The company, the people and the numbers are made up.*
+<p align="center"><sub>The company and the numbers in the video are made up.</sub></p>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/page-wide-dark.png"><img src="docs/page-wide-light.png" alt="The example page at 1280 px. The sidebar lists three questions with short verdicts and a summary item. The open question, whether customers will leave if the price goes up, shows the answer, three facts, and the price switcher set to $15 with bars for first-month revenue, monthly churn and revenue in 12 months" width="838"></picture>
+## How it works
 
-*The bundled example: a co-founder asks in a Slack thread whether to raise the Team plan of a B2B invoicing app from $12 to $15 per seat. The product, the thread and all data on the page are made up.*
+1. **Ask the way you always do.** No special prompts. When the answer has several decisions in it, Claude builds a page and opens it next to the chat. Quick questions still get a quick answer in the chat.
+2. **Decide on the page.** Every question gets its own screen: the short answer, the key facts, a chart or a diagram you can play with, and the options with what each one leads to. Click an option, or leave a comment where you disagree. No more typing back "1: yes, 2: the second one, 3: no, because…". Your choices save on their own.
+3. **Get the result.** Tell Claude you're done. It reads your choices and puts together what you need: a plan, a checklist, or a reply. The reply is yours to copy: Claude sends nothing on your behalf.
+
+## What you can ask
+
+| At work | Outside work |
+|---|---|
+| *"Sam asks whether we should raise our prices. Help me decide and draft my reply."* | *"Help me choose an air fryer for a family of four, under $150."* |
+| *"Here are three quotes from agencies. Which one should we take?"* | *"Which documents do I need for a Schengen visa, and in what order?"* |
+| *"Plan our team offsite: dates, place and budget."* | *"Plan four days in Lisbon with a toddler."* |
+| *"Here's our sales report for October. What went wrong, and what do we do?"* | *"Explain how a mortgage works, with numbers I can change."* |
+
+Pages are written in your language.
 
 ## Install
 
-**Send the link to this page to Claude and ask it to install the skill.** Use the Code tab of the Claude desktop app, or Claude Code. Claude does the rest, and you don't need a terminal.
+You need the Claude desktop app. Open the **Code** tab, pick any folder and send:
 
-### Instructions for the AI agent installing this skill
+```
+Install the decision-page skill from https://github.com/karambirov/decision-page
+```
+
+Claude may ask your permission to run the installer, then sets everything up and tells you when it's done. You won't write any code. Start a new chat after that, and ask your question.
+
+> [!TIP]
+> Not sure what to try first? Paste a message you need to answer and add *"Help me decide what to reply."*
+
+<details>
+<summary><b>Instructions for the agent installing this skill</b></summary>
 
 1. **Download the installer, read it, and run it.** It needs only `curl` and `tar`.
 
@@ -40,7 +56,7 @@ https://github.com/user-attachments/assets/fb5c6d28-7f92-40e1-b276-5180f908f23e
    - **"Python 3: MISSING".** Pages can't be built without Python 3. On a Mac, ask the person first, then run `xcode-select --install` and tell them to click **Install** in the window that opens. When it finishes, run step 1 again.
    - **"Check FAILED".** Run the command it prints, then fix what the error shows.
    - **"Animated scenes: off".** Node.js is missing or older than 20.19. This is optional: pages work without animated scenes. Offer to install Node.js from [nodejs.org](https://nodejs.org) only if the person wants scenes.
-3. **Tell the person to start a new chat,** so Claude picks up the skills. Give them an example request from [How to use it](#how-to-use-it), in their language.
+3. **Tell the person to start a new chat,** so Claude picks up the skills. Give them an example request from [What you can ask](#what-you-can-ask), in their language.
 
 **Update.** Run step 1 again: it updates `decision-page` and adds any helper skill that is still missing. It is safe to repeat, including after a run that stopped with an error.
 
@@ -50,87 +66,13 @@ https://github.com/user-attachments/assets/fb5c6d28-7f92-40e1-b276-5180f908f23e
 - `redaktura`, `statya`.
 
 **Windows.** The script does not run there, so do the same by hand:
-1. For each row of [What gets installed](#what-gets-installed), download the repository and copy the listed folder into `%USERPROFILE%\.claude\skills`, renamed to the skill name. For example, `skills/web` becomes `web-design-guidelines`.
+1. For each row of the table below, download the repository and copy the listed folder into `%USERPROFILE%\.claude\skills`, renamed to the skill name. For example, `skills/web` becomes `web-design-guidelines`.
 2. If Node.js 20.19+ is installed, run `npm install` in the `stageshow` folder.
 3. Pages need Python 3 from [python.org](https://www.python.org/downloads/).
 
 **skills CLI.** If you prefer the [skills CLI](https://skills.sh), `npx skills add karambirov/decision-page -g -a claude-code -y` installs this skill alone. Run the installer above as well to get the helper skills.
 
-## Is it for you
-
-It is for anyone who uses the Claude desktop app and works through things with it. In a chat, Claude answers with text and the occasional table. When the answer is several screens long, holds three choices and leans on sources, reading it is hard and answering it is harder. A page makes the same conversation visual and interactive. It is just as useful to a designer, a developer on call, a product manager, a student or someone planning a family holiday.
-
-The skill keeps the chat for what fits there and moves the rest to a page:
-
-| Stays in the chat | Goes to a page |
-|---|---|
-| one question or clarification | two or more linked choices |
-| a choice between two or three options without long explanations | options whose consequences need to be shown |
-| an answer that fits in a couple of paragraphs | a lot to take in: sources, prices, data, code, logs |
-| a status update, a short report | something clearer shown than told: how a thing works, a timeline, a screen's behavior |
-| | a result assembled from your choices: a plan, a list, a reply |
-
-It is not for one-off questions, writing documents or making slides.
-
-## How to use it
-
-Ask Claude in your own words. The skill starts when there are choices to make or a lot to take in. For example:
-
-- *"Plan a four-day trip to Lisbon in March for two adults and a toddler."*
-- *"I'm choosing between these three laptops for video editing. Help me decide."*
-- *"Six guests on Saturday, one vegan and one gluten-free. Help me plan the menu."*
-- *"Explain how HTTPS works, step by step, with something I can click through."*
-- *"Here are two homepage designs. Walk me through the trade-offs."*
-- *"Review this incident and help me decide what to do about it."*
-- *"Our checkout conversion dropped last week. Figure out why and what to do."*
-- *«Помоги выбрать квартиру из этих трёх»* (pages work in Russian too).
-
-Claude looks things up first, then builds the page and opens it next to the chat. You pick options and write comments; the page saves them as you go. Tell Claude in the chat when you are done. Claude reads your choices, replies briefly and continues; a new round of the page comes only when several decisions pile up again. Nothing is sent on your behalf: the reply on the page can only be copied.
-
-## What a page looks like
-
-The page is built for the Claude desktop side panel, about 590 px wide. Each screen holds one question. First comes the question as it was asked, then the answer, then up to three key facts and one interactive visual. Details sit one tap deeper. Light and dark themes both work.
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/page-narrow-dark.png"><img src="docs/page-narrow-light.png" alt="The first question of the example in a 590 px panel: the top bar with the question name, the counter and arrows; the question as a chat message; the answer; three facts; and the price switcher set to $18, where the churn bar is red" width="590"></picture>
-
-<img src="docs/themes.png" width="838" alt="The same screen in the light theme on the left and the dark theme on the right: the question about who gets the new price and when, with the answer, three facts and a step-by-step timeline stopped at its risky step, February 1, highlighted in red">
-
-
-In a narrow panel, the question menu opens from the top bar, and arrows move between questions. Each item shows the verdict and how many of its decisions are made. Wider than 1000 px, the menu stays on the left, as in the first screenshot.
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/question-switcher-dark.png"><img src="docs/question-switcher-light.png" alt="The question menu open from the top bar: the page title and a short description, three questions with their verdicts and decision progress, and the summary item with 0 of 4 chosen" width="590"></picture>
-
-A decision has mutually exclusive options, each with a one-line consequence. One option is marked as recommended. There is always an "Other" option for your own answer and a comment field, and the choice saves by itself.
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/decision-dark.png"><img src="docs/decision-light.png" alt="A decision block on the Team plan price: $15 per seat selected and marked recommended, two other options and Other, each with a one-line consequence, a typed comment and the saved time under it" width="574"></picture>
-
-The last item is the summary. It lists what you chose and gives a reply draft built from those choices, with a copy button. It also lists what Claude did not check and the sources.
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/reply-draft-dark.png"><img src="docs/reply-draft-light.png" alt="The summary: four chosen options with change links, and a reply to the co-founder in the Slack thread built from them, with a copy button" width="590"></picture>
-
-When UI behavior is easier to show than to describe, a question can carry an animated scene. In the bundled example, a survey is closed, the checkout button stops working, and every tap adds an event to the error tracker.
-
-<img src="docs/scene-poster.png" width="686" alt="Poster frame of the example scene: a phone with an orange checkout button connected to an error card with 48,214 events and 6,871 people">
-
-Other visuals in the template:
-- a signal path with "now / after the fix" modes;
-- a situation switcher;
-- a step-through;
-- try-it-yourself queries;
-- bars, a two-column comparison and charts.
-
-The catalog is in [references/components.md](references/components.md). Claude writes the page in the reader's language. The page's own buttons and labels come in English and Russian.
-
-## Requirements
-
-- **Claude Code in the Claude desktop app or on claude.ai** gives the full experience. The page is published as a private artifact in your account and opens next to the chat. Choices are saved in the page, and Claude reads them back.
-- **Claude Code in a terminal** also works, with less. The page is a local file opened in a browser. Choices stay in the browser, and you hand them to Claude with a copy button.
-- **Python 3** builds the pages. It uses only the standard library.
-- **Node.js 20.19 or newer** is optional. It builds animated scenes. Without it, Claude uses a step-through or a situation switcher instead.
-
-## What gets installed
-
-`install.sh` downloads each skill from its author's repository and copies the folder into `~/.claude/skills`. Pages build without the helper skills, but new widgets, scenes and texts come out worse.
+**What gets installed.** `install.sh` downloads each skill from its author's repository and copies the folder into `~/.claude/skills`. Pages build without the helper skills, but new widgets, scenes and texts come out worse.
 
 | Skill | Source repository and folder | What it adds |
 |---|---|---|
@@ -142,29 +84,64 @@ The catalog is in [references/components.md](references/components.md). Claude w
 
 The page also uses `artifact-design`, `artifact-capabilities`, `artifact-diagramming` and `dataviz`, which come with Claude Code.
 
-## Privacy
+**Install telemetry.** `install.sh` only downloads: from GitHub, and from npm for scenes. It reports nothing. The skills CLI reports installs of public repositories to skills.sh; to turn that off, prefix `npx` commands with `DISABLE_TELEMETRY=1`.
 
-- **Published pages.** A page is published as a private artifact in your own Claude account. Only you can see it until you share it.
-- **Messages.** Claude never sends messages, creates tasks or changes services on your behalf without your explicit "yes" to the exact text.
-- **Install telemetry.** `install.sh` only downloads: from GitHub, and from npm for scenes. It reports nothing. The skills CLI reports installs of public repositories to skills.sh; to turn that off, prefix `npx` commands with `DISABLE_TELEMETRY=1`.
+</details>
 
-## How it works
+## Questions
 
-Claude writes a content file, not a whole page. The content file holds:
-- the sidebar with the questions;
-- one section per question;
-- a glossary;
-- a `composeReply` function that turns the choices into the reply draft.
+<details>
+<summary><b>Do I need to know how to code?</b></summary>
 
-`scripts/build.py` merges it with `assets/template.html`, which holds the styles, navigation, widgets and storage. The script checks the markup and writes two files: `page.html` for publishing and `preview.html` for a local browser. Scenes are bundled separately by `scripts/build-scene.mjs`, then inlined by the same build.
+No. The skill runs in the Code tab because it builds each page on your computer, but you talk to Claude in plain words, as in any chat.
 
-To build the example yourself, run this from the skill folder and open `preview.html` in a browser:
+</details>
+
+<details>
+<summary><b>Who can see my pages?</b></summary>
+
+Only you. Each page is a private artifact in your Claude account and stays private until you share it.
+
+</details>
+
+<details>
+<summary><b>Can it send anything on my behalf?</b></summary>
+
+No. A reply on the page can only be copied. Before any message, task or change in another service, Claude asks for an explicit "yes" to the exact text.
+
+</details>
+
+<details>
+<summary><b>Where does it work?</b></summary>
+
+In the Code tab of the Claude desktop app and in Claude Code on claude.ai: the page opens next to the chat, and Claude reads your choices from it. Claude Code in a terminal works with less: the page opens in your browser, and you hand your choices back with a copy button.
+
+</details>
+
+<details>
+<summary><b>What does it install?</b></summary>
+
+This skill and up to eight helper skills by other authors that make pages look and read better, each from its author's repository. Skills you already have are left alone. Pages are built with Python 3; Node.js is optional, for animated scenes. Nothing else on your computer changes. The full list is in the instructions for the agent above.
+
+</details>
+
+<details>
+<summary><b>Is it here to stay?</b></summary>
+
+I hope not. Chat apps are starting to answer with interactive elements right in the conversation, and I expect Claude's app to get there too. I built this skill because I wanted that in my daily work now. When Claude's own chat answers like this, I'll retire the skill and say so here. There is nothing to migrate: pages are ordinary artifacts in your account.
+
+</details>
+
+<details>
+<summary><b>For developers: how it's built</b></summary>
+
+Claude writes a content file, not a whole page: the question menu, one section per question, a glossary, and a `composeReply` function that turns the choices into the result. `scripts/build.py` merges it with `assets/template.html`, which holds the styles, navigation, widgets and storage, checks the markup and writes `page.html` for publishing and `preview.html` for a local browser. Scenes are bundled by `scripts/build-scene.mjs` and inlined by the same build.
+
+To build the bundled example, run this from the skill folder and open `preview.html` in a browser:
 
 ```sh
 python3 scripts/build.py examples/pages/team-pricing.en.content.html --out /tmp/decision-page-example
 ```
-
-## Repository layout
 
 ```
 install.sh                installs this skill and the skills it relies on
@@ -173,12 +150,13 @@ assets/template.html      page template: Claude desktop look, navigation, widget
 scripts/build.py          checks a page and assembles it from a content file and the template
 scripts/build-scene.mjs   bundles a stageshow scene into one script for embedding
 references/               modes, widgets, visuals, language, proposal checklist, decision loop, pitfalls, dependencies
-examples/pages/           example content file in English and Russian, made-up data: raising a Team plan price
-examples/scenes/          example scenes: a checkout button that stops working, and the demo video at the top of this README
-docs/                     screenshots for this README
+examples/pages/           the example content file in English and Russian, made-up data: raising a Team plan price
+examples/scenes/          example scenes: a checkout button that stops working, and the video at the top of this README
 ```
 
-Changing the skill: see [CONTRIBUTING.md](CONTRIBUTING.md).
+The widget catalog is in [references/components.md](references/components.md). To change the skill, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+</details>
 
 ## License
 
