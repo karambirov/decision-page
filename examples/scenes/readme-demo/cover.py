@@ -3,8 +3,11 @@
 GitHub's player shows the video's first frame until someone presses Play, and the
 scene's first frame is an empty chat. This script takes a frame from the rendered
 video where the page is open (the price switcher on $15, the bars settled), puts a
-title above it and a play button on it, and makes that the video's frame 0. Playback
+title above it, and makes that the video's frame 0. Playback
 starts on frame 1, so the story itself runs from the very beginning, unchanged.
+
+The cover has no play button of its own: Safari draws one in the middle of the
+video, and a second one under it looks like a mistake.
 
     python3 cover.py rendered.mp4 decision-page-demo.mp4
 
@@ -18,7 +21,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 FRAME_AT = 9.9  # seconds into the rendered video
 TITLE = "See one question turn into a page"
@@ -36,25 +39,6 @@ def font(size: int) -> ImageFont.FreeTypeFont:
     return f
 
 
-def play_button(img: Image.Image, cx: int, cy: int, r: int) -> Image.Image:
-    # Drawn at 4x and scaled down for smooth edges: a soft shadow, a dark disc, a white triangle
-    s = 4
-    layer = Image.new("RGBA", (img.width * s, img.height * s), (0, 0, 0, 0))
-    d = ImageDraw.Draw(layer)
-    d.ellipse([(cx - r) * s, (cy - r + 6) * s, (cx + r) * s, (cy + r + 6) * s], fill=(0, 0, 0, 60))
-    layer = layer.filter(ImageFilter.GaussianBlur(10 * s))
-    d = ImageDraw.Draw(layer)
-    d.ellipse([(cx - r) * s, (cy - r) * s, (cx + r) * s, (cy + r) * s], fill=(*INK, 215))
-    t = r * 0.42
-    d.polygon(
-        [((cx - t * 0.8) * s, (cy - t) * s), ((cx - t * 0.8) * s, (cy + t) * s), ((cx + t * 1.05) * s, cy * s)],
-        fill=(255, 255, 255, 255),
-    )
-    out = img.convert("RGBA")
-    out.alpha_composite(layer.resize(img.size, Image.LANCZOS))
-    return out.convert("RGB")
-
-
 def cover(frame: Image.Image) -> Image.Image:
     w, h = frame.size
     img = Image.new("RGB", (w, h), GROUND)
@@ -64,7 +48,7 @@ def cover(frame: Image.Image) -> Image.Image:
     d = ImageDraw.Draw(img)
     f = font(76)
     d.text(((w - d.textlength(TITLE, font=f)) / 2, 82), TITLE, font=f, fill=INK)
-    return play_button(img, w // 2, top + shot.height // 2 + 30, 84)
+    return img
 
 
 def main() -> None:
