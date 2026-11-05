@@ -28,14 +28,11 @@ import './readme.css'
 // ground is its own mid-light grey, since a video cannot follow the page's
 // theme. The scene runs on a virtual clock, so the same source renders the
 // same frames. To make the README video:
-//   1. copy this folder to stageshow/examples/readme-demo and start the preview
-//      in the stageshow folder:
-//      node node_modules/vite/bin/vite.js playground --config playground/vite.config.ts --port 4625
-//   2. render it with change-story's scripts/scene.mjs:
-//      node scene.mjs "http://127.0.0.1:4625/?capture=readme-demo" --video demo.mp4 --until done --hold 1500
-//   3. put the cover on frame 0, the still GitHub shows before Play:
-//      python3 cover.py demo.mp4 decision-page-demo.mp4
-//   4. upload it as a GitHub attachment and put the printed link in the README:
+//   1. render it with the demo-video skill's scripts/render.mjs, which starts the
+//      stageshow preview itself, puts the cover (the sketch frame) on frame 0 and
+//      checks the stills:
+//      node render.mjs examples/scenes/readme-demo --out decision-page-demo.mp4 --until done --hold 1500 --cover cover --stills <dir> --display 838
+//   2. upload it as a GitHub attachment and put the printed link in the README:
 //      curl -sS -X POST "https://uploads.github.com/user-attachments/assets?name=decision-page-demo.mp4&content_type=video/mp4&repository_id=$(gh api repos/karambirov/decision-page -q .id)" \
 //        -H "Authorization: Bearer $(gh auth token)" -H "Content-Type: application/octet-stream" --data-binary @decision-page-demo.mp4
 
