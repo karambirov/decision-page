@@ -2,7 +2,7 @@
 
 <p align="center"><b>decision-page</b> is a skill for the Claude desktop app. When there is a lot to weigh, Claude answers with a page you can click through: the answer up front, the options side by side, and a plan or a ready reply put together from your picks.</p>
 
-https://github.com/user-attachments/assets/fb5c6d28-7f92-40e1-b276-5180f908f23e
+https://github.com/user-attachments/assets/152eda29-0361-4c2f-a5ef-a15427621d0b
 
 <p align="center"><sub>The company and the numbers in the video are made up.</sub></p>
 
@@ -12,18 +12,19 @@ https://github.com/user-attachments/assets/fb5c6d28-7f92-40e1-b276-5180f908f23e
 2. **Decide on the page.** Every question gets its own screen: the short answer, the key facts, a chart or a diagram you can play with, and the options with what each one leads to. Click an option, or leave a comment where you disagree. No more typing back "1: yes, 2: the second one, 3: no, because…". Your choices save on their own.
 3. **Get the result.** Tell Claude you're done. It reads your choices and puts together what you need: a plan, a checklist, or a reply. The reply is yours to copy: Claude sends nothing on your behalf.
 
-## What you can ask
+## When it helps
 
-| You ask | The page shows | You get |
+When there is more to decide than a chat answer can hold, and the decisions depend on each other:
+
+| Situation | On the page | You leave with |
 |---|---|---|
-| "Sam asks whether we should raise our prices. Help me decide and draft my reply." | what customers do at each price, who gets the new price first, how to tell them | a reply to Sam |
-| "Here are three quotes from agencies. Which one should we take?" | the quotes side by side: price, timing, what each one leaves out | a pick, and the reasons for it |
-| "Here's our sales report for October. What went wrong?" | the answer first, a chart to play with, the ways to fix it | a plan |
-| "Help me choose an air fryer for a family of four, under $150." | the finalists side by side, and what matters for four people | one pick, and why |
-| "Which documents do I need for a Schengen visa?" | every document, what depends on your case, what to do first | a checklist in order |
-| "Plan four days in Lisbon with a toddler." | each day's options, with nap times and distances in mind | a day-by-day plan |
+| **An incident review** | the timeline, the cause and the evidence for it, each fix as its own decision | the follow-up actions, in order |
+| **A thread you need to answer** | every ask in it, the options for each, and what each answer leads to | a reply drafted from your choices |
+| **Planning a project** | the scope, the order of work, the risks, each open question as a decision | a task list |
+| **A strategy call** | the options with their numbers, and scenarios you can switch between | the decision, its reasons and a note for the team |
+| **A review of someone's proposal** | each point, with what holds up and what doesn't | feedback to send back |
 
-Pages are written in your language.
+Each round ends with your choices. Claude reads them, digs further where you asked, and builds the next round if new questions came up. It works the same outside work, for a move or a renovation. Pages are written in your language.
 
 ## Install
 
@@ -58,7 +59,7 @@ Claude may ask your permission to run the installer, then sets everything up and
    - **"Python 3: MISSING".** Pages can't be built without Python 3. On a Mac, ask the person first, then run `xcode-select --install` and tell them to click **Install** in the window that opens. When it finishes, run step 1 again.
    - **"Check FAILED".** Run the command it prints, then fix what the error shows.
    - **"Animated scenes: off".** Node.js is missing or older than 20.19. This is optional: pages work without animated scenes. Offer to install Node.js from [nodejs.org](https://nodejs.org) only if the person wants scenes.
-3. **Tell the person to start a new chat,** so Claude picks up the skills. Give them an example request from [What you can ask](#what-you-can-ask), in their language.
+3. **Tell the person to start a new chat,** so Claude picks up the skills. Suggest trying it on one of the situations in [When it helps](#when-it-helps), in their language.
 
 **Update.** Run step 1 again: it updates `decision-page` and adds any helper skill that is still missing. It is safe to repeat, including after a run that stopped with an error.
 

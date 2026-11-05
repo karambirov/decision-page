@@ -22,8 +22,15 @@ import './readme.css'
 // Designed at 838 px, the width of a README column on github.com, with type
 // large enough to read when GitHub shrinks the video to a phone column. The
 // ground is its own mid-light grey, since a video cannot follow the page's
-// theme. Rendered with change-story's scripts/scene.mjs:
-//   --video demo.mp4 --until done --hold 1500   (and --at done for the poster)
+// theme. The scene runs on a virtual clock, so the same source renders the
+// same frames. To make the README video:
+//   1. copy this folder to stageshow/examples/readme-demo and start the preview
+//      in the stageshow folder:
+//      node node_modules/vite/bin/vite.js playground --config playground/vite.config.ts --port 4625
+//   2. render it with change-story's scripts/scene.mjs:
+//      node scene.mjs "http://127.0.0.1:4625/?capture=readme-demo" --video demo.mp4 --until done --hold 1500
+//   3. put the cover on frame 0, the still GitHub shows before Play:
+//      python3 cover.py demo.mp4 decision-page-demo.mp4
 
 type Panel = 'q1' | 'summary'
 type S = {
@@ -61,31 +68,34 @@ const script = async (a: Act<S>) => {
   await a.wait(600)
   // 1. The ask is typed, and the question pasted after it from elsewhere
   a.mark('type')
-  await a.type('typed', ASK, { interval: 32 })
-  await a.wait(160)
+  await a.type('typed', ASK, { interval: 45 })
+  await a.wait(250)
   a.mark('paste')
   await a.key('cmd+v')
   a.put({ pasted: true })
-  await a.wait(420)
+  // Long enough to see what was pasted
+  await a.wait(800)
   a.mark('send')
   await a.key('enter')
   a.put({ sent: true, pasted: false, typed: '' })
-  await a.wait(360)
+  // The question sits in the thread long enough to read it
+  await a.wait(1300)
   a.mark('reply')
   for (let i = 1; i <= REPLY_WORDS; i++) {
     a.put({ words: i })
-    await a.wait(40)
+    await a.wait(100)
   }
-  await a.wait(200)
+  // And the reply, before the page takes the eye
+  await a.wait(900)
   // 2. The page arrives beside the chat; $15 moves the bars
   a.mark('page')
   a.put({ pane: true })
-  await a.wait(850)
+  await a.wait(1300)
   // The cursor's first appearance: it comes in from the right edge
   a.mark('price')
   await a.click({ at: 'seg-15', x: 0.86, y: 0.62 })
   a.put({ price: 1 })
-  await a.wait(1050)
+  await a.wait(1400)
   // 3. Down to the decision; the recommended option, then Saved
   a.mark('scroll')
   // Whole rows at the top edge: the last bar of the chart stays in view, its
@@ -97,12 +107,12 @@ const script = async (a: Act<S>) => {
   a.put({ chosen: true })
   await a.wait(380)
   a.put({ saved: true })
-  await a.wait(750)
+  await a.wait(1000)
   // 4. The question list, Summary, and the reply ready under Copy
   a.mark('menu')
   await a.click({ at: 'switch', x: 0.8, y: 0.86 })
   a.put({ menu: true })
-  await a.wait(760)
+  await a.wait(1000)
   a.mark('summary')
   await a.click({ at: 'link-summary', x: 0.84, y: 0.5 })
   // The list closes first, then Summary takes the pane, so the two never

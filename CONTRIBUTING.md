@@ -30,7 +30,7 @@ The repository is public under the MIT license, and the skill is in early use. T
    - light and dark themes;
    - switching questions, the arrows, scroll memory, the "Other" option, the growing comment field, saving choices;
    - no errors in the console.
-4. If a scene changed: `node scripts/build-scene.mjs --scene examples/scenes/dead-button --name DeadButtonDemo --out <dir>`.
+4. If a scene changed: `node scripts/build-scene.mjs --scene examples/scenes/dead-button --name DeadButtonDemo --out <dir>`. If the README video changed, follow the steps at the top of `examples/scenes/readme-demo/index.tsx`, then replace the video in the README through GitHub's web editor: a video can only be uploaded there.
 5. After a notable change to `SKILL.md` or the references, test the skill with a fresh agent that has no context. Give it only the skill name and a made-up topic, forbid publishing and sending anything, then look at its page at 590 px and ask it what in the skill was unclear.
 
 ## Where lessons go
