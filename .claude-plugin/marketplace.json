@@ -1,0 +1,71 @@
+{
+  "name": "decision-page",
+  "owner": {
+    "name": "Eugene Karambirov",
+    "url": "https://github.com/karambirov"
+  },
+  "description": "The decision-page skill and the skills its pages rely on, each from its author's repository.",
+  "plugins": [
+    {
+      "name": "decision-page",
+      "source": "./",
+      "displayName": "Decision Page",
+      "description": "Ask Claude as usual, get an interactive page next to the chat: the answer up front, the options side by side, and a plan or a reply built from your picks.",
+      "author": { "name": "Eugene Karambirov" },
+      "homepage": "https://github.com/karambirov/decision-page",
+      "repository": "https://github.com/karambirov/decision-page",
+      "license": "MIT",
+      "keywords": ["decisions", "artifacts", "interactive", "planning"],
+      "dependencies": [
+        "stageshow",
+        "apple-design",
+        "emil-design-eng",
+        "web-design-guidelines",
+        "ios-design-guidelines",
+        "android-design-guidelines",
+        "redaktura",
+        "statya"
+      ]
+    },
+    {
+      "name": "stageshow",
+      "description": "Animated interface scenes with a cursor, by Benji Taylor.",
+      "source": { "source": "git-subdir", "url": "benjitaylor/skills", "path": "stageshow" }
+    },
+    {
+      "name": "apple-design",
+      "description": "Apple's approach to interface design and motion, by Emil Kowalski.",
+      "source": { "source": "git-subdir", "url": "emilkowalski/skill", "path": "skills/apple-design" }
+    },
+    {
+      "name": "emil-design-eng",
+      "description": "UI polish, component design and animation decisions, by Emil Kowalski.",
+      "source": { "source": "git-subdir", "url": "emilkowalski/skill", "path": "skills/emil-design-eng" }
+    },
+    {
+      "name": "web-design-guidelines",
+      "description": "Web platform design and accessibility guidelines, by ehmo.",
+      "source": { "source": "git-subdir", "url": "ehmo/platform-design-skills", "path": "skills/web" }
+    },
+    {
+      "name": "ios-design-guidelines",
+      "description": "Apple Human Interface Guidelines for iPhone, by ehmo.",
+      "source": { "source": "git-subdir", "url": "ehmo/platform-design-skills", "path": "skills/ios" }
+    },
+    {
+      "name": "android-design-guidelines",
+      "description": "Material Design 3 and Android platform guidelines, by ehmo.",
+      "source": { "source": "git-subdir", "url": "ehmo/platform-design-skills", "path": "skills/android" }
+    },
+    {
+      "name": "redaktura",
+      "description": "Editing Russian text, by N1arko.",
+      "source": { "source": "git-subdir", "url": "N1arko/redaktura-skills", "path": "redaktura" }
+    },
+    {
+      "name": "statya",
+      "description": "Writing a Russian article from scratch, by N1arko.",
+      "source": { "source": "git-subdir", "url": "N1arko/redaktura-skills", "path": "statya" }
+    }
+  ]
+}

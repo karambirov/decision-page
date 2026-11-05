@@ -31,6 +31,9 @@ import './readme.css'
 //      node scene.mjs "http://127.0.0.1:4625/?capture=readme-demo" --video demo.mp4 --until done --hold 1500
 //   3. put the cover on frame 0, the still GitHub shows before Play:
 //      python3 cover.py demo.mp4 decision-page-demo.mp4
+//   4. upload it as a GitHub attachment and put the printed link in the README:
+//      curl -sS -X POST "https://uploads.github.com/user-attachments/assets?name=decision-page-demo.mp4&content_type=video/mp4&repository_id=$(gh api repos/karambirov/decision-page -q .id)" \
+//        -H "Authorization: Bearer $(gh auth token)" -H "Content-Type: application/octet-stream" --data-binary @decision-page-demo.mp4
 
 type Panel = 'q1' | 'summary'
 type S = {

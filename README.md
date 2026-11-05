@@ -8,8 +8,8 @@ https://github.com/user-attachments/assets/183f6407-3fd6-49f8-b8be-a739039a09e4
 
 ## How it works
 
-1. **Ask the way you always do.** No special prompts. When the answer has several decisions in it, Claude builds a page and opens it next to the chat. Quick questions still get a quick answer in the chat.
-2. **Decide on the page.** Every question gets its own screen: the short answer, the key facts, a chart or a diagram you can play with, and the options with what each one leads to. Click an option, or leave a comment where you disagree. No more typing back "1: yes, 2: the second one, 3: no, because…". Your choices save on their own.
+1. **Start your message with `/decision-page`.** Then ask the way you always do: paste the thread, describe the decision, attach the data. Calling the skill by name means you don't depend on Claude guessing that you want a page. Claude looks into it first, then builds the page and opens it next to the chat.
+2. **Decide on the page.** Every question gets its own screen: the short answer, the key facts, and a chart, a diagram or an interface sketch you can play with. Unfamiliar words are underlined; tap one for a short explanation. Each decision sits next to its evidence, with what every option leads to. Click an option, or leave a comment where you disagree. No more typing back "1: yes, 2: the second one, 3: no, because…". Your choices save on their own.
 3. **Get the result.** Tell Claude you're done. It reads your choices and puts together what you need: a plan, a checklist, or a reply. The reply is yours to copy: Claude sends nothing on your behalf.
 
 ## When it helps
@@ -31,63 +31,45 @@ Each round ends with your choices. Claude reads them, digs further where you ask
 You need the Claude desktop app. Open the **Code** tab, pick any folder and send:
 
 ```
-Install the decision-page skill from https://github.com/karambirov/decision-page
+Install the decision-page plugin from https://github.com/karambirov/decision-page
 ```
 
-Claude may ask your permission to run the installer, then sets everything up and tells you when it's done. You won't write any code. Start a new chat after that, and ask your question.
+Claude installs the plugin with everything it needs, asks your permission along the way, and tells you when it's done. Then start a new chat and begin your message with `/decision-page`.
 
 > [!TIP]
-> Not sure what to try first? Paste a message you need to answer and add *"Help me decide what to reply."*
+> Not sure what to try first? Type `/decision-page`, paste a message you need to answer and add *"Help me decide what to reply."*
 
 <details>
 <summary><b>Instructions for the agent installing this skill</b></summary>
 
-1. **Download the installer, read it, and run it.** It needs only `curl` and `tar`.
+1. **Install the plugin with Claude Code's plugin manager.** Inside the Claude desktop app, `$CLAUDE_CODE_EXECPATH` is Claude Code itself, even when there is no `claude` command:
 
    ```sh
-   curl -fsSLo /tmp/decision-page-install.sh https://raw.githubusercontent.com/karambirov/decision-page/main/install.sh
-   sh /tmp/decision-page-install.sh
+   C="${CLAUDE_CODE_EXECPATH:-claude}"
+   "$C" plugin marketplace add karambirov/decision-page
+   "$C" plugin install decision-page@decision-page
    ```
 
-   What it does:
-   - **Skill folders.** It copies `decision-page` into `~/.claude/skills`, then each of the eight skills it relies on that the person does not have yet, from its author's repository. Set `CLAUDE_SKILLS_DIR` to use another folder.
-   - **Scenes.** When Node.js 20.19 or newer is present, it runs `npm install` in the `stageshow` folder. That takes about 110 MB, plus the npm cache.
-   - **Skills the person already has** are left alone, whatever way they were installed: a folder, a link, a git checkout or a plugin.
-   - **Nothing else changes:** no system packages, no settings. The download is about 2 MB.
-2. **Read the last lines it prints and act on them:**
-   - **"Check: the example page builds"** means the install works.
-   - **"Python 3: MISSING".** Pages can't be built without Python 3. On a Mac, ask the person first, then run `xcode-select --install` and tell them to click **Install** in the window that opens. When it finishes, run step 1 again.
-   - **"Check FAILED".** Run the command it prints, then fix what the error shows.
-   - **"Animated scenes: off".** Node.js is missing or older than 20.19. This is optional: pages work without animated scenes. Offer to install Node.js from [nodejs.org](https://nodejs.org) only if the person wants scenes.
-3. **Tell the person to start a new chat,** so Claude picks up the skills. Suggest trying it on one of the situations in [When it helps](#when-it-helps), in their language.
+   This installs `decision-page` and the eight skills it depends on, listed below. When `npm` is available, Claude Code also installs the packages stageshow needs for animated scenes.
+2. **Turn on updates.** In `~/.claude/settings.json`, set `"autoUpdate": true` on the `decision-page` entry under `extraKnownMarketplaces`; the first command added that entry. The plugin and its skills then stay current by themselves.
+3. **Make sure Python 3 and Node.js 20.19+ work.** Pages are built with Python 3 and animated scenes with Node.js. Ask the person before installing what's missing, then run `"$C" plugin update stageshow@decision-page` so that stageshow gets its packages. The traps, such as the Python stub on a Mac, are in [references/dependencies.md](references/dependencies.md).
+4. **Tell the person to start a new chat,** so that Claude loads the plugin, and to begin their message with `/decision-page`. Suggest one of the situations in [When it helps](#when-it-helps), in their language.
 
-**Update.** Run step 1 again: it updates `decision-page` and adds any helper skill that is still missing. It is safe to repeat, including after a run that stopped with an error.
+**Update now.** Run `"$C" plugin update decision-page@decision-page`, and the same for a helper skill.
 
-**Remove.** Delete these folders from `~/.claude/skills`, but only the ones whose folder has an `.installed-by-decision-page` file: the others were there before.
-- `decision-page`, `stageshow`, `apple-design`, `emil-design-eng`;
-- `web-design-guidelines`, `ios-design-guidelines`, `android-design-guidelines`;
-- `redaktura`, `statya`.
+**Remove.** Run `"$C" plugin uninstall decision-page@decision-page`, then `"$C" plugin prune` to remove the helper skills nothing else needs, then `"$C" plugin marketplace remove decision-page`.
 
-**Windows.** The script does not run there, so do the same by hand:
-1. For each row of the table below, download the repository and copy the listed folder into `%USERPROFILE%\.claude\skills`, renamed to the skill name. For example, `skills/web` becomes `web-design-guidelines`.
-2. If Node.js 20.19+ is installed, run `npm install` in the `stageshow` folder.
-3. Pages need Python 3 from [python.org](https://www.python.org/downloads/).
-
-**skills CLI.** If you prefer the [skills CLI](https://skills.sh), `npx skills add karambirov/decision-page -g -a claude-code -y` installs this skill alone. Run the installer above as well to get the helper skills.
-
-**What gets installed.** `install.sh` downloads each skill from its author's repository and copies the folder into `~/.claude/skills`. Pages build without the helper skills, but new widgets, scenes and texts come out worse.
+**What gets installed.** The plugin's catalog, [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json), lists each skill and where it comes from:
 
 | Skill | Source repository and folder | What it adds |
 |---|---|---|
 | `decision-page` | [karambirov/decision-page](https://github.com/karambirov/decision-page) | this skill |
-| `stageshow` | [benjitaylor/skills](https://github.com/benjitaylor/skills), `stageshow/` | animated interface scenes; `npm install` runs in its folder when Node.js is present |
+| `stageshow` | [benjitaylor/skills](https://github.com/benjitaylor/skills), `stageshow/` | animated interface scenes; its npm packages take about 110 MB |
 | `apple-design`, `emil-design-eng` | [emilkowalski/skill](https://github.com/emilkowalski/skill), `skills/apple-design/`, `skills/emil-design-eng/` | motion, presses, step-by-step reveal |
 | `web-design-guidelines`, `ios-design-guidelines`, `android-design-guidelines` | [ehmo/platform-design-skills](https://github.com/ehmo/platform-design-skills), `skills/web/`, `skills/ios/`, `skills/android/` | accessibility, layout, platform behavior when a proposal changes an app screen |
 | `redaktura`, `statya` | [N1arko/redaktura-skills](https://github.com/N1arko/redaktura-skills), `redaktura/`, `statya/` | structure and editing of Russian text |
 
 The page also uses `artifact-design`, `artifact-capabilities`, `artifact-diagramming` and `dataviz`, which come with Claude Code.
-
-**Install telemetry.** `install.sh` only downloads: from GitHub, and from npm for scenes. It reports nothing. The skills CLI reports installs of public repositories to skills.sh; to turn that off, prefix `npx` commands with `DISABLE_TELEMETRY=1`.
 
 </details>
 
@@ -124,7 +106,7 @@ In the Code tab of the Claude desktop app and in Claude Code on claude.ai: the p
 <details>
 <summary><b>What does it install?</b></summary>
 
-This skill and up to eight helper skills by other authors that make pages look and read better, each from its author's repository. Skills you already have are left alone. Pages are built with Python 3; Node.js is optional, for animated scenes. Nothing else on your computer changes. The full list is in the instructions for the agent above.
+This skill as a Claude plugin, and eight skills by other authors that its pages rely on, each from its author's repository. The list is in the instructions for the agent above. Pages are built with Python 3 and animated scenes with Node.js; if they are missing, Claude asks you and installs them. Updates arrive by themselves, and the plugin is removed the same standard way it was installed.
 
 </details>
 
@@ -147,7 +129,7 @@ python3 scripts/build.py examples/pages/team-pricing.en.content.html --out /tmp/
 ```
 
 ```
-install.sh                installs this skill and the skills it relies on
+.claude-plugin/           the plugin catalog: this skill and the skills it depends on
 SKILL.md                  instructions for Claude: chat or page, workflow, rules
 assets/template.html      page template: Claude desktop look, navigation, widgets, storage, reply
 scripts/build.py          checks a page and assembles it from a content file and the template
@@ -163,6 +145,6 @@ The widget catalog is in [references/components.md](references/components.md). T
 
 ## License and trademarks
 
-MIT, see [LICENSE](LICENSE). The helper skills the installer adds come from their authors' repositories, under their own licenses.
+MIT, see [LICENSE](LICENSE). The helper skills come from their authors' repositories, under their own licenses.
 
 decision-page is an independent project. It is not made, endorsed or supported by Anthropic. Claude and Anthropic are trademarks of Anthropic, PBC, named here only to say what the skill works with.

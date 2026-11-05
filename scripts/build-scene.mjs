@@ -12,7 +12,7 @@
 // <div class="demo-host" data-mount="<GlobalName>"></div>.
 // The replay button speaks the page's language (main[data-lang], ru or en) unless --replay is given.
 import { spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { join, resolve } from 'node:path'
 
@@ -34,20 +34,42 @@ if (!/^[A-Za-z_$][\w$]*$/.test(name)) {
   process.exit(2)
 }
 
+// stageshow installed as a plugin (a dependency of the decision-page plugin) lives in the
+// plugin cache, one folder per version; take the newest copy that is not marked for removal
+function pluginCopies() {
+  const cache = join(process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR || join(homedir(), '.claude/plugins'), 'cache')
+  if (!existsSync(cache)) return []
+  const found = []
+  for (const market of readdirSync(cache)) {
+    const dir = join(cache, market, 'stageshow')
+    if (!existsSync(dir)) continue
+    for (const version of readdirSync(dir)) {
+      const path = join(dir, version)
+      if (!existsSync(join(path, '.orphaned_at'))) found.push({ path, time: statSync(path).mtimeMs })
+    }
+  }
+  return found.sort((a, b) => b.time - a.time).map((c) => c.path)
+}
+
 const candidates = [
   arg('stageshow'),
   process.env.STAGESHOW_DIR,
   join(homedir(), '.claude/skills/stageshow'),
   join(homedir(), '.agents/skills/stageshow'),
-].filter(Boolean)
-const stageshow = candidates.map((p) => resolve(p)).find((p) => existsSync(join(p, 'kit')))
+  ...pluginCopies(),
+]
+  .filter(Boolean)
+  .map((p) => resolve(p))
+  .filter((p) => existsSync(join(p, 'kit')))
+// Prefer a copy whose packages are installed
+const stageshow = candidates.find((p) => existsSync(join(p, 'node_modules/.bin/vite'))) || candidates[0]
 if (!stageshow) {
-  console.error('stageshow skill not found. Install it (see references/dependencies.md) or pass --stageshow <dir>.')
+  console.error('stageshow skill not found. It comes with the decision-page plugin (see the README), or pass --stageshow <dir>.')
   process.exit(1)
 }
 const vite = join(stageshow, 'node_modules/.bin/vite')
 if (!existsSync(vite)) {
-  console.error(`Vite is missing in ${stageshow}. Run: cd "${stageshow}" && npm install`)
+  console.error(`stageshow's packages are missing in ${stageshow}. Run: cd "${stageshow}" && npm ci (Node.js 20.19 or newer)`)
   process.exit(1)
 }
 if (!existsSync(join(scene, 'index.tsx'))) {

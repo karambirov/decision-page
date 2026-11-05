@@ -10,6 +10,7 @@ The repository is public under the MIT license, and the skill is in early use. T
 
 - The working copy is the installed skill: `~/.agents/skills/decision-page`, linked from `~/.claude/skills/decision-page`. A change in this folder takes effect in all of the owner's chats at once.
 - `SKILL.md` holds the instructions for Claude. `references/` holds the details `SKILL.md` loads by link. `assets/template.html` is the look and the engine of the page. `scripts/` builds pages and scenes. `examples/` holds examples on made-up data; `examples/scenes/readme-demo` is the video at the top of the README.
+- `.claude-plugin/marketplace.json` is the plugin catalog: this skill, installed from the repository root, and the eight skills it depends on, each from its author's repository. There is deliberately no `plugin.json`: without it the working copy in `~/.claude/skills` stays a plain skill. Don't install the plugin on the machine that holds the working copy, or two copies of the skill load.
 
 ## Principles not to break
 
@@ -22,16 +23,24 @@ The repository is public under the MIT license, and the skill is in early use. T
 
 ## How to check a change
 
-1. The template builds: `python3 scripts/build.py assets/template.html --out <dir> --allow-placeholders`.
-2. Both examples build with no errors or warnings: `python3 scripts/build.py examples/pages/team-pricing.content.html --out <dir>` and the same for `team-pricing.en.content.html`. The English page shows no Cyrillic in the engine's strings.
-3. Open `preview.html` through a local http server, not as a file, and check:
+1. The catalog is valid and installs: `claude plugin validate .`, then install it into an empty config so your own setup stays untouched:
+
+   ```sh
+   export CLAUDE_CONFIG_DIR=$(mktemp -d) CLAUDE_CODE_PLUGIN_CACHE_DIR=$(mktemp -d)
+   claude plugin marketplace add . && claude plugin install decision-page@decision-page
+   ```
+
+   Inside the Claude desktop app, use `"$CLAUDE_CODE_EXECPATH"` in place of `claude`.
+2. The template builds: `python3 scripts/build.py assets/template.html --out <dir> --allow-placeholders`.
+3. Both examples build with no errors or warnings: `python3 scripts/build.py examples/pages/team-pricing.content.html --out <dir>` and the same for `team-pricing.en.content.html`. The English page shows no Cyrillic in the engine's strings.
+4. Open `preview.html` through a local http server, not as a file, and check:
    - 590 px wide: this is how the page looks in the Claude Desktop side pane;
    - 1280 px with the sidebar, and 375 px;
    - light and dark themes;
    - switching questions, the arrows, scroll memory, the "Other" option, the growing comment field, saving choices;
    - no errors in the console.
-4. If a scene changed: `node scripts/build-scene.mjs --scene examples/scenes/dead-button --name DeadButtonDemo --out <dir>`. If the README video changed, follow the steps at the top of `examples/scenes/readme-demo/index.tsx`, then replace the video in the README through GitHub's web editor: a video can only be uploaded there.
-5. After a notable change to `SKILL.md` or the references, test the skill with a fresh agent that has no context. Give it only the skill name and a made-up topic, forbid publishing and sending anything, then look at its page at 590 px and ask it what in the skill was unclear.
+5. If a scene changed: `node scripts/build-scene.mjs --scene examples/scenes/dead-button --name DeadButtonDemo --out <dir>`. If the README video changed, follow the steps at the top of `examples/scenes/readme-demo/index.tsx`, then upload the video and replace its link in the README, as the last step there says.
+6. After a notable change to `SKILL.md` or the references, test the skill with a fresh agent that has no context. Give it only the skill name and a made-up topic, forbid publishing and sending anything, then look at its page at 590 px and ask it what in the skill was unclear.
 
 ## Where lessons go
 

@@ -122,7 +122,7 @@ The page looks and works well thanks to several skills. The template already car
 | `statya`, `redaktura` (or `redaktura-skills:statya`, `redaktura-skills:redaktura` as a plugin) | structure and editing of Russian text | at the text step |
 | platform design skills: for iOS `ios-design-guidelines`, `apple-design`, `uikit-max`; for Android `android-design-guidelines` | interface behavior requirements in proposals | when a proposal changes what the person sees ([proposals.md](references/proposals.md)) |
 
-`install.sh` at the repository root installs all of them except the built-in ones and `uikit-max`: `curl -fsSL https://raw.githubusercontent.com/karambirov/decision-page/main/install.sh | sh`. Where each comes from and how to manage without them is described in [references/dependencies.md](references/dependencies.md). If a page needs a missing skill, say which one and how to install it, then go on without it.
+The decision-page plugin installs all of them except the built-in ones and `uikit-max`, as its dependencies. Pages also need Python 3, and scenes need Node.js 20.19+ with stageshow's packages. Before the first build in a session, make sure they work; where each comes from, the traps (on a Mac `/usr/bin/python3` can be a stub) and how to manage without them are described in [references/dependencies.md](references/dependencies.md). If a page needs a missing skill, say which one and how to install it, then go on without it.
 
 ## Files
 
