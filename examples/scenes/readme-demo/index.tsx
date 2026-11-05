@@ -1,22 +1,26 @@
 import { ArrowUp } from 'lucide-react'
-import { Stage, Window, Thread, Bubble, Bar, Count, Popover, Scroll, Segmented, Stream, Swap, type Act } from '../../kit'
+import { Stage, Window, Thread, Bubble, Bar, Count, Phone, Popover, Scroll, Segmented, Stream, Swap, type Act } from '../../kit'
 import './readme.css'
 
 // The README demo for decision-page (made-up company, people and numbers). An
 // illustration, not a screenshot: a neutral chat window, and our own page in
-// the pane beside it, drawn from assets/template.html. Story in four beats:
-// 1. "Help me decide:" is typed and a co-founder's question pasted after it;
-//    the assistant answers in one line that it built a page;
-// 2. the page slides in beside the chat: the question, the answer first, and
-//    a price switcher whose bars move when $15 is tapped;
-// 3. the page scrolls to the decision, the recommended option is picked and
-//    the choice is saved;
-// 4. the question list opens from the bar, Summary is picked, and the reply
-//    draft assembled from the choice is ready under Copy.
+// the pane beside it, drawn from assets/template.html. Story in five beats:
+// 1. /decision-page is typed and turns into a command chip, a co-founder's
+//    question is pasted after it; the assistant answers in one line;
+// 2. the page slides in beside the chat: the question, the answer first with an
+//    underlined term whose explanation pops up, and a price switcher whose bars
+//    move when $15 is tapped;
+// 3. the page scrolls to the decision, the recommended option is picked, a
+//    comment is typed and its field grows, and the choice is saved;
+// 4. the question list opens and "How do we tell customers?" shows an
+//    interface sketch: a phone where a price banner slides in and opens;
+// 5. the next arrow leads to Summary, where the reply draft is assembled from
+//    the choice, the comment and the sketch, ready under Copy.
 // It plays once; the payoff (the page beside the chat, the reply ready) holds.
 //
 // Real strings only where the story needs them: the message, the reply, the
-// page's question, answer, chart, options, the question list and the draft.
+// page's questions, answers, term, chart, options, comment, sketch, question
+// list and the draft.
 // Everything else is a grey bar.
 //
 // Designed at 838 px, the width of a README column on github.com, with type
@@ -35,24 +39,30 @@ import './readme.css'
 //      curl -sS -X POST "https://uploads.github.com/user-attachments/assets?name=decision-page-demo.mp4&content_type=video/mp4&repository_id=$(gh api repos/karambirov/decision-page -q .id)" \
 //        -H "Authorization: Bearer $(gh auth token)" -H "Content-Type: application/octet-stream" --data-binary @decision-page-demo.mp4
 
-type Panel = 'q1' | 'summary'
+type Panel = 'q1' | 'q3' | 'summary'
 type S = {
-  pasted: boolean
   typed: string
+  cmd: boolean
+  pasted: boolean
   sent: boolean
   words: number
   pane: boolean
+  term: boolean
   price: number
   chosen: boolean
+  note: string
   saved: boolean
   menu: boolean
   panel: Panel
+  banner: boolean
+  sheet: boolean
 }
 
-const ASK = 'Help me decide: '
+const CMD = '/decision-page'
 const QUOTE = '“Should we raise the Team plan from $12 to $15 per seat?”'
 const REPLY = "I built a page with three questions. It's open on the right."
 const REPLY_WORDS = REPLY.split(' ').length
+const NOTE = 'OK, but keep the 60-day notice for the teams already with us.'
 
 // One price per segment: monthly revenue in $k, and the share of teams that leave
 const PRICES = ['$12', '$15', '$18']
@@ -61,18 +71,27 @@ const LEAVE = [2, 6, 30]
 const REVENUE_MAX = 50
 const LEAVE_MAX = 40
 
+// The reply carries the choice, the comment and what the sketch showed
 const DRAFT =
-  "Hi Sam, let's go to $15 a seat. About 6% of teams may leave, but monthly revenue still grows by about 17%. Next I'll work out who gets the new price first and how we tell customers."
+  "Hi Sam, let's go to $15 a seat. About 6% of teams may leave, but monthly revenue still grows by about 17%. Current teams get 60 days' notice: an email, and a banner in the app."
 
-const START: S = { pasted: false, typed: '', sent: false, words: 0, pane: false, price: 0, chosen: false, saved: false, menu: false, panel: 'q1' }
-const END: S = { pasted: false, typed: '', sent: true, words: REPLY_WORDS, pane: true, price: 1, chosen: true, saved: true, menu: false, panel: 'summary' }
+const START: S = {
+  typed: '', cmd: false, pasted: false, sent: false, words: 0, pane: false, term: false, price: 0,
+  chosen: false, note: '', saved: false, menu: false, panel: 'q1', banner: false, sheet: false,
+}
+const END: S = {
+  ...START, sent: true, words: REPLY_WORDS, pane: true, price: 1, chosen: true, note: NOTE, saved: true,
+  panel: 'summary', banner: true, sheet: true,
+}
 
 const script = async (a: Act<S>) => {
   await a.wait(600)
-  // 1. The ask is typed, and the question pasted after it from elsewhere
+  // 1. The command is typed and becomes a chip, then the question is pasted after it
   a.mark('type')
-  await a.type('typed', ASK, { interval: 45 })
-  await a.wait(250)
+  await a.type('typed', CMD, { interval: 45 })
+  await a.wait(200)
+  a.put({ typed: '', cmd: true })
+  await a.wait(450)
   a.mark('paste')
   await a.key('cmd+v')
   a.put({ pasted: true })
@@ -80,7 +99,7 @@ const script = async (a: Act<S>) => {
   await a.wait(800)
   a.mark('send')
   await a.key('enter')
-  a.put({ sent: true, pasted: false, typed: '' })
+  a.put({ sent: true, pasted: false, cmd: false })
   // The question sits in the thread long enough to read it
   await a.wait(1300)
   a.mark('reply')
@@ -90,45 +109,65 @@ const script = async (a: Act<S>) => {
   }
   // And the reply, before the page takes the eye
   await a.wait(900)
-  // 2. The page arrives beside the chat; $15 moves the bars
+  // 2. The page arrives beside the chat. The cursor's first appearance: it comes
+  // in from the right edge to the underlined term, then to $15
   a.mark('page')
   a.put({ pane: true })
   await a.wait(1300)
-  // The cursor's first appearance: it comes in from the right edge
+  a.mark('term')
+  await a.click({ at: 'term', x: 0.5, y: 0.75 })
+  a.put({ term: true })
+  await a.wait(1500)
   a.mark('price')
-  await a.click({ at: 'seg-15', x: 0.86, y: 0.62 })
-  a.put({ price: 1 })
+  await a.click({ at: 'seg-15', x: 0.6, y: 0.62 })
+  a.put({ price: 1, term: false })
   await a.wait(1400)
-  // 3. Down to the decision; the recommended option, then Saved
+  // 3. Down to the decision: the recommended option, a comment, then Saved
   a.mark('scroll')
-  // Whole rows at the top edge: the last bar of the chart stays in view, its
-  // label clear of the edge, and the scroll ends on a whole pixel
-  await a.scroll('q1', Math.round(a.rect('decision').y - a.rect('q1').y - 82))
+  await a.scroll('q1', Math.round(a.rect('decision').y - a.rect('q1').y - 14))
   await a.wait(80)
   a.mark('choose')
   await a.click({ at: 'opt-15', x: 0.96, y: 0.3 })
   a.put({ chosen: true })
-  await a.wait(380)
+  await a.wait(450)
+  a.mark('comment')
+  await a.click({ at: 'note', x: 0.7, y: 0.5 })
+  await a.type('note', NOTE, { interval: 28 })
+  await a.wait(350)
   a.put({ saved: true })
   await a.wait(1000)
-  // 4. The question list, Summary, and the reply ready under Copy
+  // 4. The question list, then the question with the interface sketch
   a.mark('menu')
   await a.click({ at: 'switch', x: 0.8, y: 0.86 })
   a.put({ menu: true })
   await a.wait(1000)
-  a.mark('summary')
-  await a.click({ at: 'link-summary', x: 0.84, y: 0.5 })
-  // The list closes first, then Summary takes the pane, so the two never
-  // show through each other
+  a.mark('tell')
+  await a.click({ at: 'link-tell', x: 0.8, y: 0.5 })
+  // The list closes first, then the question takes the pane
   a.put({ menu: false })
   await a.wait(150)
+  a.put({ panel: 'q3' })
+  await a.wait(700)
+  a.mark('banner')
+  a.put({ banner: true })
+  await a.wait(1100)
+  a.mark('sketch')
+  await a.click({ at: 'banner-btn', x: 0.5, y: 0.6 })
+  a.put({ sheet: true })
+  // Out of the way of the line that just opened
+  await a.move({ at: 'banner-btn', x: 2.4, y: 0.5 }, { duration: 450 })
+  a.mark('cover')
+  await a.wait(1300)
+  // 5. On to Summary, where the reply is ready under Copy
+  a.mark('next')
+  await a.click({ at: 'nav-next', x: 0.5, y: 0.5 })
   a.put({ panel: 'summary' })
   await a.wait(300)
   a.mark('copy')
   await a.move({ at: 'copy', x: 0.9, y: 0.8 })
   await a.wait(200)
   a.mark('done')
-  await a.wait(2000)
+  await a.wait(2200)
 }
 
 // The template's own glyphs
@@ -162,6 +201,13 @@ function HBar({ label, value, width, tone }: { label: string; value: React.React
   )
 }
 
+function Chip() {
+  return <span className="rd-cmd">{CMD}</span>
+}
+
+const TITLES: Record<Panel, string> = { q1: 'Churn', q3: 'Customers', summary: 'Summary' }
+const COUNTS: Record<Panel, string> = { q1: '1 of 4', q3: '3 of 4', summary: '4 of 4' }
+
 export default function ReadmeDemo() {
   return (
     <Stage<S>
@@ -177,8 +223,7 @@ export default function ReadmeDemo() {
       className="rd"
     >
       {(s) => {
-        const draft = s.typed + (s.pasted ? QUOTE : '')
-        const onSummary = s.panel === 'summary'
+        const filled = Boolean(s.typed || s.cmd || s.pasted)
         return (
           <Window className="rd-win">
             <div className="rd-body">
@@ -207,8 +252,7 @@ export default function ReadmeDemo() {
                   ))}
                   {s.sent && (
                     <Bubble from="me" source="draft">
-                      {ASK}
-                      {QUOTE}
+                      <Chip /> {QUOTE}
                     </Bubble>
                   )}
                   {s.words > 0 && (
@@ -217,10 +261,15 @@ export default function ReadmeDemo() {
                     </Bubble>
                   )}
                 </Thread>
-                {/* A paste grows it at once, as a text field does: an intended step */}
-                <div className="rd-composer" data-filled={draft ? true : undefined} data-snap>
-                  <p className="rd-composer__text" data-target="draft" data-empty={draft ? undefined : true}>
-                    {draft || <span className="rd-composer__placeholder">Reply…</span>}
+                {/* While it is typed the command is blue text; complete, it is a chip.
+                    A paste grows the field at once, as a text field does */}
+                <div className="rd-composer" data-filled={filled || undefined} data-snap>
+                  <p className="rd-composer__text" data-target="draft" data-empty={filled ? undefined : true}>
+                    {s.typed && <span className="rd-composer__slash">{s.typed}</span>}
+                    {s.cmd && <Chip />}
+                    {s.cmd && ' '}
+                    {s.pasted && QUOTE}
+                    {!filled && <span className="rd-composer__placeholder">Reply…</span>}
                   </p>
                   {/* The button keeps to the composer's foot as the text grows */}
                   <span className="rd-send-slot">
@@ -236,23 +285,23 @@ export default function ReadmeDemo() {
                 <div className="dp-topbar">
                   <span className="dp-switch" data-target="switch" data-cursor="hand" data-open={s.menu || undefined}>
                     <Swap id={s.panel} className="dp-switch__q">
-                      {onSummary ? 'Summary' : 'Churn'}
+                      {TITLES[s.panel]}
                     </Swap>
                     <Chevron />
                   </span>
                   <span className="dp-count">
-                    <Swap id={s.panel}>{onSummary ? '4 of 4' : '1 of 4'}</Swap>
+                    <Swap id={s.panel}>{COUNTS[s.panel]}</Swap>
                   </span>
-                  <span className="dp-nav" data-off={!onSummary || undefined}>
+                  <span className="dp-nav" data-off={s.panel === 'q1' || undefined}>
                     <Step dir={-1} />
                   </span>
-                  <span className="dp-nav" data-off={onSummary || undefined}>
+                  <span className="dp-nav" data-target="nav-next" data-cursor="hand" data-off={s.panel === 'summary' || undefined}>
                     <Step dir={1} />
                   </span>
                 </div>
 
-                {/* Question 1, scrolled on its own so Summary opens at its top */}
-                <div className="dp-view" data-on={!onSummary || undefined}>
+                {/* Question 1, scrolled on its own so the other views open at their top */}
+                <div className="dp-view" data-on={s.panel === 'q1' || undefined}>
                   <Scroll name="q1" bar="overlay" className="dp-scroller">
                     <div className="dp-main">
                       <div className="dp-q">
@@ -260,8 +309,16 @@ export default function ReadmeDemo() {
                       </div>
                       <div className="dp-answer">
                         <div className="dp-h2">Some will; revenue still grows.</div>
-                        <span className="dp-p">
-                          <Bar w="96%" h={9} r={4.5} tone={2} />
+                        {/* The template's explain button: a dashed underline, and a
+                            short explanation under it when it is tapped */}
+                        <span className="dp-pline">
+                          <span className="dp-term" data-target="term" data-cursor="hand" data-open={s.term || undefined}>
+                            Churn
+                          </span>{' '}
+                          goes up for a few months, then settles.
+                          <Popover show={s.term} origin="top left" className="dp-gloss">
+                            <b>Churn</b> is the share of paying teams that cancel in a month.
+                          </Popover>
                         </span>
                         <span className="dp-p">
                           <Bar w="71%" h={9} r={4.5} tone={2} />
@@ -317,6 +374,13 @@ export default function ReadmeDemo() {
                             <span className="dp-ot">Keep $12</span>
                           </div>
                         </div>
+                        {/* The template's comment field, growing with its text */}
+                        <div className="dp-note">
+                          <span className="dp-note__label">Comment</span>
+                          <p className="dp-note__field" data-target="note" data-cursor="text" data-focus={(s.chosen && !s.saved) || undefined}>
+                            {s.note}
+                          </p>
+                        </div>
                         <div className="dp-save" data-on={s.saved || undefined}>
                           Saved 4:12 PM
                         </div>
@@ -329,8 +393,55 @@ export default function ReadmeDemo() {
                   </Scroll>
                 </div>
 
+                {/* Question 3: an interface sketch of what customers will see */}
+                <div className="dp-view" data-on={s.panel === 'q3' || undefined}>
+                  <div className="dp-main">
+                    <div className="dp-q">
+                      <p className="dp-bubble">How do we tell customers?</p>
+                    </div>
+                    <div className="dp-answer">
+                      <div className="dp-h2">An email, and a banner in the app.</div>
+                    </div>
+                    <div className="dp-block dp-sketch">
+                      <div className="dp-sketch__stage">
+                        <Phone width={290} className="sk-phone">
+                          <div className="sk-app">
+                            <div className="sk-head">
+                              <Bar w={130} h={15} r={7.5} tone={2} />
+                              <Bar w={34} h={34} r={17} tone={2} />
+                            </div>
+                            <div className="sk-banner" data-on={s.banner || undefined} data-open={s.sheet || undefined}>
+                              <div className="sk-banner__t">Team plan: $15 per seat from Feb 1</div>
+                              <div className="sk-banner__more">
+                                <div>
+                                  <div className="sk-row">
+                                    <span>Your 7 seats</span>
+                                    <b>$84 → $105 a month</b>
+                                  </div>
+                                </div>
+                              </div>
+                              <span className="sk-banner__btn" data-target="banner-btn" data-cursor="hand">
+                                <Swap id={s.sheet ? 'got' : 'see'}>{s.sheet ? 'Got it' : 'See what changes'}</Swap>
+                              </span>
+                            </div>
+                            {[0, 1, 2].map((i) => (
+                              <div className="sk-item" key={i}>
+                                <Bar w={52} h={52} r={13} tone={2} />
+                                <span className="sk-item__lines">
+                                  <Bar w={['70%', '55%', '62%'][i]!} h={15} r={7.5} tone={2} />
+                                  <Bar w={['44%', '38%', '50%'][i]!} h={13} r={6.5} tone={2} />
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </Phone>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Summary: the choice, and the reply assembled from it */}
-                <div className="dp-view" data-on={onSummary || undefined}>
+                <div className="dp-view" data-on={s.panel === 'summary' || undefined}>
                   <div className="dp-main">
                     <div className="dp-block">
                       <div className="dp-h3">What you chose</div>
@@ -361,7 +472,7 @@ export default function ReadmeDemo() {
                   <div className="dp-side__rule" />
                   <div className="dp-qnav">
                     <div className="dp-qnav__label">Questions</div>
-                    <div className="dp-link" data-current>
+                    <div className="dp-link" data-current={s.panel === 'q1' || undefined}>
                       <span className="dp-link__t">Will customers leave if we raise the price?</span>
                       <span className="dp-link__row">
                         <span className="dp-pill dp-pill--warn">Some will; revenue grows</span>
@@ -375,14 +486,14 @@ export default function ReadmeDemo() {
                         <span className="dp-prog">0 of 1 decided</span>
                       </span>
                     </div>
-                    <div className="dp-link">
+                    <div className="dp-link" data-target="link-tell" data-cursor="hand" data-current={s.panel === 'q3' || undefined}>
                       <span className="dp-link__t">How do we tell customers?</span>
                       <span className="dp-link__row">
-                        <span className="dp-pill dp-pill--neutral">An email a month ahead</span>
+                        <span className="dp-pill dp-pill--neutral">Email and a banner</span>
                         <span className="dp-prog">0 of 1 decided</span>
                       </span>
                     </div>
-                    <div className="dp-link dp-link--summary" data-target="link-summary" data-cursor="hand">
+                    <div className="dp-link dp-link--summary" data-current={s.panel === 'summary' || undefined}>
                       <span className="dp-link__t">Summary</span>
                       <span className="dp-link__row">
                         <span className="dp-pill dp-pill--info">{s.chosen ? '1 of 3 chosen' : '0 of 3 chosen'}</span>

@@ -2,7 +2,7 @@
 
 <p align="center"><b>decision-page</b> is a skill for the Claude desktop app. When there is a lot to weigh, Claude answers with a page you can click through: the answer up front, the options side by side, and a plan or a ready reply put together from your picks.</p>
 
-https://github.com/user-attachments/assets/183f6407-3fd6-49f8-b8be-a739039a09e4
+https://github.com/user-attachments/assets/351633a2-63cd-4dac-947e-4e407235871d
 
 <p align="center"><sub>The company and the numbers in the video are made up.</sub></p>
 
