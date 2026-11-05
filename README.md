@@ -14,12 +14,14 @@ https://github.com/user-attachments/assets/fb5c6d28-7f92-40e1-b276-5180f908f23e
 
 ## What you can ask
 
-| At work | Outside work |
-|---|---|
-| *"Sam asks whether we should raise our prices. Help me decide and draft my reply."* | *"Help me choose an air fryer for a family of four, under $150."* |
-| *"Here are three quotes from agencies. Which one should we take?"* | *"Which documents do I need for a Schengen visa, and in what order?"* |
-| *"Plan our team offsite: dates, place and budget."* | *"Plan four days in Lisbon with a toddler."* |
-| *"Here's our sales report for October. What went wrong, and what do we do?"* | *"Explain how a mortgage works, with numbers I can change."* |
+| You ask | The page shows | You get |
+|---|---|---|
+| "Sam asks whether we should raise our prices. Help me decide and draft my reply." | what customers do at each price, who gets the new price first, how to tell them | a reply to Sam |
+| "Here are three quotes from agencies. Which one should we take?" | the quotes side by side: price, timing, what each one leaves out | a pick, and the reasons for it |
+| "Here's our sales report for October. What went wrong?" | the answer first, a chart to play with, the ways to fix it | a plan |
+| "Help me choose an air fryer for a family of four, under $150." | the finalists side by side, and what matters for four people | one pick, and why |
+| "Which documents do I need for a Schengen visa?" | every document, what depends on your case, what to do first | a checklist in order |
+| "Plan four days in Lisbon with a toddler." | each day's options, with nap times and distances in mind | a day-by-day plan |
 
 Pages are written in your language.
 
@@ -158,6 +160,8 @@ The widget catalog is in [references/components.md](references/components.md). T
 
 </details>
 
-## License
+## License and trademarks
 
-MIT, see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE). The helper skills the installer adds come from their authors' repositories, under their own licenses.
+
+decision-page is an independent project. It is not made, endorsed or supported by Anthropic. Claude and Anthropic are trademarks of Anthropic, PBC, named here only to say what the skill works with.
