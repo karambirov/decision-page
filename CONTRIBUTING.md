@@ -4,7 +4,7 @@ A guide for an agent or a person who changes the `decision-page` skill. People w
 
 ## Status
 
-The repository is public under the MIT license, and the skill is in early use. What is still open (the final name, a Claude Desktop screenshot for the README, version tags) is collected in the issue [Prepare the skill for distribution](https://github.com/karambirov/decision-page/issues/1). Work on it only when the owner explicitly asks.
+The repository is public under the MIT license, and the skill is in early use. The name `decision-page` is final. Version tags and a CHANGELOG are not set up yet; add them only when the owner explicitly asks. The history of the first release is in the closed issue [Prepare the skill for distribution](https://github.com/karambirov/decision-page/issues/1).
 
 ## Where things live
 
