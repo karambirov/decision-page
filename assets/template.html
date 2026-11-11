@@ -173,6 +173,8 @@ main { max-width: 700px; margin: 0 auto; padding-block: 20px 72px; }
 
 /* Cards: one per visual or decision, hairline edge, no shadow */
 .block { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 12px; min-width: 0; }
+/* Grid items default to min-width: auto, so a long code line inside a mode or situation wrapper would widen the page */
+.block > *, .toggle-body > * { min-width: 0; }
 .block > h3, .block-head h3 { font: 600 14.5px/1.4 var(--sans); }
 .block > p, .block .note { font-size: 13.5px; color: var(--muted); margin: 0; }
 .block-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
@@ -1035,7 +1037,14 @@ window.PAGE = {
     var input = document.querySelector('input[name="' + id + '"][value="' + v + '"]');
     if (!input) return v;
     var ot = input.parentElement.querySelector('.ot');
-    return ot ? ot.childNodes[0].textContent.trim() : v;
+    if (!ot) return v;
+    // The label is everything before the recommendation mark and the consequence, <code> included.
+    var text = '';
+    for (var nd = ot.firstChild; nd; nd = nd.nextSibling) {
+      if (nd.nodeType === 1 && (nd.classList.contains('rec') || nd.classList.contains('od'))) break;
+      text += nd.textContent;
+    }
+    return text.trim().replace(/\s+/g, ' ') || v;
   }
   function defaultReply(d) {
     return order.filter(function (id) { return d.choice(id); }).map(function (id) { return DEC[id].title + ': ' + d.label(id); }).join('\n');
