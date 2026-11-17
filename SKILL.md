@@ -87,7 +87,7 @@ Write for a busy person, following [references/language.md](references/language.
 ### 6. Checks
 
 1. `python3 scripts/build.py page.src.html --out <dir>`: inserts the scenes, checks the markup and builds `page.html` for publishing and `preview.html` for local viewing.
-2. Open `preview.html` in the built-in browser. Check: 590 px width (this is how the page looks in the Claude Desktop side pane) with the question dropdown and the arrows, 1280 px width with the permanent menu, 375 px, the dark theme, anchor links, scroll memory, term tooltips, every widget, choosing and saving (locally, choices go to browser storage), and a console with no errors.
+2. Serve the output folder with `python3 -m http.server --bind 127.0.0.1` and open `preview.html` from it in the built-in browser: a file outside the project folder opens there as a static snapshot, and its widgets can't be checked. Check: 590 px width (this is how the page looks in the Claude Desktop side pane) with the question dropdown and the arrows, 1280 px width with the permanent menu, 375 px, the dark theme, anchor links, scroll memory, term tooltips, every widget, choosing and saving (locally, choices go to browser storage), and a console with no errors.
 3. Fix what you found and rebuild. Typical traps are described in [references/pitfalls.md](references/pitfalls.md).
 
 ### 7. Publishing
