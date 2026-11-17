@@ -35,6 +35,7 @@ Build a new page from the template, or update the old one at the same file path.
 - A separate page fits when the phase of work changes: there was a review, now there is a plan. The header links to the previous round.
 - Updating the same page fits small clarifications. New decisions get new `data-id`s; old ones stay as they are.
 - For a new round on the same page you can change `data-collection` to `decisions-2` so that the choices of different rounds do not mix.
+- Before publishing the round, re-check what may have changed since the last one (statuses, numbers, prices, code) and update every screen it touches. A new screen goes where it belongs in the story of the page, not at the end.
 
 Round structure:
 

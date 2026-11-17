@@ -71,6 +71,8 @@ Before the layout, fill in this table for each question, and check it with the o
 
 The last menu item is always "Summary" («Итог» on Russian pages): the list of decisions, the result assembled from them with a "Copy" button (a plan, a list, a reply draft), "What I didn't check", sources.
 
+**Order the questions as a story.** The reader goes through the page once, and the order of the screens is the argument. Put them in the order the reader would reason: what was asked and the frame, what you found, the choices that shape everything after them, then the details those choices settle, then the result. A screen that explains a rule or a standard comes before the screens that apply it, and a decision others depend on comes before them. Name the menu groups so that, read top to bottom, they tell the same story. When a later round adds a screen, put it where it belongs in the story, not at the end or next to the screen you touched last, and check that every "Next" link still reads as a continuation.
+
 ### 4. Assembly
 
 1. Write a content file, not the whole page: `<title>`, then the sections `<!--APP-->` (the sidebar `aside.side` and `div.content` with `<main data-lang="ru">` or `"en"`, the language of the engine's own strings), `<!--TERMS-->` (terms JSON), `<!--PAGE-->` (`window.PAGE`) and, if needed, `<!--STYLE-->`. `scripts/build.py` merges it with the current template, so styles and the engine are not copied. Sample: `examples/pages/team-pricing.content.html`. A full copy of `assets/template.html` is needed only if you change the styles or the engine.
@@ -93,6 +95,7 @@ Write for a busy person, following [references/language.md](references/language.
 - Start a new page with `Artifact` `action: "quickstart"`, `intent: "other"`, then load `artifact-capabilities` and publish `page.html` with `capabilities: {db: {}, user: {}}`.
 - Publish updates to the same file path so that the link and the saved decisions are not lost. If the session is new, first read the artifact by its link.
 - Save the link, the collection and the decision IDs to project memory so that the next session can find them.
+- **Keep the page current.** Each publish shows the state of things now. Before republishing a page that has stood for a while, or after something new turns up, re-check its time-sensitive facts (statuses, prices, availability, numbers, code) against their sources. Fold a new finding into every screen it changes instead of adding a postscript, and keep the date the facts hold for in the page header. A screen that contradicts a newer finding misleads more than a missing one.
 
 ### 8. Next round
 
@@ -101,6 +104,8 @@ When the owner says they have filled in the page, follow [references/decision-lo
 ## Hard rules
 
 - **Answer first.** The verdict in the menu, the answer at the top of the question, details one tap deeper.
+- **One story.** The screens read in order as one argument: a rule comes before what applies it, a deciding choice before what depends on it.
+- **Current at every publish.** Time-sensitive facts are re-checked before each republish, and the header says the date they hold for.
 - **Each fact once.** If a number or a conclusion repeats in two places, delete the repeat.
 - **One visual per question.** A second diagram almost always repeats the first.
 - **Decision next to its context.** Options are mutually exclusive, each has a one-line consequence, the recommended one is marked, and there is always a comment.
